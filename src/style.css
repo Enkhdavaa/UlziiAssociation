@@ -1,0 +1,40 @@
+body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  width: 100dvw;
+}
+
+.container {
+}
+
+.header {
+  position: sticky;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  text-align: center;
+  justify-items: center;
+  align-items: center;
+  box-shadow: 0 0 0.3em 0.1em #038086b0;
+}
+
+.header > img {
+  padding: 0.5rem 0 0 1rem;
+  max-width: 80px;
+}
+
+.header-text {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 1.5rem;
+  color: #038086b0;
+}
+
+.header-button {
+  width: 50px;
+  font-weight: 900;
+  color: #038086b0;
+}
+
+.footer {
+}
