@@ -112,5 +112,9 @@ svg {
   color: #038086b0;
 }
 
+.site-nav {
+  display: flex;
+}
+
 .footer {
 }
