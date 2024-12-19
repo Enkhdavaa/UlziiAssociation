@@ -26,5 +26,6 @@ dist-ssr
 # Deno
 deno.lock
 
-#Vite
+#Astro
+.astro/*
 .vite/*

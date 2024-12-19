@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
   appType: "mpa",
@@ -17,6 +17,6 @@ export default defineConfig({
     emptyOutDir: true,
   },
   optimizeDeps: {
-    exclude: ["lit-html"],
+    exclude: ["astro"],
   },
 });
