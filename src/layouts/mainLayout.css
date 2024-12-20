@@ -81,15 +81,3 @@ svg {
     scroll-behavior: auto !important;
   }
 }
-
-.container {
-}
-
-.footer {
-}
-
-/* Utility */
-.flex {
-  display: flex;
-  gap: var(--gap, 1rem);
-}
