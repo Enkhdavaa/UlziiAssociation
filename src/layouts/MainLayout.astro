@@ -1,6 +1,7 @@
 ---
 import '../styles/style.css'
-import './header.css'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -16,44 +17,13 @@ import './header.css'
       rel="stylesheet"
     />
   </head>
-  <script>
-    const primaryNav = document.querySelector('.primary-navigation')!; 
-    const navToggle = document.querySelector('.mobile-nav-toggle')!;
-    navToggle.addEventListener('click', () => {
-        const visible = primaryNav.getAttribute('data-visible') === 'true';
-        primaryNav.setAttribute('data-visible', visible ? 'false' : 'true');
-        navToggle.setAttribute('aria-expanded', visible ? 'false' : 'true');
-    });
-  </script>
   <body>
     <div class="container">
-      <header class="primary-header flex">
-        <div>
-            <img class="logo" src="/ulzii.png" />
-        </div>
-        <button 
-          area-controls="primary-navigation" 
-          aria-expanded="false" 
-          class="mobile-nav-toggle">
-            <span class="sr-only">Menu</span>
-        </button>
-        <nav>
-            <ul
-              id="primary-navigation"
-              data-visible="false"
-              class="primary-navigation flex">
-                <li><a href="/">Home</a></li>
-                <li><a href="/news">News</a></li>
-                <li><a href="/event">Event</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-      </header>
+      <Header />
 
       <slot></slot>
 
-      <div class="main-page"></div>
-      <footer class="footer"> Copyright 2025 </footer>
+      <Footer />
     </div>
   </body>
 </html>

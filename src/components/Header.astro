@@ -1,0 +1,36 @@
+---
+import './header.css'
+---
+
+<script>
+    const primaryNav = document.querySelector('.primary-navigation')!; 
+    const navToggle = document.querySelector('.mobile-nav-toggle')!;
+    navToggle.addEventListener('click', () => {
+        const visible = primaryNav.getAttribute('data-visible') === 'true';
+        primaryNav.setAttribute('data-visible', visible ? 'false' : 'true');
+        navToggle.setAttribute('aria-expanded', visible ? 'false' : 'true');
+    });
+</script>
+
+<header class="primary-header flex">
+    <div>
+        <img class="logo" src="/ulzii.png" />
+    </div>
+    <button 
+      area-controls="primary-navigation" 
+      aria-expanded="false" 
+      class="mobile-nav-toggle">
+        <span class="sr-only">Menu</span>
+    </button>
+    <nav>
+        <ul
+          id="primary-navigation"
+          data-visible="false"
+          class="primary-navigation flex">
+            <li><a href="/">Home</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/event">Event</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+  </header>
