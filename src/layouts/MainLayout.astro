@@ -1,5 +1,6 @@
 ---
 import '../styles/style.css'
+import './header.css'
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -15,15 +16,32 @@ import '../styles/style.css'
       rel="stylesheet"
     />
   </head>
+  <script>
+    const primaryNav = document.querySelector('.primary-navigation')!; 
+    const navToggle = document.querySelector('.mobile-nav-toggle')!;
+    navToggle.addEventListener('click', () => {
+        const visible = primaryNav.getAttribute('data-visible') === 'true';
+        primaryNav.setAttribute('data-visible', visible ? 'false' : 'true');
+        navToggle.setAttribute('aria-expanded', visible ? 'false' : 'true');
+    });
+  </script>
   <body>
     <div class="container">
-      <header class="header">
-        <img src="/ulzii.png" />
-        <span class="header-text">Ulzii Association</span>
-        <div class="header-button">. . .</div>
-
-        <nav class="site-nav">
-            <ul>
+      <header class="primary-header flex">
+        <div>
+            <img class="logo" src="/ulzii.png" />
+        </div>
+        <button 
+          area-controls="primary-navigation" 
+          aria-expanded="false" 
+          class="mobile-nav-toggle">
+            <span class="sr-only">Menu</span>
+        </button>
+        <nav>
+            <ul
+              id="primary-navigation"
+              data-visible="false"
+              class="primary-navigation flex">
                 <li><a href="/">Home</a></li>
                 <li><a href="/news">News</a></li>
                 <li><a href="/event">Event</a></li>
