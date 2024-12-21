@@ -1,10 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro'
-
-const title = "Ulzii Association"
+import Report from '../components/Report.astro'
+const count = [1, 2, 3, 4, 5];
 ---
 <MainLayout>
-    <main>
-        <h1>news</h1>
-    </main>
+    <div>
+        <h1>Publication</h1>
+        {
+            count.map((item, index) => (
+                <Report></Report>
+            ))
+        }
+    </div>
 </MainLayout>

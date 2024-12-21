@@ -1,11 +1,16 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro'
-
-const title = "Ulzii Association"
+import "./_contact.css"
 ---
 
 <MainLayout>
-    <main>
-        <h1>Contact</h1>
-    </main>
+    <div class="primary-contact">
+        <form class="contact-form">
+            <h1>Contact</h1>
+            <div>Email</div>
+            <input type="email" placeholder="Email" />
+            <div>Question</div>
+            <textarea placeholder="Question"></textarea>
+        </form>
+    </div>
 </MainLayout>

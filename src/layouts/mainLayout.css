@@ -45,6 +45,7 @@ html,
 body {
   height: 100%;
   overflow-x: hidden;
+  font-family: var(--ff-primary);
 }
 
 /* Set core body defaults */

@@ -1,0 +1,14 @@
+.primary-contact {
+  display: flex;
+  justify-content: center;
+  padding-block: 2rem;
+}
+
+.contact-form {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
