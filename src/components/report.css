@@ -1,0 +1,26 @@
+.report-primary {
+  border: solid 0.1rem #0d789f;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-block: 1rem;
+}
+
+.report-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #0d789f;
+  margin-block: 1rem;
+}
+
+.report-brief {
+  font-size: 1rem;
+  color: #032b39;
+  margin-block: 1rem;
+}
+
+.report-brief-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+}

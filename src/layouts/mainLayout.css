@@ -82,3 +82,8 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+.main-content {
+  padding-block: 6rem;
+  padding-inline: 3rem;
+}

@@ -1,9 +1,10 @@
 .primary-header {
+  background-color: #e9eff1;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   font-family: var(--ff-heading);
-  box-shadow: 0 0 0.3em 0.1em #038086b0;
+  border-bottom: solid #42a5e0 0.2rem;
 }
 
 .mobile-nav-toggle {
@@ -20,8 +21,12 @@
 
 .primary-navigation a {
   text-decoration: none;
-  color: #038086b0;
+  color: #cd5b1c;
   font-weight: 600;
+}
+
+.primary-navigation a:hover {
+  color: #42a5e0;
 }
 
 @media (max-width: 35em) {

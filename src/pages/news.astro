@@ -1,11 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro'
 import Report from '../components/Report.astro'
+import "./_news.css"
 const count = [1, 2, 3, 4, 5];
 ---
 <MainLayout>
-    <div>
-        <h1>Publication</h1>
+    <div class="news-primary">
+        <h1 class="news-heading">News</h1>
         {
             count.map((item, index) => (
                 <Report></Report>

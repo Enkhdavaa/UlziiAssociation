@@ -1,0 +1,10 @@
+.news-primary {
+  background-color: #d9d7d7;
+}
+
+.news-heading {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #0d789f;
+  margin-block: 1rem;
+}
