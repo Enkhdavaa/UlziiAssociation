@@ -52,6 +52,8 @@ body {
 body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* A elements that don't have a class get default styles */
