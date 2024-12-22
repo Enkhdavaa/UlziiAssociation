@@ -1,5 +1,7 @@
 .footer-primary {
-  background-color: #e9eff1;
+}
+
+.footer-content {
   justify-content: space-between;
   padding-inline: 2rem;
 }

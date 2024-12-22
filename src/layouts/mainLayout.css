@@ -43,17 +43,19 @@ html:focus-within {
 
 html,
 body {
+  font-family: var(--ff-primary);
   height: 100%;
   overflow-x: hidden;
-  font-family: var(--ff-primary);
 }
 
 /* Set core body defaults */
 body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  height: 100dvh;
 }
 
 /* A elements that don't have a class get default styles */
