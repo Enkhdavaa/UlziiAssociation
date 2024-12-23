@@ -1,18 +1,23 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro'
 import Report from '../components/Report.astro'
+import { IReport } from '../types';
 import "./_news.css"
-const content = [{
+const content : IReport[] = [{
+
+    id: 1,
     title: "Title 1",
-    description: "Description 1",
+    content: "Description 1",
     date: "2021-01-01"
 }, {
+    id: 2,
     title: "Title 2",
-    description: "Description 2",
+    content: "Description 2",
     date: "2021-01-02"
 }, {
+    id: 3,
     title: "Title 3",
-    description: "Description 3",
+    content: "Description 3",
     date: "2021-01-03"
 }];
 ---
@@ -20,8 +25,8 @@ const content = [{
     <div class="news-primary">
         <h1 class="news-heading">News</h1>
         {
-            content.map((item, index) => (
-                <Report></Report>
+            content.map((item) => (
+                <Report report={item}></Report>
             ))
         }
     </div>
