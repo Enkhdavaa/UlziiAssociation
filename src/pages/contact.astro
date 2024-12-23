@@ -5,12 +5,25 @@ import "./_contact.css"
 
 <MainLayout>
     <div class="primary-contact">
-        <form class="contact-form">
+        <form class="contact-form" method="post" action="">
             <h1>Contact</h1>
             <div>Email</div>
-            <input type="email" placeholder="Email" />
+            <input 
+                type="email" 
+                placeholder="Email" 
+                required 
+            />
             <div>Question</div>
-            <textarea placeholder="Question"></textarea>
+            <textarea 
+                id="question"
+                name="question"
+                rows="8"
+                placeholder="Question"
+                minlength="10"
+                wrap="soft"
+                required 
+            ></textarea>
+            <button type="submit">Submit</button>
         </form>
     </div>
 </MainLayout>

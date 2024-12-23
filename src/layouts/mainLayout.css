@@ -15,6 +15,10 @@
 
   --fs-primary-heading: var(--fs-600);
   --fs-button: var(--fs-300);
+
+  --primary-orange: #cd5b1c;
+  --primary-blue: #42a5e0;
+  --primary-gray: #e9eff1;
 }
 
 /* Box sizing rules */
@@ -90,4 +94,6 @@ svg {
 .main-content {
   padding-block: 6rem;
   padding-inline: 3rem;
+  background-image: url("/hee-ulzii.png");
+  background-repeat: round space;
 }

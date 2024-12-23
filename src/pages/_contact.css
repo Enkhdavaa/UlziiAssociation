@@ -1,7 +1,5 @@
 .primary-contact {
-  display: flex;
-  justify-content: center;
-  padding-block: 2rem;
+  justify-items: center;
 }
 
 .contact-form {
@@ -11,4 +9,34 @@
   padding: 2rem;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--primary-gray);
+}
+
+.contact-form h1 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.contact-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.contact-form textarea {
+  display: block;
+  width: 100%;
+}
+
+.contact-form button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: var(--primary-orange);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
 }
