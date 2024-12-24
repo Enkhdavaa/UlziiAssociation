@@ -1,11 +1,21 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro'
+import MainLayout from '../../layouts/MainLayout.astro'
 import "./_contact.css"
 ---
 
+<script>
+    const form = document.querySelector('.contact-form');
+    form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = form.querySelector<HTMLInputElement>('input[type="email"]')?.value;
+        const question = form.querySelector('textarea')?.value;
+        console.log(email, question);
+    });
+</script>
+
 <MainLayout>
     <div class="primary-contact">
-        <form class="contact-form" method="post" action="">
+        <form id="contact-form" class="contact-form" method="post" action="/">
             <h1>Contact</h1>
             <div>Email</div>
             <input 
@@ -27,3 +37,4 @@ import "./_contact.css"
         </form>
     </div>
 </MainLayout>
+

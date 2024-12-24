@@ -1,0 +1,13 @@
+---
+import "./post.css";
+import { IPost } from "../types";
+const { post } = Astro.props as { post: IPost };
+---
+
+<div class="report-primary">
+    <h1 class="report-title">{post.title}</h1>
+    <span class="report-brief">{post.content}</span>
+    <div class="report-brief-footer">
+        <span>{post.date}</span>
+    </div>
+</div>
