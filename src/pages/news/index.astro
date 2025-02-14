@@ -1,21 +1,23 @@
 ---
+export const prerender = false;
+
 import MainLayout from '../../layouts/MainLayout.astro'
 import Post from '../../components/Post.astro';
 import { IPost } from '../../types';
 import "./_news.css"
 const posts : IPost[] = [{
 
-    id: 1,
+    id: 10,
     title: "Title 1",
     content: "Description 1",
     date: "2021-01-01"
 }, {
-    id: 2,
+    id: 22,
     title: "Title 2",
     content: "Description 2",
     date: "2021-01-02"
 }, {
-    id: 3,
+    id: 33,
     title: "Title 3",
     content: "Description 3",
     date: "2021-01-03"

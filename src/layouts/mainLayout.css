@@ -92,8 +92,11 @@ svg {
 }
 
 .main-content {
-  padding-block: 6rem;
-  padding-inline: 3rem;
-  background-image: url("/hee-ulzii.png");
-  background-repeat: round space;
+  background-image: url("/hee-ulzii-30.png");
+  background-size: 2rem;
+  background-blend-mode: multiply;
+}
+
+.main-content-bg {
+  position: fixed;
 }
