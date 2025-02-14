@@ -22,6 +22,11 @@ const posts : IPost[] = [{
     content: "Description 3",
     date: "2021-01-03"
 }];
+
+const API_URL = import.meta.env.PUBLIC_API_URL || "http://0.0.0.0:8085";
+const res = await fetch(`${API_URL}/api/news`);
+console.log("My result would be!");
+console.log(res.body);
 ---
 <MainLayout>
     <div class="news-primary">

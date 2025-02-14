@@ -10,7 +10,8 @@
     "dev": "deno run -A npm:astro dev --host",
     "clean": "rm -rf ./node_modules && rm -rf ./vendor && rm -rf ./.astro && rm -rf ./deno.lock",
     "serve": "deno run --allow-all ./server.ts",
-    "build": "deno run -A npm:astro build"
+    "build": "deno run -A npm:astro build",
+    "preview": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
