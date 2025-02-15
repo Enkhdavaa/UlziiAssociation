@@ -6,4 +6,11 @@ export default defineConfig({
     port: 8080,
     hostname: "localhost",
   }),
+  site: "http://localhost:8080",
+  server: {
+    open: true,
+    proxy: {
+      "/api": "http://localhost:8080",
+    },
+  },
 });
