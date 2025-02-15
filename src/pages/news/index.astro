@@ -23,14 +23,18 @@ const posts : IPost[] = [{
     date: "2021-01-03"
 }];
 
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://0.0.0.0:8085";
-const res = await fetch(`${API_URL}/api/news`);
-console.log("My result would be!");
-console.log(res.body);
+const API_URL = "http://0.0.0.0:8080";
+console.log(API_URL)
+const res = async () => {
+    console.log("My result would be!");
+    const res = await fetch(`${API_URL}/api/news`);
+    return res.body;
+}
+
 ---
 <MainLayout>
     <div class="news-primary">
-        <h1 class="news-heading">News</h1>
+        <h1 class="news-heading">News {res()}</h1>
         {
             posts.map((item) => (
                 <a href={`/news/${item.id}`}>
