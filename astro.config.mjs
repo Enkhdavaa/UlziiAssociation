@@ -4,5 +4,6 @@ import deno from "@deno/astro-adapter";
 export default defineConfig({
   adapter: deno({
     port: 8080,
+    hostname: "localhost",
   }),
 });
