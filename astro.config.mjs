@@ -9,8 +9,5 @@ export default defineConfig({
   site: "http://localhost:8080",
   server: {
     open: true,
-    proxy: {
-      "/api": "http://localhost:8080",
-    },
   },
 });

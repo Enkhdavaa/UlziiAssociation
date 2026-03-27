@@ -23,17 +23,18 @@ const posts : IPost[] = [{
     date: "2021-01-03"
 }];
 
-const BASE_URL = "http://127.0.0.1:8080";
-console.log(BASE_URL)
-const res = async () => {
-    const res = await fetch(`${BASE_URL}/api/news`);
-    return res.body;
+let apiResult = "";
+try {
+    const response = await fetch(new URL("/api/news", Astro.url));
+    apiResult = await response.text();
+} catch (error) {
+    console.error("Failed to fetch news:", error);
 }
 
 ---
 <MainLayout>
     <div class="news-primary">
-        <h1 class="news-heading">News {res()}</h1>
+        <h1 class="news-heading">News {apiResult}</h1>
         {
             posts.map((item) => (
                 <a href={`/news/${item.id}`}>
