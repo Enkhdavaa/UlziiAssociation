@@ -14,27 +14,37 @@ import "./_contact.css"
 </script>
 
 <MainLayout>
-    <div class="primary-contact">
-        <form id="contact-form" class="contact-form" method="post" action="/">
-            <h1>Contact</h1>
-            <div>Email</div>
-            <input 
-                type="email" 
-                placeholder="Email" 
-                required 
-            />
-            <div>Question</div>
-            <textarea 
-                id="question"
-                name="question"
-                rows="8"
-                placeholder="Question"
-                minlength="10"
-                wrap="soft"
-                required 
-            ></textarea>
-            <button type="submit">Submit</button>
-        </form>
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>If you have any questions, feel free to reach out to us.</p>
+        </div>
+        <div class="primary-contact">
+            <form id="contact-form" class="contact-form" method="post" action="/">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email"
+                        id="email" 
+                        placeholder="Enter your email" 
+                        required 
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <textarea 
+                        id="question"
+                        name="question"
+                        rows="8"
+                        placeholder="Ask a question"
+                        minlength="10"
+                        wrap="soft"
+                        required 
+                    ></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
     </div>
 </MainLayout>
 
