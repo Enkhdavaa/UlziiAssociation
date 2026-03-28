@@ -1,39 +1,19 @@
 ---
-export const prerender = false;
-
-import MainLayout from '../../layouts/MainLayout.astro'
-import Post from '../../components/Post.astro';
-import { IPost } from '../../types';
+import MainLayout from '../../layouts/MainLayout.astro';
 import "./_news.css";
+import FacebookPost from '../../components/FacebookPost.astro';
 
-const posts : IPost[] = [{
-
-    id: 10,
-    title: "Title 1",
-    content: "Description 1",
-    date: "2021-01-01"
-}, {
-    id: 22,
-    title: "Title 2",
-    content: "Description 2",
-    date: "2021-01-02"
-}, {
-    id: 33,
-    title: "Title 3",
-    content: "Description 3",
-    date: "2021-01-03"
-}];
-
+const postUrls = [
+    "https://www.facebook.com/UlziiAssociation/posts/pfbid07JW834oFcxPQmFSt5aRL6dMhMhoB3dX52UCr7yCpCaNEHQLBEfMLC9m5z9ukGz1Vl",
+    "https://www.facebook.com/UlziiAssociation/posts/pfbid02fx6X1uFMBsvrp71zG3qkML11cTxN88VPrCZGdLAXJk8hEyTMXavjFeXdzZg9YEpFl",
+    "https://www.facebook.com/UlziiAssociation/posts/pfbid02XvRYjj4Ld2c9inGCpRficGbFsfYkBFaMwoCFf36eFWYbPDNF3bSmVZNzVemVjcFZl",
+];
 ---
 <MainLayout>
     <div class="news-container">
-        <h1 class="news-heading">News</h1>
-        {
-            posts.map((item) => (
-                <a href={`/news/${item.id}`}>
-                    <Post post={item}></Post>
-                </a>
-            ))
-        }
+        <h1 class="news-heading">News from Our Facebook Page</h1>
+        <div class="posts-grid">
+            {postUrls.map(postUrl => <FacebookPost postUrl={postUrl} />)}
+        </div>
     </div>
 </MainLayout>

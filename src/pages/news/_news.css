@@ -1,14 +1,21 @@
 .news-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .news-heading {
-  grid-column: 1 / -1;
   font-size: var(--fs-700);
   color: var(--primary-blue);
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   text-align: center;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  justify-items: center;
 }
