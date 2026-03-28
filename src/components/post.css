@@ -1,27 +1,35 @@
 .report-primary {
-  background-color: var(--primary-gray);
-  border: solid 0.1rem #0d789f;
-  border-radius: 10px;
+  background-color: white;
+  border-radius: 8px;
   padding: 2rem;
-  margin-block: 1rem;
+  margin-block: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.report-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 .report-title {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #0d789f;
-  margin-block: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-block: 0 0.5rem;
 }
 
 .report-brief {
   font-size: 1rem;
-  color: #032b39;
-  margin-block: 1rem;
+  color: #333;
+  margin-block: 0 1rem;
 }
 
 .report-brief-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
 }

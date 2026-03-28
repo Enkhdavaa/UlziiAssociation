@@ -1,9 +1,37 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro'
-
+import MainLayout from '../layouts/MainLayout.astro';
+import './_index.css';
 ---
 
 <MainLayout>
-<h1>Here is the content</h1>
+    <div class="container">
+        <div class="section hero">
+            <h1 class="text-center">Welcome to the Ulzii Association</h1>
+            <p>
+                We are a non-profit organization dedicated to fostering cultural exchange and collaboration between Mongolia and the Netherlands. Our mission is to create a vibrant community where individuals from both countries can connect, share ideas, and work together on various projects and initiatives.
+            </p>
+        </div>
+        <div class="section">
+            <img src="/mission.svg" alt="Mission Icon" class="section-icon" />
+            <h1>Mission</h1>
+            <p>
+                The Ulzii Association was founded in 2008 with the aim of creating a "bridge" between Mongolia and the Netherlands. We are open to everyone who shares the same vision and sincerely welcome their collaboration and support.
+            </p>
+        </div>
+        <div class="section">
+            <img src="/values.svg" alt="Values Icon" class="section-icon" />
+            <h1>Values</h1>
+            <p>
+                Our core values include respect, integrity, and collaboration. We believe in the power of diversity and strive to create an inclusive environment where all members feel valued and heard.
+            </p>
+        </div>
+        <div class="section">
+            <img src="/board-members.svg" alt="Board Members Icon" class="section-icon" />
+            <h1>Board Members</h1>
+            <p>
+                Our board members are dedicated individuals who bring a wealth of experience and expertise to the organization. They play a crucial role in guiding our initiatives and ensuring that we stay true to our mission and values.
+            </p>
+        </div>
+    </div>
 </MainLayout>
 

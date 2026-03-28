@@ -4,7 +4,8 @@ export const prerender = false;
 import MainLayout from '../../layouts/MainLayout.astro'
 import Post from '../../components/Post.astro';
 import { IPost } from '../../types';
-import "./_news.css"
+import "./_news.css";
+
 const posts : IPost[] = [{
 
     id: 10,
@@ -23,18 +24,10 @@ const posts : IPost[] = [{
     date: "2021-01-03"
 }];
 
-let apiResult = "";
-try {
-    const response = await fetch(new URL("/api/news", Astro.url));
-    apiResult = await response.text();
-} catch (error) {
-    console.error("Failed to fetch news:", error);
-}
-
 ---
 <MainLayout>
-    <div class="news-primary">
-        <h1 class="news-heading">News {apiResult}</h1>
+    <div class="news-container">
+        <h1 class="news-heading">News</h1>
         {
             posts.map((item) => (
                 <a href={`/news/${item.id}`}>

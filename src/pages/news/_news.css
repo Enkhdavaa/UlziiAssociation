@@ -1,9 +1,14 @@
-.news-primary {
+.news-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .news-heading {
-  font-size: 2.5rem;
-  font-weight: 500;
-  color: #0d789f;
-  margin-block: 1rem;
+  grid-column: 1 / -1;
+  font-size: var(--fs-700);
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+  text-align: center;
 }
