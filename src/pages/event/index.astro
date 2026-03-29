@@ -1,9 +1,58 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro'
 import "./_event.css"
+
+const oneTimeEvents = [
+    {
+        id: "The Games Around The World",
+        title: "The Games Around The World",
+        date: "May 30, 2026",
+        location: "Eindhoven Library",
+        description: "Join us for a day of fun and games as we celebrate cultures from around the world!",
+    }
+];
+
+const periodicEvents = [
+    {
+        id: "Monthly Mongolian Book Reading",
+        title: "Monthly Mongolian Book Reading",
+        frequency: "TO BE DETERMINED",
+        location: "Eindhoven Library",
+        description: "Join us for a monthly book reading session featuring Mongolian literature.",
+    }
+];
 ---
 <MainLayout>
-    <div>
-        <h1>Event</h1>
+    <div class="events-container">
+        <h1 class="events-heading">Upcoming Events</h1>
+        
+        <section class="events-section">
+            <h2>One-Time Events</h2>
+            <div class="events-grid">
+                {oneTimeEvents.map(event => (
+                    <div class="event-card">
+                        <h3>{event.title}</h3>
+                        <p class="event-date"><strong>Date:</strong> {event.date}</p>
+                        <p class="event-location"><strong>Location:</strong> {event.location}</p>
+                        <p>{event.description}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="events-section">
+            <h2>Periodic Events</h2>
+            <div class="events-grid">
+                {periodicEvents.map(event => (
+                    <div class="event-card">
+                        <h3>{event.title}</h3>
+                        <p class="event-frequency"><strong>Frequency:</strong> {event.frequency}</p>
+                        <p class="event-location"><strong>Location:</strong> {event.location}</p>
+                        <p>{event.description}</p>
+                        <a href={`/register-lead?eventId=${event.id}`} class="help-button">Take the Lead</a>
+                    </div>
+                ))}
+            </div>
+        </section>
     </div>
 </MainLayout>
