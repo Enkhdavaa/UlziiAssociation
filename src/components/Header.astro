@@ -1,36 +1,54 @@
 ---
-import './header.css'
+import './header.css';
+
+const links = [
+  { href: '/', text: 'Home' },
+  { href: '/news', text: 'News' },
+  { href: '/event', text: 'Event' },
+  { href: '/contact', text: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<script>
-    const primaryNav = document.querySelector('.primary-navigation')!; 
-    const navToggle = document.querySelector('.mobile-nav-toggle')!;
-    navToggle.addEventListener('click', () => {
-        const visible = primaryNav.getAttribute('data-visible') === 'true';
-        primaryNav.setAttribute('data-visible', visible ? 'false' : 'true');
-        navToggle.setAttribute('aria-expanded', visible ? 'false' : 'true');
-    });
-</script>
-
-<header class="primary-header flex">
-    <a href="/">
-        <img class="logo" src="/ulzii.png" />
+<header class="primary-header">
+  <div class="header-container">
+    <a href="/" class="logo-link">
+      <img class="logo" src="/ulzii.png" alt="Ulzii Association Logo" />
     </a>
-    <button 
-      area-controls="primary-navigation" 
-      aria-expanded="false" 
-      class="mobile-nav-toggle">
-        <span class="sr-only">Menu</span>
+    <button
+      class="mobile-nav-toggle"
+      aria-controls="primary-navigation"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Menu</span>
     </button>
-    <nav>
-        <ul
-          id="primary-navigation"
-          data-visible="false"
-          class="primary-navigation flex">
-            <li><a href="/">Home</a></li>
-            <li><a href="/news">News</a></li>
-            <li><a href="/event">Event</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+    <nav class="primary-nav-wrapper">
+      <ul id="primary-navigation" class="primary-navigation" data-visible="false">
+        {links.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class:list={{ active: link.href === currentPath || (link.href !== '/' && currentPath.startsWith(link.href)) }}
+            >
+              {link.text}
+            </a>
+          </li>
+        ))}
+      </ul>
     </nav>
-  </header>
+  </div>
+</header>
+
+<script>
+  const primaryNav = document.querySelector('.primary-navigation');
+  const navToggle = document.querySelector('.mobile-nav-toggle');
+
+  if (navToggle && primaryNav) {
+    navToggle.addEventListener('click', () => {
+      const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+      primaryNav.setAttribute('data-visible', String(!isVisible));
+      navToggle.setAttribute('aria-expanded', String(!isVisible));
+    });
+  }
+</script>
