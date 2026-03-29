@@ -45,21 +45,22 @@ html:focus-within {
   scroll-behavior: smooth;
 }
 
-html,
-body {
-  font-family: var(--ff-primary);
-  height: 100%;
-  overflow-x: hidden;
-}
-
 /* Set core body defaults */
 body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+html,
+body {
+  font-family: var(--ff-primary);
+  /* Change this to min-height as well */
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
 /* A elements that don't have a class get default styles */
