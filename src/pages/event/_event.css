@@ -1,63 +1,118 @@
 .events-container {
   box-sizing: border-box;
-  padding: 2rem;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   overflow-x: hidden;
+  background-color: #f9fafb; /* A very light gray background */
 }
 
 .events-heading {
   font-size: var(--fs-700);
   color: var(--primary-blue);
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: center;
 }
 
 .events-section {
   width: 100%;
   max-width: 1200px;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .events-section h2 {
   font-size: var(--fs-600);
   color: var(--primary-orange);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: 0.5rem;
+}
+
+.events-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-blue);
 }
 
 .events-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
   gap: 2rem;
 }
 
 .event-card {
-  background-color: var(--primary-gray);
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 12px;
   padding: 1.5rem;
-  width: 100%;
-  max-width: 350px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .event-card h3 {
   font-size: var(--fs-500);
   color: var(--primary-blue);
   font-weight: var(--fw-bold);
+  margin: 0;
+}
+
+.event-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #555;
+  font-size: var(--fs-400);
+  margin: 0;
+}
+
+.event-detail-icon {
+  flex-shrink: 0;
+  color: var(--primary-orange);
+}
+
+.event-description {
+  flex-grow: 1;
+  color: #333;
+  line-height: 1.6;
 }
 
 .help-button {
   margin-top: auto;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   background-color: var(--primary-orange);
   color: white;
   text-decoration: none;
-  border-radius: 4px;
-  align-self: flex-start;
+  border-radius: 8px;
+  align-self: center;
+  text-align: center;
+  font-weight: var(--fw-bold);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.help-button:hover {
+  background-color: #e67e22; /* A slightly darker orange */
+  transform: scale(1.05);
 }

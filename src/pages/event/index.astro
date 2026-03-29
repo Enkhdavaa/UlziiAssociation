@@ -32,9 +32,15 @@ const periodicEvents = [
                 {oneTimeEvents.map(event => (
                     <div class="event-card">
                         <h3>{event.title}</h3>
-                        <p class="event-date"><strong>Date:</strong> {event.date}</p>
-                        <p class="event-location"><strong>Location:</strong> {event.location}</p>
-                        <p>{event.description}</p>
+                        <p class="event-detail event-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span><strong>Date:</strong> {event.date}</span>
+                        </p>
+                        <p class="event-detail event-location">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span><strong>Location:</strong> {event.location}</span>
+                        </p>
+                        <p class="event-description">{event.description}</p>
                     </div>
                 ))}
             </div>
@@ -46,9 +52,15 @@ const periodicEvents = [
                 {periodicEvents.map(event => (
                     <div class="event-card">
                         <h3>{event.title}</h3>
-                        <p class="event-frequency"><strong>Frequency:</strong> {event.frequency}</p>
-                        <p class="event-location"><strong>Location:</strong> {event.location}</p>
-                        <p>{event.description}</p>
+                        <p class="event-detail event-frequency">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M12 2.02c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10z"/><path d="M12 12l4 2"/><path d="M12 7v5"/></svg>
+                            <span><strong>Frequency:</strong> {event.frequency}</span>
+                        </p>
+                        <p class="event-detail event-location">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span><strong>Location:</strong> {event.location}</span>
+                        </p>
+                        <p class="event-description">{event.description}</p>
                         <a href={`/register-lead?eventId=${event.id}`} class="help-button">Take the Lead</a>
                     </div>
                 ))}
