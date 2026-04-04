@@ -4,10 +4,6 @@ export interface Props {
 }
 const { postUrl } = Astro.props;
 ---
-<script is:inline async defer crossorigin="anonymous" 
-  src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0">
-</script>
-
 <div class="post-wrapper">
     <div class="fb-post" data-href={postUrl}></div>
 </div>

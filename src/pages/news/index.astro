@@ -12,8 +12,37 @@ const postUrls = [
 <MainLayout>
     <div class="news-container">
         <h1 class="news-heading">News from Our Facebook Page</h1>
-        <div class="posts-grid">
+        
+        <div id="fb-loader" class="loader"></div>
+
+        <div id="fb-posts-grid" class="posts-grid" style="opacity: 0; transition: opacity 0.5s ease;">
             {postUrls.map(postUrl => <FacebookPost postUrl={postUrl} />)}
         </div>
     </div>
 </MainLayout>
+
+<script is:inline>
+    // Initialize FB SDK manually to catch the render event
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml: true,
+            version: 'v19.0'
+        });
+
+        // Listen for when Facebook finishes rendering the posts
+        FB.Event.subscribe('xfbml.render', showPosts);
+    };
+
+    function showPosts() {
+        const loader = document.getElementById('fb-loader');
+        const grid = document.getElementById('fb-posts-grid');
+        
+        if (loader) loader.style.display = 'none';
+        if (grid) grid.style.opacity = '1';
+    }
+
+    // Fallback: If FB is blocked by an adblocker, show whatever we have after 5 seconds
+    setTimeout(showPosts, 5000);
+</script>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
