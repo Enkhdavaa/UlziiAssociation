@@ -1,0 +1,244 @@
+---
+---
+
+<lead-registration-modal>
+    <div class="modal-overlay" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Register to Lead</h3>
+                <button class="close-modal-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <form class="lead-form">
+                <input type="hidden" name="eventId" />
+                <p class="modal-subtitle">Event: <strong class="event-title-display"></strong></p>
+
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+                <div class="form-group">
+                    <label for="message">Why do you want to lead? (Optional)</label>
+                    <textarea id="message" name="message" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Registration</button>
+            </form>
+        </div>
+    </div>
+</lead-registration-modal>
+
+<script>
+    class LeadRegistrationModal extends HTMLElement {
+        modalOverlay: HTMLElement | null;
+        closeBtn: HTMLButtonElement | null;
+        form: HTMLFormElement;
+        eventIdInput: HTMLInputElement;
+        eventTitleSpan: HTMLElement | null;
+        constructor() {
+            super();
+            // Find elements only within THIS specific component instance
+            this.modalOverlay = this.querySelector('.modal-overlay');
+            this.closeBtn = this.querySelector('.close-modal-btn');
+            this.form = this.querySelector('.lead-form') as HTMLFormElement;
+            this.eventIdInput = this.querySelector('input[name="eventId"]') as HTMLInputElement;
+            this.eventTitleSpan = this.querySelector('.event-title-display');
+
+            // Bind methods to maintain 'this' context
+            this.openModal = this.openModal.bind(this);
+            this.closeModal = this.closeModal.bind(this);
+            this.handleOutsideClick = this.handleOutsideClick.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+
+        connectedCallback() {
+            // Add internal event listeners
+            this.closeBtn?.addEventListener('click', this.closeModal);
+            this.modalOverlay?.addEventListener('click', this.handleOutsideClick);
+            this.form?.addEventListener('submit', this.handleSubmit);
+
+            // Listen for a custom event dispatched from anywhere in the app
+            window.addEventListener('open-lead-modal', this.openModal as EventListener);
+        }
+
+        disconnectedCallback() {
+            // Clean up listeners if the component is ever removed
+            this.closeBtn?.removeEventListener('click', this.closeModal);
+            this.modalOverlay?.removeEventListener('click', this.handleOutsideClick);
+            this.form?.removeEventListener('submit', this.handleSubmit);
+            window.removeEventListener('open-lead-modal', this.openModal as EventListener);
+        }
+
+        openModal(e: CustomEvent) {
+            const { eventId, eventTitle } = e.detail;
+            
+            if (this.eventIdInput) this.eventIdInput.value = eventId || '';
+            if (this.eventTitleSpan) this.eventTitleSpan.textContent = eventTitle || '';
+            
+            this.modalOverlay?.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        closeModal() {
+            this.modalOverlay?.classList.remove('active');
+            document.body.style.overflow = '';
+            if (this.form) setTimeout(() => this.form.reset(), 300);
+        }
+
+        handleOutsideClick(e: Event) {
+            if (e.target === this.modalOverlay) {
+                this.closeModal();
+            }
+        }
+
+        handleSubmit(e: Event) {
+            e.preventDefault();
+            // TODO: Add your fetch/axios logic here
+            alert(`Thank you! Your registration for "${this.eventTitleSpan?.textContent}" has been received.`);
+            this.closeModal();
+        }
+    }
+
+    // Register the custom element
+    customElements.define('lead-registration-modal', LeadRegistrationModal);
+</script>
+
+<style>
+    /* --- Modal Overlay --- */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* --- Modal Content Box --- */
+    .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+        transform: translateY(0);
+    }
+
+    /* --- Modal Header --- */
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-header h3 {
+        color: var(--primary-blue);
+        margin: 0;
+        font-size: var(--fs-600);
+    }
+
+    .close-modal-btn {
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #777;
+        transition: color 0.2s ease;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .close-modal-btn:hover {
+        color: var(--primary-orange);
+    }
+
+    /* --- Modal Form --- */
+    .modal-subtitle {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        color: #555;
+        font-size: 0.95rem;
+    }
+
+    .modal-subtitle strong {
+        color: var(--primary-orange);
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.15);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: var(--fw-bold);
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+        background-color: #004494;
+        transform: translateY(-2px);
+    }
+</style>
