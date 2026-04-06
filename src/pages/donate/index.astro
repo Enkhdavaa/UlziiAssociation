@@ -1,0 +1,72 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro'
+---
+<MainLayout>
+    <div class="donate-container">
+        <h1 class="page-title">Support Us</h1>
+        <div class="card-container">
+            <a href="/donate/donate-books" class="action-card">
+                <h2>Donate Books</h2>
+                <p>Help us expand our library by donating your books.</p>
+            </a>
+            <a href="/donate/buy-books" class="action-card">
+                <h2>Buy Books</h2>
+                <p>Purchase books from our collection to support our cause.</p>
+            </a>
+        </div>
+    </div>
+</MainLayout>
+
+<style>
+    .donate-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+    .page-title {
+        font-size: var(--fs-700, 2.5rem);
+        font-weight: var(--fw-bold, 700);
+        margin-bottom: 2.5rem;
+    }
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+    }
+    @media (min-width: 640px) {
+        .card-container {
+            flex-direction: row;
+        }
+    }
+    .action-card {
+        display: block;
+        width: 100%;
+        max-width: 350px;
+        padding: 2rem;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .action-card:hover {
+        background-color: #f9fafb;
+        transform: translateY(-2px);
+    }
+    .action-card h2 {
+        font-size: var(--fs-600, 1.8rem);
+        font-weight: var(--fw-bold, 700);
+        color: #111827;
+        margin-bottom: 0.75rem;
+    }
+    .action-card p {
+        color: #4b5563;
+        font-size: var(--fs-500, 1rem);
+        line-height: 1.5;
+    }
+</style>

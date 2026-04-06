@@ -1,0 +1,42 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro'
+---
+<MainLayout>
+    <div class="donate-books-container">
+        <h1 class="page-title">Donate Books</h1>
+        <p class="appreciation-text">We appreciate your willingness to support us!</p>
+        <p class="contact-text">
+            To donate books, please <a href="/contact" class="contact-link">contact us</a>.
+        </p>
+    </div>
+</MainLayout>
+
+<style>
+    .donate-books-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .page-title {
+        font-size: var(--fs-700, 2.5rem);
+        font-weight: var(--fw-bold, 700);
+        margin-bottom: 1rem;
+    }
+    .appreciation-text {
+        font-size: 1.25rem;
+        color: #374151;
+        margin-bottom: 2rem;
+    }
+    .contact-text {
+        font-size: 1.125rem;
+    }
+    .contact-link {
+        color: var(--primary-blue);
+        text-decoration: none;
+        font-weight: var(--fw-bold, 700);
+    }
+    .contact-link:hover {
+        text-decoration: underline;
+    }
+</style>
