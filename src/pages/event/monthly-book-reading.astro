@@ -57,7 +57,7 @@ const books = [
 <style>
     .subpage-layout {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
         gap: 2rem;
         width: 100%;
         max-width: 1000px;
@@ -67,6 +67,12 @@ const books = [
     .selection-panel {
         /* Inherits from .event-card for general styling */
         justify-content: flex-start;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .registration-panel {
+        min-width: 0;
     }
 
     .selection-panel h3 {
@@ -88,5 +94,8 @@ const books = [
         font-family: inherit;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
         background-color: white;
+        width: 100%;
+        box-sizing: border-box;
+        text-overflow: ellipsis;
     }
 </style>
