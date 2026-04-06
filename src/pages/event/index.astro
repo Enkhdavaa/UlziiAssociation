@@ -50,17 +50,3 @@ const periodicEvents = [
 
     </div>
 </MainLayout>
-
-<script>
-    // Astro defaults script tags to type="module", so they are automatically deferred. No need for DOMContentLoaded.
-    const triggerBtns = document.querySelectorAll<HTMLElement>('[data-action="trigger-lead-modal"]');
-    
-    triggerBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const { eventId, eventTitle } = btn.dataset;
-            window.dispatchEvent(new CustomEvent('open-lead-modal', {
-                detail: { eventId, eventTitle }
-            }));
-        });
-    });
-</script>

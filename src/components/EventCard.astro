@@ -42,3 +42,18 @@ const { event, isPeriodic = false } = Astro.props;
         </button>
     )}
 </div>
+
+<script>
+    // Astro automatically bundles this script and runs it only once per page,
+    // regardless of how many EventCards are rendered.
+    const triggerBtns = document.querySelectorAll<HTMLElement>('[data-action="trigger-lead-modal"]');
+    
+    triggerBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const { eventId, eventTitle } = btn.dataset;
+            window.dispatchEvent(new CustomEvent('open-lead-modal', {
+                detail: { eventId, eventTitle }
+            }));
+        });
+    });
+</script>
