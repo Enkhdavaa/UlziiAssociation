@@ -1,7 +1,15 @@
 ---
+interface Props {
+    id: string;
+    eventId: string;
+    eventTitle: string;
+    submitUrl?: string;
+}
+
+const { id, eventId, eventTitle, submitUrl = "/api/leads" } = Astro.props;
 ---
 
-<lead-registration-modal>
+<lead-registration-modal id={id} data-submit-url={submitUrl}>
     <div class="modal-overlay" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,8 +17,8 @@
                 <button class="close-modal-btn" aria-label="Close modal">&times;</button>
             </div>
             <form class="lead-form">
-                <input type="hidden" name="eventId" />
-                <p class="modal-subtitle">Event: <strong class="event-title-display"></strong></p>
+                <input type="hidden" name="eventId" value={eventId} />
+                <p class="modal-subtitle">Event: <strong class="event-title-display">{eventTitle}</strong></p>
 
                 <div class="form-group">
                     <label for="name">Full Name *</label>
@@ -36,16 +44,15 @@
         modalOverlay: HTMLElement | null;
         closeBtn: HTMLButtonElement | null;
         form: HTMLFormElement;
-        eventIdInput: HTMLInputElement;
-        eventTitleSpan: HTMLElement | null;
+        submitUrl: string;
+
         constructor() {
             super();
             // Find elements only within THIS specific component instance
             this.modalOverlay = this.querySelector('.modal-overlay');
             this.closeBtn = this.querySelector('.close-modal-btn');
             this.form = this.querySelector('.lead-form') as HTMLFormElement;
-            this.eventIdInput = this.querySelector('input[name="eventId"]') as HTMLInputElement;
-            this.eventTitleSpan = this.querySelector('.event-title-display');
+            this.submitUrl = this.dataset.submitUrl || '/api/leads';
 
             // Bind methods to maintain 'this' context
             this.openModal = this.openModal.bind(this);
@@ -59,9 +66,6 @@
             this.closeBtn?.addEventListener('click', this.closeModal);
             this.modalOverlay?.addEventListener('click', this.handleOutsideClick);
             this.form?.addEventListener('submit', this.handleSubmit);
-
-            // Listen for a custom event dispatched from anywhere in the app
-            window.addEventListener('open-lead-modal', this.openModal as EventListener);
         }
 
         disconnectedCallback() {
@@ -69,15 +73,9 @@
             this.closeBtn?.removeEventListener('click', this.closeModal);
             this.modalOverlay?.removeEventListener('click', this.handleOutsideClick);
             this.form?.removeEventListener('submit', this.handleSubmit);
-            window.removeEventListener('open-lead-modal', this.openModal as EventListener);
         }
 
-        openModal(e: CustomEvent) {
-            const { eventId, eventTitle } = e.detail;
-            
-            if (this.eventIdInput) this.eventIdInput.value = eventId || '';
-            if (this.eventTitleSpan) this.eventTitleSpan.textContent = eventTitle || '';
-            
+        openModal() {
             this.modalOverlay?.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -96,8 +94,13 @@
 
         handleSubmit(e: Event) {
             e.preventDefault();
-            // TODO: Add your fetch/axios logic here
-            alert(`Thank you! Your registration for "${this.eventTitleSpan?.textContent}" has been received.`);
+            const formData = new FormData(this.form);
+            
+            // Example: Using the reusable submitUrl passed as a prop!
+            console.log(`Submitting to: ${this.submitUrl}`, Object.fromEntries(formData));
+            // await fetch(this.submitUrl, { method: 'POST', body: formData });
+
+            alert(`Thank you! Your registration has been received.`);
             this.closeModal();
         }
     }
