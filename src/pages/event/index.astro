@@ -16,6 +16,7 @@ const oneTimeEvents = [
 const periodicEvents = [
     {
         id: "Monthly Mongolian Book Reading",
+        slug: "monthly-book-reading",
         title: "Monthly Mongolian Book Reading",
         frequency: "TO BE DETERMINED",
         location: "Eindhoven Library",
@@ -40,7 +41,24 @@ const periodicEvents = [
             <h2>Periodic Events</h2>
             <div class="events-grid">
                 {periodicEvents.map(event => (
-                    <EventCard event={event} isPeriodic />
+                <div class="event-card-wrapper" style="height: 100%;">
+                    <div class="event-card" style="height: 100%; box-sizing: border-box;">
+                        <h3>{event.title}</h3>
+                        {event.frequency && (
+                            <p class="event-detail event-frequency">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M12 2.02c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10z"/><path d="M12 12l4 2"/><path d="M12 7v5"/></svg>
+                                <span><strong>Frequency:</strong> {event.frequency}</span>
+                            </p>
+                        )}
+                        <p class="event-detail event-location">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span><strong>Location:</strong> {event.location}</span>
+                        </p>
+                        <p class="event-description">{event.description}</p>
+                        
+                        <a href={`/event/${event.slug}`} class="help-button" style="text-decoration: none; text-align: center; display: inline-block;">Help reading</a>
+                    </div>
+                </div>
                 ))}
             </div>
         </section>
