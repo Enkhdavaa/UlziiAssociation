@@ -1,0 +1,47 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import './_login.css';
+
+const error = Astro.url.searchParams.get('error');
+const errorMessages: Record<string, string> = {
+  no_code: 'Authorization was cancelled or failed. Please try again.',
+  token_failed: 'Could not exchange token. Please try again.',
+  auth_failed: 'Authentication failed. Please try again.',
+};
+
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { name: string }) : null;
+if (user) {
+  return Astro.redirect('/');
+}
+---
+
+<MainLayout>
+  <div class="login-container">
+    <div class="login-card">
+      <img src="/ulzii.png" alt="Ulzii Association" class="login-logo" />
+      <h1 class="login-title">Sign In</h1>
+      <p class="login-subtitle">Sign in to your Ulzii Association account</p>
+
+      {error && (
+        <div class="login-error">
+          {errorMessages[error] ?? 'An error occurred. Please try again.'}
+        </div>
+      )}
+
+      <div class="oauth-buttons">
+        <a href="/api/auth/google" class="oauth-btn oauth-btn--google">
+          <svg aria-hidden="true" width="22" height="22"><use href="/svgs.svg#google-logo"></use></svg>
+          Continue with Google
+        </a>
+
+        <a href="/api/auth/facebook" class="oauth-btn oauth-btn--facebook">
+          <svg aria-hidden="true" width="22" height="22"><use href="/svgs.svg#facebook-login"></use></svg>
+          Continue with Facebook
+        </a>
+      </div>
+
+      <p class="login-divider">By signing in, you agree to our terms of service.</p>
+    </div>
+  </div>
+</MainLayout>

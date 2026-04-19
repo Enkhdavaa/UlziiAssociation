@@ -78,7 +78,9 @@
   }
 
   .mobile-nav-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     background: transparent;
     border: none;
@@ -86,15 +88,68 @@
     height: 2rem;
     padding: 0;
     z-index: 9999;
-    background-image: url("/burger-menu.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
   }
 
-  .mobile-nav-toggle[aria-expanded="true"] {
-    background-image: url("/close-menu.svg");
+  .mobile-nav-toggle .icon-close-menu {
+    display: none;
   }
+
+  .mobile-nav-toggle[aria-expanded="true"] .icon-burger-menu {
+    display: none;
+  }
+
+  .mobile-nav-toggle[aria-expanded="true"] .icon-close-menu {
+    display: block;
+  }
+}
+
+.nav-login {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  background: var(--primary-orange);
+  color: #fff !important;
+  font-weight: var(--fw-semi-bold);
+  text-decoration: none;
+  border-bottom: none !important;
+  transition: opacity 0.2s ease;
+}
+
+.nav-login:hover {
+  opacity: 0.85;
+  color: #fff !important;
+  border-bottom-color: transparent !important;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-username {
+  font-weight: var(--fw-semi-bold);
+  font-size: var(--fs-400);
+  color: #333;
+}
+
+.nav-logout {
+  font-size: var(--fs-300, 0.875rem);
+  color: #888;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease;
+}
+
+.nav-logout:hover {
+  color: var(--primary-orange);
 }
 
 .sr-only {

@@ -10,6 +10,8 @@ const links = [
 ];
 
 const currentPath = Astro.url.pathname;
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { name: string; picture?: string }) : null;
 ---
 
 <header class="primary-header">
@@ -23,6 +25,8 @@ const currentPath = Astro.url.pathname;
       aria-expanded="false"
     >
       <span class="sr-only">Menu</span>
+      <svg aria-hidden="true" class="icon-burger-menu" width="32" height="32"><use href="/svgs.svg#burger-menu"></use></svg>
+      <svg aria-hidden="true" class="icon-close-menu" width="32" height="32"><use href="/svgs.svg#close-menu"></use></svg>
     </button>
     <nav class="primary-nav-wrapper">
       <ul id="primary-navigation" class="primary-navigation" data-visible="false">
@@ -36,6 +40,17 @@ const currentPath = Astro.url.pathname;
             </a>
           </li>
         ))}
+        <li class="nav-auth">
+          {user ? (
+            <div class="nav-user">
+              {user.picture && <img src={user.picture} alt={user.name} class="nav-avatar" />}
+              <span class="nav-username">{user.name}</span>
+              <a href="/api/auth/logout" class="nav-logout">Sign out</a>
+            </div>
+          ) : (
+            <a href="/login" class:list={['nav-login', { active: currentPath === '/login' }]}>Sign in</a>
+          )}
+        </li>
       </ul>
     </nav>
   </div>
