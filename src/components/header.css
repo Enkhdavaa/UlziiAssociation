@@ -1,4 +1,3 @@
-/* header.css */
 .primary-header {
   position: sticky;
   top: 0;
@@ -13,11 +12,11 @@
   justify-content: space-between;
   margin: 0 auto;
   padding: 1rem 2rem;
-  max-width: 1280px; /* Constrain width */
+  max-width: 1280px;
 }
 
 .logo {
-  max-height: 50px; /* Use max-height for better scaling */
+  max-height: 50px;
   width: auto;
 }
 
@@ -26,7 +25,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2.5rem; /* For desktop */
+  gap: 2.5rem;
 }
 
 .primary-navigation a {
@@ -52,23 +51,20 @@
 }
 
 .mobile-nav-toggle {
-  display: none; /* Hidden on desktop */
+  display: none;
 }
 
-/* Mobile Styles */
-@media (max-width: 50em) { /* Approx 800px */
+/* Mobile */
+@media (max-width: 50em) {
   .primary-navigation {
     position: fixed;
     inset: 0 0 0 30%;
     z-index: 100;
-    
     flex-direction: column;
     padding: min(20vh, 10rem) 2rem;
     gap: 2rem;
-    
     background: hsl(0 0% 100% / 0.9);
     backdrop-filter: blur(1rem);
-    
     transform: translateX(100%);
     transition: transform 350ms ease-out;
   }
@@ -103,9 +99,10 @@
   }
 }
 
-.nav-login {
+.primary-navigation .nav-login {
   display: inline-block;
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 1.25rem;
+  white-space: nowrap;
   border-radius: 6px;
   background: var(--primary-orange);
   color: #fff !important;
@@ -115,10 +112,8 @@
   transition: opacity 0.2s ease;
 }
 
-.nav-login:hover {
+.primary-navigation .nav-login:hover {
   opacity: 0.85;
-  color: #fff !important;
-  border-bottom-color: transparent !important;
 }
 
 .nav-user {
@@ -144,7 +139,6 @@
   font-size: var(--fs-300, 0.875rem);
   color: #888;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
   transition: color 0.2s ease;
 }
 

@@ -1,12 +1,11 @@
 .events-container {
-  box-sizing: border-box;
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   overflow-x: hidden;
-  background-color: #f9fafb; /* A very light gray background */
+  background-color: #f9fafb;
 }
 
 .events-heading {
@@ -45,7 +44,6 @@
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-content: center;
   gap: 2rem;
 }
 
@@ -57,9 +55,7 @@
   flex-direction: column;
   gap: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .event-card:hover {
@@ -105,12 +101,10 @@
   border-radius: 8px;
   align-self: center;
   font-weight: var(--fw-bold);
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .help-button:hover {
-  background-color: #e67e22; /* A slightly darker orange */
+  background-color: #e67e22;
   transform: scale(1.05);
 }
