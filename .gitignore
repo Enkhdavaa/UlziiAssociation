@@ -29,3 +29,6 @@ deno.lock
 #Astro
 .astro/*
 .vite/*
+
+#Env files
+*.env
