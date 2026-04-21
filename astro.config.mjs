@@ -9,6 +9,7 @@ export default defineConfig({
   }),
   site: "http://localhost:8080",
   server: {
+    port: 8080,
     open: true,
   },
 });
