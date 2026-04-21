@@ -13,6 +13,7 @@
     "build": "deno run -A npm:astro build",
     "preview": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs"
   },
+  "unstable": ["kv"],
   "nodeModulesDir": "auto",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"],

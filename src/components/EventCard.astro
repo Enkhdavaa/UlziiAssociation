@@ -1,6 +1,4 @@
 ---
-import LeadModal from './LeadModal.astro';
-
 interface Props {
     event: {
         id: string;
@@ -11,64 +9,36 @@ interface Props {
         description: string;
     };
     isPeriodic?: boolean;
+    leadUrl?: string;
 }
 
-const { event, isPeriodic = false } = Astro.props;
+const { event, isPeriodic = false, leadUrl } = Astro.props;
 ---
-<div class="event-card-wrapper" style="height: 100%;">
-    <div class="event-card" style="height: 100%; box-sizing: border-box;">
-        <h3>{event.title}</h3>
-        
-        {event.date && (
-            <p class="event-detail event-date">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <span><strong>Date:</strong> {event.date}</span>
-            </p>
-        )}
-        
-        {event.frequency && (
-            <p class="event-detail event-frequency">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M12 2.02c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10z"/><path d="M12 12l4 2"/><path d="M12 7v5"/></svg>
-                <span><strong>Frequency:</strong> {event.frequency}</span>
-            </p>
-        )}
-        
-        <p class="event-detail event-location">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span><strong>Location:</strong> {event.location}</span>
-        </p>
-        <p class="event-description">{event.description}</p>
-        
-        {isPeriodic && (
-            <button class="help-button open-modal-btn" data-modal-target={`modal-${event.id.replace(/\s+/g, '-')}`}>
-                Take the Lead
-            </button>
-        )}
-    </div>
+<div class="event-card" style="height: 100%; box-sizing: border-box;">
+    <h3>{event.title}</h3>
 
-    {isPeriodic && (
-        <LeadModal 
-            id={`modal-${event.id.replace(/\s+/g, '-')}`} 
-            eventId={event.id} 
-            eventTitle={event.title} 
-            submitUrl={`/api/events/${event.id}/lead`} 
-        />
+    {event.date && (
+        <p class="event-detail event-date">
+            <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
+            <span><strong>Date:</strong> {event.date}</span>
+        </p>
+    )}
+
+    {event.frequency && (
+        <p class="event-detail event-frequency">
+            <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-frequency"></use></svg>
+            <span><strong>Frequency:</strong> {event.frequency}</span>
+        </p>
+    )}
+
+    <p class="event-detail event-location">
+        <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-location"></use></svg>
+        <span><strong>Location:</strong> {event.location}</span>
+    </p>
+
+    <p class="event-description">{event.description}</p>
+
+    {isPeriodic && leadUrl && (
+        <a href={leadUrl} class="help-button">Take the Lead</a>
     )}
 </div>
-
-<script>
-    const triggerBtns = document.querySelectorAll<HTMLElement>('.open-modal-btn');
-    
-    triggerBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.dataset.modalTarget;
-            if (targetId) {
-                // Find the specific Web Component and call its exposed openModal method
-                const modal = document.getElementById(targetId) as any;
-                if (modal && typeof modal.openModal === 'function') {
-                    modal.openModal();
-                }
-            }
-        });
-    });
-</script>
