@@ -4,15 +4,14 @@ interface Props {
         id: string;
         title: string;
         date?: string;
-        frequency?: string;
         location: string;
         description: string;
+        time?: string;
+        acceptsVolunteers?: boolean;
     };
-    isPeriodic?: boolean;
-    leadUrl?: string;
 }
 
-const { event, isPeriodic = false, leadUrl } = Astro.props;
+const { event } = Astro.props;
 ---
 <div class="event-card" style="height: 100%; box-sizing: border-box;">
     <h3>{event.title}</h3>
@@ -24,10 +23,10 @@ const { event, isPeriodic = false, leadUrl } = Astro.props;
         </p>
     )}
 
-    {event.frequency && (
-        <p class="event-detail event-frequency">
-            <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-frequency"></use></svg>
-            <span><strong>Frequency:</strong> {event.frequency}</span>
+    {event.time && (
+        <p class="event-detail event-time">
+            <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
+            <span><strong>Time:</strong> {event.time}</span>
         </p>
     )}
 
@@ -38,7 +37,9 @@ const { event, isPeriodic = false, leadUrl } = Astro.props;
 
     <p class="event-description">{event.description}</p>
 
-    {isPeriodic && leadUrl && (
-        <a href={leadUrl} class="help-button">Take the Lead</a>
+    {event.acceptsVolunteers && (
+        <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(event.id)}`} class="help-button">
+            Volunteer to Lead
+        </a>
     )}
 </div>

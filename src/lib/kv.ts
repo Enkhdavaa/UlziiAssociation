@@ -26,6 +26,7 @@ export interface Event {
   location: string;
   description: string;
   time: string;
+  acceptsVolunteers?: boolean;
 }
 
 let _kv: Deno.Kv | null = null;

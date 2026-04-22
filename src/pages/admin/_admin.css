@@ -262,6 +262,21 @@
   cursor: not-allowed;
 }
 
+.adm-checkbox-label {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem !important;
+  cursor: pointer;
+}
+
+.adm-checkbox-label input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--primary-blue);
+}
+
 .adm-form-actions {
   display: flex;
   justify-content: flex-end;

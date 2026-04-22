@@ -162,6 +162,10 @@ const leadsJson  = JSON.stringify(leads);
         <label>Time<input name="time" type="text" placeholder="11:00 AM - 12:00 PM" /></label>
         <label>Location<input name="location" type="text" /></label>
         <label>Description<textarea name="description" rows="3"></textarea></label>
+        <label class="adm-checkbox-label">
+          <input name="acceptsVolunteers" type="checkbox" />
+          Accept volunteers <small>(shows "Volunteer to Lead" button on the event card)</small>
+        </label>
       </div>
 
       <!-- Book fields -->
@@ -234,17 +238,21 @@ const leadsJson  = JSON.stringify(leads);
     document.getElementById('adm-form-title').textContent =
       (record ? 'Edit' : 'Add') + ' ' + collection.slice(0, -1);
 
-    // Clear all inputs/textareas in the active fieldset
+    // Clear all inputs/textareas/checkboxes in the active fieldset
     const fieldset = document.getElementById('fields-' + collection);
-    fieldset.querySelectorAll('input, textarea').forEach(el => { el.value = ''; });
+    fieldset.querySelectorAll('input, textarea').forEach(el => {
+      if (el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    });
 
     // Pre-fill if editing
     if (record) {
       Object.entries(record).forEach(([k, v]) => {
         const el = fieldset.querySelector(`[name="${k}"]`);
-        if (el) el.value = v ?? '';
-        // Lock id on edit
-        if (k === 'id' && el) el.readOnly = true;
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = !!v;
+        else el.value = v ?? '';
+        if (k === 'id') el.readOnly = true;
       });
     } else {
       const idEl = fieldset.querySelector('[name="id"]');
@@ -290,7 +298,9 @@ const leadsJson  = JSON.stringify(leads);
 
     const data = {};
     fieldset.querySelectorAll('input, textarea').forEach(el => {
-      if (el.name) data[el.name] = el.value.trim();
+      if (!el.name) return;
+      if (el.type === 'checkbox') data[el.name] = el.checked;
+      else data[el.name] = el.value.trim();
     });
 
     // Validation
