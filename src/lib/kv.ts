@@ -124,3 +124,37 @@ export async function getLeads(eventId: string): Promise<LeadRegistration[]> {
   }
   return results;
 }
+
+export async function getAllLeads(): Promise<LeadRegistration[]> {
+  const kv = await getKv();
+  const results: LeadRegistration[] = [];
+  for await (const entry of kv.list<LeadRegistration>({ prefix: ["leads"] })) {
+    results.push(entry.value);
+  }
+  return results;
+}
+
+export async function updateLead(lead: LeadRegistration): Promise<void> {
+  const kv = await getKv();
+  await kv.set(["leads", lead.eventId, lead.id], lead);
+}
+
+export async function deleteLead(eventId: string, id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["leads", eventId, id]);
+}
+
+export async function deleteEvent(id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["events", id]);
+}
+
+export async function saveBook(book: Book): Promise<void> {
+  const kv = await getKv();
+  await kv.set(["books", book.id], book);
+}
+
+export async function deleteBook(id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["books", id]);
+}

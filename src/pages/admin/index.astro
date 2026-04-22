@@ -1,0 +1,323 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import './_admin.css';
+import { getEvents, getBooks, getAllLeads } from '../../lib/kv';
+
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { name: string; email: string; picture?: string }) : null;
+
+if (!user) return Astro.redirect('/login');
+
+const adminEmails = (import.meta.env.ADMIN_EMAIL ?? '')
+  .split(',')
+  .map((e: string) => e.trim())
+  .filter(Boolean);
+
+if (!adminEmails.includes(user.email)) {
+  return new Response('403 Forbidden — you are not an admin.', { status: 403 });
+}
+
+const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAllLeads()]);
+
+const eventsJson = JSON.stringify(events);
+const booksJson  = JSON.stringify(books);
+const leadsJson  = JSON.stringify(leads);
+---
+
+<MainLayout>
+  <div class="adm-wrap">
+    <header class="adm-header">
+      <div class="adm-header-left">
+        <svg aria-hidden="true" width="22" height="22" class="adm-lock-icon"><use href="/svgs.svg#mission"></use></svg>
+        <span class="adm-title">Admin Panel</span>
+      </div>
+      <span class="adm-user">{user.name} &mdash; {user.email}</span>
+    </header>
+
+    <!-- Tab bar -->
+    <nav class="adm-tabs" role="tablist">
+      <button class="adm-tab adm-tab--active" role="tab" data-tab="events">
+        Events <span class="adm-badge">{events.length}</span>
+      </button>
+      <button class="adm-tab" role="tab" data-tab="books">
+        Books <span class="adm-badge">{books.length}</span>
+      </button>
+      <button class="adm-tab" role="tab" data-tab="leads">
+        Leads <span class="adm-badge">{leads.length}</span>
+      </button>
+    </nav>
+
+    <div id="adm-status" class="adm-status" hidden></div>
+
+    <!-- ── Events ── -->
+    <section class="adm-section" data-section="events">
+      <div class="adm-section-header">
+        <h2>Events</h2>
+        <button class="adm-btn adm-btn--primary" id="add-event-btn">+ Add Event</button>
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th>ID</th><th>Title</th><th>Date</th><th>Time</th><th>Location</th><th>Description</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="events-tbody">
+            {events.map(ev => (
+              <tr data-record={JSON.stringify(ev)}>
+                <td class="adm-id">{ev.id}</td>
+                <td>{ev.title}</td>
+                <td>{ev.date}</td>
+                <td>{ev.time}</td>
+                <td>{ev.location}</td>
+                <td class="adm-desc">{ev.description}</td>
+                <td class="adm-actions">
+                  <button class="adm-btn adm-btn--sm adm-btn--edit" data-collection="events">Edit</button>
+                  <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="events" data-id={ev.id}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Books ── -->
+    <section class="adm-section" data-section="books" hidden>
+      <div class="adm-section-header">
+        <h2>Books</h2>
+        <button class="adm-btn adm-btn--primary" id="add-book-btn">+ Add Book</button>
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead>
+            <tr><th>ID</th><th>Title</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="books-tbody">
+            {books.map(bk => (
+              <tr data-record={JSON.stringify(bk)}>
+                <td class="adm-id">{bk.id}</td>
+                <td>{bk.title}</td>
+                <td class="adm-actions">
+                  <button class="adm-btn adm-btn--sm adm-btn--edit" data-collection="books">Edit</button>
+                  <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="books" data-id={bk.id}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Leads ── -->
+    <section class="adm-section" data-section="leads" hidden>
+      <div class="adm-section-header">
+        <h2>Leads</h2>
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Phone</th><th>Event</th><th>Book</th>
+              <th>Date</th><th>Time</th><th>Message</th><th>Registered</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody">
+            {leads.map(ld => (
+              <tr data-record={JSON.stringify(ld)}>
+                <td>{ld.name}</td>
+                <td>{ld.email}</td>
+                <td>{ld.countryCode} {ld.phone}</td>
+                <td class="adm-id">{ld.eventId}</td>
+                <td>{ld.book}</td>
+                <td>{ld.date}</td>
+                <td>{ld.time}</td>
+                <td class="adm-desc">{ld.message}</td>
+                <td>{new Date(ld.createdAt).toLocaleDateString()}</td>
+                <td class="adm-actions">
+                  <button class="adm-btn adm-btn--sm adm-btn--edit" data-collection="leads">Edit</button>
+                  <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="leads" data-id={ld.id} data-event-id={ld.eventId}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── Modal ── -->
+  <dialog class="adm-dialog" id="adm-modal">
+    <form class="adm-form" id="adm-form" method="dialog">
+      <h3 class="adm-form-title" id="adm-form-title">Edit</h3>
+
+      <input type="hidden" name="_collection" />
+      <input type="hidden" name="_isEdit" />
+
+      <!-- Event fields -->
+      <div class="adm-fields" id="fields-events" hidden>
+        <label>ID <small>(slug, cannot change after creation)</small><input name="id" type="text" /></label>
+        <label>Title<input name="title" type="text" /></label>
+        <label>Date<input name="date" type="text" placeholder="May 15, 2026" /></label>
+        <label>Time<input name="time" type="text" placeholder="11:00 AM - 12:00 PM" /></label>
+        <label>Location<input name="location" type="text" /></label>
+        <label>Description<textarea name="description" rows="3"></textarea></label>
+      </div>
+
+      <!-- Book fields -->
+      <div class="adm-fields" id="fields-books" hidden>
+        <label>ID <small>(slug, cannot change after creation)</small><input name="id" type="text" /></label>
+        <label>Title<input name="title" type="text" /></label>
+      </div>
+
+      <!-- Lead fields -->
+      <div class="adm-fields" id="fields-leads" hidden>
+        <label>Name<input name="name" type="text" /></label>
+        <label>Email<input name="email" type="email" /></label>
+        <label>Country Code<input name="countryCode" type="text" /></label>
+        <label>Phone<input name="phone" type="text" /></label>
+        <label>Event ID<input name="eventId" type="text" /></label>
+        <label>Book<input name="book" type="text" /></label>
+        <label>Date<input name="date" type="text" /></label>
+        <label>Time<input name="time" type="text" /></label>
+        <label>Message<textarea name="message" rows="3"></textarea></label>
+        <input name="id" type="hidden" />
+        <input name="createdAt" type="hidden" />
+      </div>
+
+      <div class="adm-form-actions">
+        <button type="button" class="adm-btn adm-btn--ghost" id="modal-cancel-btn">Cancel</button>
+        <button type="submit" class="adm-btn adm-btn--primary" id="modal-save-btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+</MainLayout>
+
+<script define:vars={{ eventsJson, booksJson, leadsJson }}>
+  // ── State ──────────────────────────────────────────────────────────────────
+  let _events = JSON.parse(eventsJson);
+  let _books  = JSON.parse(booksJson);
+  let _leads  = JSON.parse(leadsJson);
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.adm-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.adm-tab').forEach(t => t.classList.remove('adm-tab--active'));
+      btn.classList.add('adm-tab--active');
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.adm-section').forEach(s => {
+        s.hidden = s.dataset.section !== tab;
+      });
+    });
+  });
+
+  // ── Status banner ─────────────────────────────────────────────────────────
+  function showStatus(msg, isError = false) {
+    const el = document.getElementById('adm-status');
+    el.textContent = msg;
+    el.className = 'adm-status ' + (isError ? 'adm-status--error' : 'adm-status--ok');
+    el.hidden = false;
+    setTimeout(() => { el.hidden = true; }, 4000);
+  }
+
+  // ── Modal ─────────────────────────────────────────────────────────────────
+  const modal   = document.getElementById('adm-modal');
+  const form    = document.getElementById('adm-form');
+
+  function openModal(collection, record = null) {
+    // Reset
+    ['events','books','leads'].forEach(c => {
+      document.getElementById('fields-' + c).hidden = (c !== collection);
+    });
+    form.elements['_collection'].value = collection;
+    form.elements['_isEdit'].value = record ? 'true' : 'false';
+    document.getElementById('adm-form-title').textContent =
+      (record ? 'Edit' : 'Add') + ' ' + collection.slice(0, -1);
+
+    // Clear all inputs/textareas in the active fieldset
+    const fieldset = document.getElementById('fields-' + collection);
+    fieldset.querySelectorAll('input, textarea').forEach(el => { el.value = ''; });
+
+    // Pre-fill if editing
+    if (record) {
+      Object.entries(record).forEach(([k, v]) => {
+        const el = fieldset.querySelector(`[name="${k}"]`);
+        if (el) el.value = v ?? '';
+        // Lock id on edit
+        if (k === 'id' && el) el.readOnly = true;
+      });
+    } else {
+      const idEl = fieldset.querySelector('[name="id"]');
+      if (idEl) idEl.readOnly = false;
+    }
+
+    modal.showModal();
+  }
+
+  document.getElementById('modal-cancel-btn').addEventListener('click', () => modal.close());
+  document.getElementById('add-event-btn').addEventListener('click', () => openModal('events'));
+  document.getElementById('add-book-btn').addEventListener('click', () => openModal('books'));
+
+  // Edit / Delete delegation
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+
+    if (btn.classList.contains('adm-btn--edit')) {
+      const row = btn.closest('tr');
+      const record = JSON.parse(row.dataset.record);
+      openModal(btn.dataset.collection, record);
+    }
+
+    if (btn.classList.contains('adm-btn--delete')) {
+      const { collection } = btn.dataset;
+      const id = btn.dataset.id;
+      const eventId = btn.dataset.eventId;
+      if (!confirm(`Delete this ${collection.slice(0, -1)}? This cannot be undone.`)) return;
+      apiCall({ action: 'delete', collection, id, eventId }).then(() => {
+        showStatus('Deleted successfully.');
+        btn.closest('tr').remove();
+      }).catch(err => showStatus(err, true));
+    }
+  });
+
+  // ── Form submit ───────────────────────────────────────────────────────────
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const collection = form.elements['_collection'].value;
+    const isEdit     = form.elements['_isEdit'].value === 'true';
+    const fieldset   = document.getElementById('fields-' + collection);
+
+    const data = {};
+    fieldset.querySelectorAll('input, textarea').forEach(el => {
+      if (el.name) data[el.name] = el.value.trim();
+    });
+
+    // Validation
+    if (!isEdit && collection !== 'leads' && !data.id) {
+      alert('ID is required.');
+      return;
+    }
+
+    try {
+      await apiCall({ action: 'upsert', collection, data });
+      showStatus((isEdit ? 'Updated' : 'Created') + ' successfully. Refreshing…');
+      modal.close();
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showStatus(String(err), true);
+    }
+  });
+
+  // ── API helper ────────────────────────────────────────────────────────────
+  async function apiCall(body) {
+    const res = await fetch('/api/admin/kv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error ?? 'Request failed');
+    return json;
+  }
+</script>
