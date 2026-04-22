@@ -3,60 +3,122 @@ import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout>
-    <div class="container">
-        <div class="section">
+    <div class="privacy-page">
+        <div class="privacy-inner">
             <h1>Privacy Policy</h1>
-            <p><em>Last updated: April 21, 2026</em></p>
+            <p class="updated">Last updated: April 21, 2026</p>
 
-            <h2>Who we are</h2>
-            <p>
-                Ulzii Association is a non-profit organization dedicated to fostering cultural exchange between Mongolia and the Netherlands. Our website is <strong>ulzii.nl</strong>.
-            </p>
+            <div class="divider"></div>
 
-            <h2>What data we collect</h2>
-            <p>When you sign in using Google or Facebook, we receive and store:</p>
-            <ul>
-                <li>Your name</li>
-                <li>Your email address</li>
-                <li>Your profile picture</li>
-            </ul>
-            <p>We do not collect any other personal data.</p>
+            <section>
+                <h2>Who We Are</h2>
+                <p>Ulzii Association is a non-profit organization dedicated to fostering cultural exchange between Mongolia and the Netherlands. Our website is <strong>ulzii.nl</strong>.</p>
+            </section>
 
-            <h2>How we use your data</h2>
-            <p>We use your data solely to identify you as a signed-in member of our platform. We do not sell, share, or use your data for advertising or analytics purposes.</p>
+            <section>
+                <h2>What Data We Collect</h2>
+                <p>When you sign in using Google or Facebook, we receive and store your name, email address, and profile picture. We do not collect any other personal data.</p>
+            </section>
 
-            <h2>Event lead registration</h2>
-            <p>
-                When you submit the "Register to Lead" form for an event, we collect your name, email address, and phone number. This information is used solely to contact you privately regarding the event you registered for. It is not shared with third parties and will be permanently deleted after the event date.
-            </p>
+            <section>
+                <h2>How We Use Your Data</h2>
+                <p>We use your data solely to identify you as a signed-in member of our platform. We do not sell, share, or use your data for advertising or analytics purposes.</p>
+            </section>
 
-            <h2>Cookies</h2>
-            <p>We use a single session cookie to keep you signed in. It expires after 7 days. No third-party tracking cookies are used.</p>
+            <section>
+                <h2>Event Lead Registration</h2>
+                <p>When you submit the "Register to Lead" form for an event, we collect your name, email address, and phone number. This information is used solely to contact you about the event and will be permanently deleted after the event date.</p>
+            </section>
 
-            <h2>Data retention</h2>
-            <p>Your session data is stored only for the duration of your session (up to 7 days). We do not persist your personal data beyond that.</p>
+            <section>
+                <h2>Cookies</h2>
+                <p>We use a single session cookie to keep you signed in. It expires after 7 days. No third-party tracking cookies are used.</p>
+            </section>
 
-            <h2>Your rights</h2>
-            <p>You may request deletion of your data at any time by contacting us at <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>.</p>
+            <section>
+                <h2>Data Retention</h2>
+                <p>Your session data is stored only for the duration of your session (up to 7 days). We do not persist your personal data beyond that.</p>
+            </section>
 
-            <h2>Contact</h2>
-            <p>
-                Ulzii Association<br />
-                The Netherlands<br />
-                <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>
-            </p>
+            <section>
+                <h2>Your Rights</h2>
+                <p>You may request deletion of your data at any time by contacting us at <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>.</p>
+            </section>
+
+            <section>
+                <h2>Contact</h2>
+                <p>
+                    Ulzii Association — The Netherlands<br />
+                    <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>
+                </p>
+            </section>
         </div>
     </div>
 </MainLayout>
 
 <style>
+    .privacy-page {
+        padding: 4rem 1.5rem 6rem;
+        background: #f7f9fb;
+        min-height: 70vh;
+    }
+
+    .privacy-inner {
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .updated {
+        font-size: 0.82rem;
+        color: #888;
+        margin-top: 0.35rem;
+    }
+
+    .divider {
+        height: 3px;
+        width: 48px;
+        background: var(--primary-orange);
+        border-radius: 2px;
+        margin: 1.5rem 0 2rem;
+    }
+
+    section {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #e8ecf0;
+    }
+
+    section:last-child {
+        border-bottom: none;
+    }
+
     h2 {
-        margin-top: 2rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--primary-orange);
+        margin-bottom: 0.6rem;
     }
-    ul {
-        padding-left: 1.5rem;
+
+    p {
+        font-size: 0.92rem;
+        color: #4a4a5a;
+        line-height: 1.75;
     }
+
     a {
-        color: inherit;
+        color: var(--primary-orange);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 </style>

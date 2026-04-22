@@ -4,34 +4,41 @@ import './_index.css';
 ---
 
 <MainLayout>
-    <div class="container">
-        <div class="section hero">
-            <h1 class="text-center">Welcome to the Ulzii Association</h1>
+    <section class="hero">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">Mongolia &amp; Netherlands</p>
+            <h1>Building bridges between two cultures</h1>
+            <p class="hero-sub">
+                The Ulzii Association is a non-profit connecting people from Mongolia and the Netherlands through cultural exchange, collaboration, and community.
+            </p>
+            <div class="hero-actions">
+                <a href="/event" class="btn btn-primary">Upcoming Events</a>
+                <a href="/contact" class="btn btn-outline">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <svg aria-label="Mission Icon" class="card-icon"><use href="/svgs.svg#mission"></use></svg>
+            <h2>Mission</h2>
             <p>
-                We are a non-profit organization dedicated to fostering cultural exchange and collaboration between Mongolia and the Netherlands. Our mission is to create a vibrant community where individuals from both countries can connect, share ideas, and work together on various projects and initiatives.
+                Founded in 2008, we serve as a bridge between Mongolia and the Netherlands — open to everyone who shares our vision and welcomes collaboration.
             </p>
         </div>
-        <div class="section">
-            <svg aria-label="Mission Icon" class="section-icon"><use href="/svgs.svg#mission"></use></svg>
-            <h1>Mission</h1>
+        <div class="info-card">
+            <svg aria-label="Values Icon" class="card-icon"><use href="/svgs.svg#values"></use></svg>
+            <h2>Values</h2>
             <p>
-                The Ulzii Association was founded in 2008 with the aim of creating a "bridge" between Mongolia and the Netherlands. We are open to everyone who shares the same vision and sincerely welcome their collaboration and support.
+                Respect, integrity, and collaboration are at our core. We believe in the power of diversity and strive to create an inclusive space for all members.
             </p>
         </div>
-        <div class="section">
-            <svg aria-label="Values Icon" class="section-icon"><use href="/svgs.svg#values"></use></svg>
-            <h1>Values</h1>
+        <div class="info-card">
+            <svg aria-label="Board Members Icon" class="card-icon"><use href="/svgs.svg#board-members"></use></svg>
+            <h2>Board Members</h2>
             <p>
-                Our core values include respect, integrity, and collaboration. We believe in the power of diversity and strive to create an inclusive environment where all members feel valued and heard.
-            </p>
-        </div>
-        <div class="section">
-            <svg aria-label="Board Members Icon" class="section-icon"><use href="/svgs.svg#board-members"></use></svg>
-            <h1>Board Members</h1>
-            <p>
-                Our board members are dedicated individuals who bring a wealth of experience and expertise to the organization. They play a crucial role in guiding our initiatives and ensuring that we stay true to our mission and values.
+                Our board brings experience and expertise to guide our initiatives and keep us true to our mission and values.
             </p>
         </div>
     </div>
 </MainLayout>
-
