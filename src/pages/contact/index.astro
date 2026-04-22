@@ -4,12 +4,47 @@ import "./_contact.css"
 ---
 
 <script>
-    const form = document.querySelector('.contact-form');
-    form?.addEventListener("submit", (e) => {
+    const form = document.querySelector('.contact-form') as HTMLFormElement | null;
+    const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const statusMsg = document.getElementById('contact-status');
+
+    form?.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = form.querySelector<HTMLInputElement>('input[type="email"]')?.value;
-        const question = form.querySelector('textarea')?.value;
-        console.log(email, question);
+        const email = form.querySelector<HTMLInputElement>('input[type="email"]')?.value ?? '';
+        const question = form.querySelector<HTMLTextAreaElement>('textarea')?.value ?? '';
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (statusMsg) { statusMsg.textContent = ''; statusMsg.className = ''; }
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, question }),
+            });
+
+            if (res.ok) {
+                form.reset();
+                if (statusMsg) {
+                    statusMsg.textContent = 'Your message has been sent. We will get back to you soon.';
+                    statusMsg.className = 'contact-status-success';
+                }
+            } else {
+                const errData = await res.json().catch(() => ({}));
+                console.error('Contact API error:', res.status, errData);
+                if (statusMsg) {
+                    statusMsg.textContent = 'Something went wrong. Please try again.';
+                    statusMsg.className = 'contact-status-error';
+                }
+            }
+        } catch {
+            if (statusMsg) {
+                statusMsg.textContent = 'Network error. Please try again.';
+                statusMsg.className = 'contact-status-error';
+            }
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
     });
 </script>
 
@@ -43,6 +78,7 @@ import "./_contact.css"
                     ></textarea>
                 </div>
                 <button type="submit" class="submit-button">Submit</button>
+                <p id="contact-status"></p>
             </form>
         </div>
     </div>

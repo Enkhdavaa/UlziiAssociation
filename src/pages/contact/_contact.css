@@ -82,3 +82,20 @@
 .submit-button:hover {
   background-color: #e07b00;
 }
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-status-success {
+  margin-top: 1rem;
+  color: #2e7d32;
+  font-size: 0.95rem;
+}
+
+.contact-status-error {
+  margin-top: 1rem;
+  color: #c62828;
+  font-size: 0.95rem;
+}
