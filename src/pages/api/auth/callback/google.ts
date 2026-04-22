@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
         code,
         client_id: import.meta.env.GOOGLE_CLIENT_ID,
         client_secret: import.meta.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: `${import.meta.env.SITE_URL}/api/auth/callback/google`,
+        redirect_uri: `${url.origin}/api/auth/callback/google`,
         grant_type: "authorization_code",
       }),
     });
