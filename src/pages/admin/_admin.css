@@ -1,4 +1,4 @@
-/* ── Wrapper ── */
+/* ── Layout ── */
 .adm-wrap {
   min-height: 100vh;
   background: #f4f6f8;
@@ -10,21 +10,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   background: var(--primary-blue);
   color: white;
   padding: 0.9rem 1.5rem;
-  gap: 1rem;
-}
-
-.adm-header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.adm-lock-icon {
-  color: rgba(255,255,255,0.85);
-  flex-shrink: 0;
 }
 
 .adm-title {
@@ -35,19 +24,21 @@
 
 .adm-user {
   font-size: var(--fs-400);
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ── Tabs ── */
 .adm-tabs {
   display: flex;
-  gap: 0;
   background: white;
   border-bottom: 2px solid #dde2e6;
   padding: 0 1.5rem;
 }
 
 .adm-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
@@ -55,17 +46,17 @@
   padding: 0.85rem 1.25rem;
   font-size: var(--fs-500);
   font-weight: var(--fw-semi-bold);
-  cursor: pointer;
   color: #555;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  cursor: pointer;
   transition: color 0.15s;
 }
 
-.adm-tab:hover { color: var(--primary-blue); }
+.adm-tab:hover,
 .adm-tab--active {
   color: var(--primary-blue);
+}
+
+.adm-tab--active {
   border-bottom-color: var(--primary-blue);
 }
 
@@ -74,8 +65,8 @@
   color: #555;
   border-radius: 999px;
   font-size: var(--fs-300);
-  padding: 0.1em 0.55em;
   font-weight: var(--fw-bold);
+  padding: 0.1em 0.55em;
 }
 
 /* ── Status banner ── */
@@ -86,13 +77,12 @@
   font-size: var(--fs-400);
   font-weight: var(--fw-semi-bold);
 }
+
 .adm-status--ok    { background: #d1fae5; color: #065f46; }
 .adm-status--error { background: #fee2e2; color: #991b1b; }
 
-/* ── Section ── */
-.adm-section {
-  padding: 1.5rem;
-}
+/* ── Sections ── */
+.adm-section { padding: 1.5rem; }
 
 .adm-section-header {
   display: flex;
@@ -111,7 +101,7 @@
 .adm-table-wrap {
   overflow-x: auto;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .adm-table {
@@ -121,9 +111,7 @@
   font-size: var(--fs-400);
 }
 
-.adm-table thead {
-  background: #eef1f5;
-}
+.adm-table thead { background: #eef1f5; }
 
 .adm-table th {
   text-align: left;
@@ -142,7 +130,6 @@
 }
 
 .adm-table tbody tr:last-child td { border-bottom: none; }
-
 .adm-table tbody tr:hover { background: #f9fbfc; }
 
 .adm-id {
@@ -161,9 +148,9 @@
 }
 
 .adm-actions {
-  white-space: nowrap;
   display: flex;
   gap: 0.4rem;
+  white-space: nowrap;
 }
 
 /* ── Buttons ── */
@@ -177,38 +164,36 @@
   font-weight: var(--fw-semi-bold);
   font-size: var(--fs-500);
   padding: 0.55rem 1.1rem;
-  transition: opacity 0.15s, transform 0.1s;
   text-decoration: none;
+  transition: opacity 0.15s, transform 0.1s;
 }
+
 .adm-btn:hover { opacity: 0.85; transform: translateY(-1px); }
 
 .adm-btn--primary { background: var(--primary-blue); color: white; }
 .adm-btn--ghost   { background: #e5e7eb; color: #374151; }
-
-.adm-btn--sm { font-size: var(--fs-300); padding: 0.3rem 0.7rem; }
-.adm-btn--edit   { background: #eff6ff; color: var(--primary-blue); }
-.adm-btn--delete { background: #fef2f2; color: #dc2626; }
+.adm-btn--sm      { font-size: var(--fs-300); padding: 0.3rem 0.7rem; }
+.adm-btn--edit    { background: #eff6ff; color: var(--primary-blue); }
+.adm-btn--delete  { background: #fef2f2; color: #dc2626; }
 
 /* ── Modal ── */
 .adm-dialog {
   border: none;
   border-radius: 10px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
   padding: 0;
   width: min(560px, 95vw);
   max-height: 90vh;
   overflow-y: auto;
 }
 
-.adm-dialog::backdrop {
-  background: rgba(0,0,0,0.45);
-}
+.adm-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
 
 .adm-form {
-  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1.75rem;
 }
 
 .adm-form-title {
@@ -219,7 +204,6 @@
 }
 
 .adm-fields {
-  display: flex;
   flex-direction: column;
   gap: 0.85rem;
 }
@@ -253,19 +237,14 @@
 .adm-fields textarea:focus {
   outline: none;
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(66,165,224,0.15);
+  box-shadow: 0 0 0 3px rgba(66, 165, 224, 0.15);
 }
 
-.adm-fields input[readonly] {
-  background: #f3f4f6;
-  color: #6b7280;
-  cursor: not-allowed;
-}
-
-.adm-checkbox-label {
-  flex-direction: row !important;
+/* Checkbox row — more specific than .adm-fields label so no !important needed */
+.adm-fields label.adm-checkbox-label {
+  flex-direction: row;
   align-items: center;
-  gap: 0.5rem !important;
+  gap: 0.5rem;
   cursor: pointer;
 }
 
@@ -277,11 +256,14 @@
   accent-color: var(--primary-blue);
 }
 
+.adm-phone-row { display: flex; gap: 0.5rem; }
+.adm-input-narrow { width: 5rem; flex-shrink: 0; }
+
 .adm-form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
   padding-top: 0.25rem;
-  border-top: 1px solid #e5e7eb;
   margin-top: 0.25rem;
+  border-top: 1px solid #e5e7eb;
 }

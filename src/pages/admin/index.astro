@@ -4,52 +4,34 @@ import './_admin.css';
 import { getEvents, getBooks, getAllLeads } from '../../lib/kv';
 
 const userCookie = Astro.cookies.get('user');
-const user = userCookie ? (userCookie.json() as { name: string; email: string; picture?: string }) : null;
+const user = userCookie ? (userCookie.json() as { name: string; email: string }) : null;
 
 if (!user) return Astro.redirect('/login');
 
-const adminEmails = (import.meta.env.ADMIN_EMAIL ?? '')
-  .split(',')
-  .map((e: string) => e.trim())
-  .filter(Boolean);
-
+const adminEmails = (import.meta.env.ADMIN_EMAIL ?? '').split(',').map((e: string) => e.trim()).filter(Boolean);
 if (!adminEmails.includes(user.email)) {
   return new Response('403 Forbidden — you are not an admin.', { status: 403 });
 }
 
 const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAllLeads()]);
-
-const eventsJson = JSON.stringify(events);
-const booksJson  = JSON.stringify(books);
-const leadsJson  = JSON.stringify(leads);
 ---
 
 <MainLayout>
   <div class="adm-wrap">
+
     <header class="adm-header">
-      <div class="adm-header-left">
-        <svg aria-hidden="true" width="22" height="22" class="adm-lock-icon"><use href="/svgs.svg#mission"></use></svg>
-        <span class="adm-title">Admin Panel</span>
-      </div>
-      <span class="adm-user">{user.name} &mdash; {user.email}</span>
+      <span class="adm-title">Admin Panel</span>
+      <span class="adm-user">{user.name} — {user.email}</span>
     </header>
 
-    <!-- Tab bar -->
     <nav class="adm-tabs" role="tablist">
-      <button class="adm-tab adm-tab--active" role="tab" data-tab="events">
-        Events <span class="adm-badge">{events.length}</span>
-      </button>
-      <button class="adm-tab" role="tab" data-tab="books">
-        Books <span class="adm-badge">{books.length}</span>
-      </button>
-      <button class="adm-tab" role="tab" data-tab="leads">
-        Leads <span class="adm-badge">{leads.length}</span>
-      </button>
+      <button class="adm-tab adm-tab--active" role="tab" data-tab="events">Events <span class="adm-badge">{events.length}</span></button>
+      <button class="adm-tab" role="tab" data-tab="books">Books <span class="adm-badge">{books.length}</span></button>
+      <button class="adm-tab" role="tab" data-tab="leads">Leads <span class="adm-badge">{leads.length}</span></button>
     </nav>
 
     <div id="adm-status" class="adm-status" hidden></div>
 
-    <!-- ── Events ── -->
     <section class="adm-section" data-section="events">
       <div class="adm-section-header">
         <h2>Events</h2>
@@ -57,12 +39,8 @@ const leadsJson  = JSON.stringify(leads);
       </div>
       <div class="adm-table-wrap">
         <table class="adm-table">
-          <thead>
-            <tr>
-              <th>ID</th><th>Title</th><th>Date</th><th>Time</th><th>Location</th><th>Description</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="events-tbody">
+          <thead><tr><th>ID</th><th>Title</th><th>Date</th><th>Time</th><th>Location</th><th>Description</th><th>Volunteers</th><th>Actions</th></tr></thead>
+          <tbody>
             {events.map(ev => (
               <tr data-record={JSON.stringify(ev)}>
                 <td class="adm-id">{ev.id}</td>
@@ -71,6 +49,7 @@ const leadsJson  = JSON.stringify(leads);
                 <td>{ev.time}</td>
                 <td>{ev.location}</td>
                 <td class="adm-desc">{ev.description}</td>
+                <td>{ev.acceptsVolunteers ? 'Yes' : '—'}</td>
                 <td class="adm-actions">
                   <button class="adm-btn adm-btn--sm adm-btn--edit" data-collection="events">Edit</button>
                   <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="events" data-id={ev.id}>Delete</button>
@@ -82,7 +61,6 @@ const leadsJson  = JSON.stringify(leads);
       </div>
     </section>
 
-    <!-- ── Books ── -->
     <section class="adm-section" data-section="books" hidden>
       <div class="adm-section-header">
         <h2>Books</h2>
@@ -90,10 +68,8 @@ const leadsJson  = JSON.stringify(leads);
       </div>
       <div class="adm-table-wrap">
         <table class="adm-table">
-          <thead>
-            <tr><th>ID</th><th>Title</th><th>Actions</th></tr>
-          </thead>
-          <tbody id="books-tbody">
+          <thead><tr><th>ID</th><th>Title</th><th>Actions</th></tr></thead>
+          <tbody>
             {books.map(bk => (
               <tr data-record={JSON.stringify(bk)}>
                 <td class="adm-id">{bk.id}</td>
@@ -109,20 +85,12 @@ const leadsJson  = JSON.stringify(leads);
       </div>
     </section>
 
-    <!-- ── Leads ── -->
     <section class="adm-section" data-section="leads" hidden>
-      <div class="adm-section-header">
-        <h2>Leads</h2>
-      </div>
+      <div class="adm-section-header"><h2>Leads</h2></div>
       <div class="adm-table-wrap">
         <table class="adm-table">
-          <thead>
-            <tr>
-              <th>Name</th><th>Email</th><th>Phone</th><th>Event</th><th>Book</th>
-              <th>Date</th><th>Time</th><th>Message</th><th>Registered</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="leads-tbody">
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Event</th><th>Book</th><th>Date</th><th>Time</th><th>Message</th><th>Registered</th><th>Actions</th></tr></thead>
+          <tbody>
             {leads.map(ld => (
               <tr data-record={JSON.stringify(ld)}>
                 <td>{ld.name}</td>
@@ -144,19 +112,19 @@ const leadsJson  = JSON.stringify(leads);
         </table>
       </div>
     </section>
+
   </div>
 
-  <!-- ── Modal ── -->
   <dialog class="adm-dialog" id="adm-modal">
     <form class="adm-form" id="adm-form" method="dialog">
-      <h3 class="adm-form-title" id="adm-form-title">Edit</h3>
+      <h3 class="adm-form-title" id="adm-form-title"></h3>
 
       <input type="hidden" name="_collection" />
       <input type="hidden" name="_isEdit" />
 
-      <!-- Event fields -->
-      <div class="adm-fields" id="fields-events" hidden>
-        <label>ID <small>(slug, cannot change after creation)</small><input name="id" type="text" /></label>
+      <div class="adm-fields" id="fields-events">
+        <label data-show="create">ID <small>slug — cannot change after creation</small><input name="id" type="text" /></label>
+        <input name="id" type="hidden" data-show="edit" />
         <label>Title<input name="title" type="text" /></label>
         <label>Date<input name="date" type="text" placeholder="May 15, 2026" /></label>
         <label>Time<input name="time" type="text" placeholder="11:00 AM - 12:00 PM" /></label>
@@ -164,99 +132,97 @@ const leadsJson  = JSON.stringify(leads);
         <label>Description<textarea name="description" rows="3"></textarea></label>
         <label class="adm-checkbox-label">
           <input name="acceptsVolunteers" type="checkbox" />
-          Accept volunteers <small>(shows "Volunteer to Lead" button on the event card)</small>
+          Accept volunteers <small>shows "Volunteer to Lead" button on the event card</small>
         </label>
       </div>
 
-      <!-- Book fields -->
-      <div class="adm-fields" id="fields-books" hidden>
-        <label>ID <small>(slug, cannot change after creation)</small><input name="id" type="text" /></label>
+      <div class="adm-fields" id="fields-books">
+        <label data-show="create">ID <small>slug — cannot change after creation</small><input name="id" type="text" /></label>
+        <input name="id" type="hidden" data-show="edit" />
         <label>Title<input name="title" type="text" /></label>
       </div>
 
-      <!-- Lead fields -->
-      <div class="adm-fields" id="fields-leads" hidden>
+      <div class="adm-fields" id="fields-leads">
         <label>Name<input name="name" type="text" /></label>
         <label>Email<input name="email" type="email" /></label>
-        <label>Country Code<input name="countryCode" type="text" /></label>
-        <label>Phone<input name="phone" type="text" /></label>
-        <label>Event ID<input name="eventId" type="text" /></label>
+        <label>Phone
+          <div class="adm-phone-row">
+            <input name="countryCode" type="text" placeholder="+31" class="adm-input-narrow" />
+            <input name="phone" type="text" placeholder="12 345 6789" />
+          </div>
+        </label>
         <label>Book<input name="book" type="text" /></label>
-        <label>Date<input name="date" type="text" /></label>
-        <label>Time<input name="time" type="text" /></label>
+        <label>Preferred Date<input name="date" type="text" /></label>
+        <label>Preferred Time<input name="time" type="text" /></label>
         <label>Message<textarea name="message" rows="3"></textarea></label>
         <input name="id" type="hidden" />
+        <input name="eventId" type="hidden" />
         <input name="createdAt" type="hidden" />
       </div>
 
       <div class="adm-form-actions">
         <button type="button" class="adm-btn adm-btn--ghost" id="modal-cancel-btn">Cancel</button>
-        <button type="submit" class="adm-btn adm-btn--primary" id="modal-save-btn">Save</button>
+        <button type="submit" class="adm-btn adm-btn--primary">Save</button>
       </div>
     </form>
   </dialog>
 </MainLayout>
 
-<script define:vars={{ eventsJson, booksJson, leadsJson }}>
-  // ── State ──────────────────────────────────────────────────────────────────
-  let _events = JSON.parse(eventsJson);
-  let _books  = JSON.parse(booksJson);
-  let _leads  = JSON.parse(leadsJson);
+<script define:vars={{ eventsJson: JSON.stringify(events), booksJson: JSON.stringify(books), leadsJson: JSON.stringify(leads) }}>
+  const COLS     = ['events', 'books', 'leads'];
+  const SINGULAR = { events: 'event', books: 'book', leads: 'lead' };
+
+  // Hide all fieldsets on load (CSS display:flex would override the HTML [hidden] attribute)
+  COLS.forEach(c => { document.getElementById('fields-' + c).style.display = 'none'; });
 
   // ── Tabs ──────────────────────────────────────────────────────────────────
-  document.querySelectorAll('.adm-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.adm-tab').forEach(t => t.classList.remove('adm-tab--active'));
-      btn.classList.add('adm-tab--active');
-      const tab = btn.dataset.tab;
-      document.querySelectorAll('.adm-section').forEach(s => {
-        s.hidden = s.dataset.section !== tab;
-      });
-    });
+  document.querySelector('.adm-tabs').addEventListener('click', e => {
+    const tab = e.target.closest('[data-tab]');
+    if (!tab) return;
+    document.querySelectorAll('.adm-tab').forEach(t => t.classList.toggle('adm-tab--active', t === tab));
+    document.querySelectorAll('.adm-section').forEach(s => { s.hidden = s.dataset.section !== tab.dataset.tab; });
   });
 
   // ── Status banner ─────────────────────────────────────────────────────────
+  const statusEl = document.getElementById('adm-status');
+  let statusTimer;
   function showStatus(msg, isError = false) {
-    const el = document.getElementById('adm-status');
-    el.textContent = msg;
-    el.className = 'adm-status ' + (isError ? 'adm-status--error' : 'adm-status--ok');
-    el.hidden = false;
-    setTimeout(() => { el.hidden = true; }, 4000);
+    clearTimeout(statusTimer);
+    statusEl.textContent = msg;
+    statusEl.className = `adm-status ${isError ? 'adm-status--error' : 'adm-status--ok'}`;
+    statusEl.hidden = false;
+    statusTimer = setTimeout(() => { statusEl.hidden = true; }, 4000);
   }
 
   // ── Modal ─────────────────────────────────────────────────────────────────
-  const modal   = document.getElementById('adm-modal');
-  const form    = document.getElementById('adm-form');
+  const modal = document.getElementById('adm-modal');
+  const form  = document.getElementById('adm-form');
 
   function openModal(collection, record = null) {
-    // Reset
-    ['events','books','leads'].forEach(c => {
-      document.getElementById('fields-' + c).hidden = (c !== collection);
+    COLS.forEach(c => {
+      document.getElementById('fields-' + c).style.display = c === collection ? 'flex' : 'none';
     });
+
     form.elements['_collection'].value = collection;
-    form.elements['_isEdit'].value = record ? 'true' : 'false';
-    document.getElementById('adm-form-title').textContent =
-      (record ? 'Edit' : 'Add') + ' ' + collection.slice(0, -1);
+    form.elements['_isEdit'].value     = record ? 'true' : 'false';
+    document.getElementById('adm-form-title').textContent = `${record ? 'Edit' : 'Add'} ${SINGULAR[collection]}`;
 
-    // Clear all inputs/textareas/checkboxes in the active fieldset
     const fieldset = document.getElementById('fields-' + collection);
-    fieldset.querySelectorAll('input, textarea').forEach(el => {
-      if (el.type === 'checkbox') el.checked = false;
-      else el.value = '';
+
+    fieldset.querySelectorAll('[data-show]').forEach(el => {
+      el.style.display = (record ? el.dataset.show === 'create' : el.dataset.show === 'edit') ? 'none' : '';
     });
 
-    // Pre-fill if editing
+    fieldset.querySelectorAll('input, textarea').forEach(el => {
+      el.type === 'checkbox' ? (el.checked = false) : (el.value = '');
+    });
+
     if (record) {
       Object.entries(record).forEach(([k, v]) => {
-        const el = fieldset.querySelector(`[name="${k}"]`);
-        if (!el) return;
-        if (el.type === 'checkbox') el.checked = !!v;
-        else el.value = v ?? '';
-        if (k === 'id') el.readOnly = true;
+        fieldset.querySelectorAll(`[name="${k}"]`).forEach(el => {
+          el.type === 'checkbox' ? (el.checked = !!v) : (el.value = v ?? '');
+        });
       });
-    } else {
-      const idEl = fieldset.querySelector('[name="id"]');
-      if (idEl) idEl.readOnly = false;
     }
 
     modal.showModal();
@@ -264,28 +230,23 @@ const leadsJson  = JSON.stringify(leads);
 
   document.getElementById('modal-cancel-btn').addEventListener('click', () => modal.close());
   document.getElementById('add-event-btn').addEventListener('click', () => openModal('events'));
-  document.getElementById('add-book-btn').addEventListener('click', () => openModal('books'));
+  document.getElementById('add-book-btn').addEventListener('click',  () => openModal('books'));
 
-  // Edit / Delete delegation
+  // ── Edit / Delete (event delegation) ─────────────────────────────────────
   document.addEventListener('click', e => {
     const btn = e.target.closest('button');
     if (!btn) return;
 
     if (btn.classList.contains('adm-btn--edit')) {
-      const row = btn.closest('tr');
-      const record = JSON.parse(row.dataset.record);
-      openModal(btn.dataset.collection, record);
+      openModal(btn.dataset.collection, JSON.parse(btn.closest('tr').dataset.record));
     }
 
     if (btn.classList.contains('adm-btn--delete')) {
-      const { collection } = btn.dataset;
-      const id = btn.dataset.id;
-      const eventId = btn.dataset.eventId;
-      if (!confirm(`Delete this ${collection.slice(0, -1)}? This cannot be undone.`)) return;
-      apiCall({ action: 'delete', collection, id, eventId }).then(() => {
-        showStatus('Deleted successfully.');
-        btn.closest('tr').remove();
-      }).catch(err => showStatus(err, true));
+      const { collection, id } = btn.dataset;
+      if (!confirm(`Delete this ${SINGULAR[collection]}? This cannot be undone.`)) return;
+      apiCall({ action: 'delete', collection, id, eventId: btn.dataset.eventId })
+        .then(() => { showStatus('Deleted.'); btn.closest('tr').remove(); })
+        .catch(err => showStatus(String(err), true));
     }
   });
 
@@ -298,20 +259,14 @@ const leadsJson  = JSON.stringify(leads);
 
     const data = {};
     fieldset.querySelectorAll('input, textarea').forEach(el => {
-      if (!el.name) return;
-      if (el.type === 'checkbox') data[el.name] = el.checked;
-      else data[el.name] = el.value.trim();
+      if (el.name) data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim();
     });
 
-    // Validation
-    if (!isEdit && collection !== 'leads' && !data.id) {
-      alert('ID is required.');
-      return;
-    }
+    if (!isEdit && collection !== 'leads' && !data.id) { alert('ID is required.'); return; }
 
     try {
       await apiCall({ action: 'upsert', collection, data });
-      showStatus((isEdit ? 'Updated' : 'Created') + ' successfully. Refreshing…');
+      showStatus(`${isEdit ? 'Updated' : 'Created'} successfully. Refreshing…`);
       modal.close();
       setTimeout(() => location.reload(), 800);
     } catch (err) {
@@ -319,13 +274,9 @@ const leadsJson  = JSON.stringify(leads);
     }
   });
 
-  // ── API helper ────────────────────────────────────────────────────────────
+  // ── API ───────────────────────────────────────────────────────────────────
   async function apiCall(body) {
-    const res = await fetch('/api/admin/kv', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    const res  = await fetch('/api/admin/kv', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const json = await res.json();
     if (!res.ok) throw new Error(json.error ?? 'Request failed');
     return json;
