@@ -30,28 +30,13 @@ export interface Event {
 
 const DEFAULT_EVENTS: Event[] = [
   {
-    id: "Monthly Mongolian Book Reading - May",
-    title: "Monthly Mongolian Book Reading",
+    id: "Monthly Mongolian Story Telling - May",
+    title: "Monthly Mongolian Story Telling",
     date: "May 15, 2026",
     location: "Eindhoven Library",
-    description: "Join us for a monthly book reading session featuring Mongolian literature.",
-    time: "10:00 AM",
-  },
-  {
-    id: "Monthly Mongolian Book Reading - June",
-    title: "Monthly Mongolian Book Reading",
-    date: "June 19, 2026",
-    location: "Eindhoven Library",
-    description: "Join us for a monthly book reading session featuring Mongolian literature.",
-    time: "02:00 PM",
-  },
-  {
-    id: "Monthly Mongolian Book Reading - July",
-    title: "Monthly Mongolian Book Reading",
-    date: "July 17, 2026",
-    location: "Eindhoven Library",
-    description: "Join us for a monthly book reading session featuring Mongolian literature.",
-    time: "04:00 PM",
+    description:
+      "Join us for a monthly story telling session featuring Mongolian tales.",
+    time: "11:00 AM - 12:00 PM",
   },
 ];
 
