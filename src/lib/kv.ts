@@ -28,24 +28,6 @@ export interface Event {
   time: string;
 }
 
-const DEFAULT_EVENTS: Event[] = [
-  {
-    id: "Monthly Mongolian Story Telling - May",
-    title: "Monthly Mongolian Story Telling",
-    date: "May 15, 2026",
-    location: "Eindhoven Library",
-    description:
-      "Join us for a monthly story telling session featuring Mongolian tales.",
-    time: "11:00 AM - 12:00 PM",
-  },
-];
-
-const DEFAULT_BOOKS: Book[] = [
-  { id: "secret-history", title: "The Secret History of the Mongols" },
-  { id: "blue-sky", title: "The Blue Sky" },
-  { id: "wolf-totem", title: "Wolf Totem" },
-];
-
 let _kv: Deno.Kv | null = null;
 
 async function getKv(): Promise<Deno.Kv> {
@@ -58,13 +40,6 @@ export async function getEvents(): Promise<Event[]> {
   const events: Event[] = [];
   for await (const entry of kv.list<Event>({ prefix: ["events"] })) {
     events.push(entry.value);
-  }
-  const isStale = events.length === 0 || events.some((ev) => !ev.time);
-  if (isStale) {
-    for (const ev of DEFAULT_EVENTS) {
-      await kv.set(["events", ev.id], ev);
-    }
-    return DEFAULT_EVENTS;
   }
   return events;
 }
@@ -86,18 +61,7 @@ export async function getBooks(): Promise<Book[]> {
   for await (const entry of kv.list<Book>({ prefix: ["books"] })) {
     books.push(entry.value);
   }
-  if (books.length === 0) {
-    await seedBooks(DEFAULT_BOOKS);
-    return DEFAULT_BOOKS;
-  }
   return books;
-}
-
-export async function seedBooks(books: Book[]): Promise<void> {
-  const kv = await getKv();
-  for (const book of books) {
-    await kv.set(["books", book.id], book);
-  }
 }
 
 export async function saveLead(

@@ -2,66 +2,22 @@
 import MainLayout from '../../layouts/MainLayout.astro'
 import "./_event.css"
 import EventCard from '../../components/EventCard.astro'
+import { getEvents } from '../../lib/kv'
 
-const oneTimeEvents = [
-    {
-        id: "The Games Around The World",
-        title: "The Games Around The World",
-        date: "May 30, 2026",
-        location: "Eindhoven Library",
-        description: "Join us for a day of fun and games as we celebrate cultures from around the world!",
-    }
-];
-
-const periodicEvents = [
-    {
-        id: "Monthly Mongolian Story Telling",
-        slug: "monthly-story-telling",
-        title: "Monthly Mongolian Story Telling",
-        frequency: "TO BE DETERMINED",
-        location: "Eindhoven Library",
-        description: "Join us for a monthly story telling session featuring Mongolian tales.",
-    }
-];
+const events = await getEvents();
 ---
 <MainLayout>
     <div class="events-container">
         <h1 class="events-heading">Upcoming Events</h1>
-        
-        <section class="events-section">
-            <h2>One-Time Events</h2>
+
+        {events.length === 0 ? (
+            <p class="events-empty">No upcoming events at the moment. Check back soon!</p>
+        ) : (
             <div class="events-grid">
-                {oneTimeEvents.map(event => (
+                {events.map(event => (
                     <EventCard event={event} />
                 ))}
             </div>
-        </section>
-
-        <section class="events-section">
-            <h2>Periodic Events</h2>
-            <div class="events-grid">
-                {periodicEvents.map(event => (
-                <div class="event-card-wrapper" style="height: 100%;">
-                    <div class="event-card" style="height: 100%; box-sizing: border-box;">
-                        <h3>{event.title}</h3>
-                        {event.frequency && (
-                            <p class="event-detail event-frequency">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M12 2.02c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10z"/><path d="M12 12l4 2"/><path d="M12 7v5"/></svg>
-                                <span><strong>Frequency:</strong> {event.frequency}</span>
-                            </p>
-                        )}
-                        <p class="event-detail event-location">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="event-detail-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            <span><strong>Location:</strong> {event.location}</span>
-                        </p>
-                        <p class="event-description">{event.description}</p>
-                        
-                        <a href={`/event/${event.slug}`} class="help-button" style="text-decoration: none; text-align: center; display: inline-block;">Help reading</a>
-                    </div>
-                </div>
-                ))}
-            </div>
-        </section>
-
+        )}
     </div>
 </MainLayout>
