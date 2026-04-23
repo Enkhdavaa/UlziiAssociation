@@ -43,9 +43,18 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
         <li class="nav-auth">
           {user ? (
             <div class="nav-user">
-              {user.picture && <img src={user.picture} alt={user.name} class="nav-avatar" />}
-              <span class="nav-username">{user.name}</span>
-              <a href="/api/auth/logout" class="nav-logout">Sign out</a>
+              <button class="nav-avatar-btn" aria-label="Account menu">
+                {user.picture
+                  ? <img src={user.picture} alt={user.name} class="nav-avatar" />
+                  : <span class="nav-avatar-fallback">{user.name[0]}</span>
+                }
+              </button>
+              <div class="nav-dropdown">
+                <div class="nav-dropdown-inner">
+                  <span class="nav-dropdown-name">{user.name}</span>
+                  <a href="/api/auth/logout" class="nav-logout">Sign out</a>
+                </div>
+              </div>
             </div>
           ) : (
             <a href="/login" class="nav-login">Sign in</a>
@@ -65,6 +74,20 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
       const isVisible = primaryNav.getAttribute('data-visible') === 'true';
       primaryNav.setAttribute('data-visible', String(!isVisible));
       navToggle.setAttribute('aria-expanded', String(!isVisible));
+    });
+  }
+
+  const navUser = document.querySelector('.nav-user');
+  const avatarBtn = document.querySelector('.nav-avatar-btn');
+
+  if (navUser && avatarBtn) {
+    avatarBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navUser.classList.toggle('open');
+    });
+
+    document.addEventListener('click', () => {
+      navUser.classList.remove('open');
     });
   }
 </script>

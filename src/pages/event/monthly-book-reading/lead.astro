@@ -44,11 +44,15 @@ const existingLead = leads[0] ?? null;
                 <form class="lead-form event-card" method="POST" action={`/api/events/${eventId}/lead`}>
                     <input type="hidden" name="date" value={event.date} />
                     <input type="hidden" name="time" value={event.time} />
-                    <h3>Register as Storyteller</h3>
+                    <h3>Volunteer: Register as Storyteller</h3>
 
                     <div class="lead-intro">
-                        <p>We'd love to have you as our storyteller! You'll show up at the event and guide an hour-long storytelling, play, or workshop with the kids.</p>
-                        <p>You're welcome to bring your own book, or reserve one from Ulzii — just pick it from the <strong>Select a Book</strong> section below.</p>
+                        <p>We'd love to have you as our storyteller for this session! Here's what to expect:</p>
+                        <ul>
+                            <li>You'll lead an hour-long storytelling, play, or workshop with the kids.</li>
+                            <li>Bring your own book, or reserve one from Ulzii using the <strong>Select a Book</strong> section below.</li>
+                        </ul>
+                        <p><em>This registration is for this one session only.</em></p>
                     </div>
 
                     {books.length > 0 && (
@@ -168,9 +172,21 @@ const existingLead = leads[0] ?? null;
         margin: 0;
     }
 
+    .lead-intro ul {
+        padding-left: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        list-style: disc;
+    }
+
     .lead-intro strong {
         font-weight: 700;
         color: #222;
+    }
+
+    .lead-intro em {
+        font-style: italic;
     }
 
     .form-group {
