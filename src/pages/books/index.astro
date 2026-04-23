@@ -4,6 +4,9 @@ import { getBooks } from '../../lib/kv';
 
 const books = await getBooks();
 const visibleBooks = books.filter(b => b.status !== 'given');
+
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { name: string; email: string }) : null;
 ---
 
 <MainLayout>
@@ -65,6 +68,8 @@ const visibleBooks = books.filter(b => b.status !== 'given');
             </div>
         </form>
     </dialog>
+
+    {user && <div id="user-prefill" data-name={user.name} data-email={user.email} hidden />}
 </MainLayout>
 
 <script>
@@ -72,6 +77,13 @@ const visibleBooks = books.filter(b => b.status !== 'given');
     const form  = document.getElementById('request-form') as HTMLFormElement;
     const title = document.getElementById('modal-title')!;
     const status = document.getElementById('req-status')!;
+
+    function prefillUser() {
+        const el = document.getElementById('user-prefill') as HTMLElement | null;
+        if (!el) return;
+        (form.elements.namedItem('name') as HTMLInputElement).value  = el.dataset.name!;
+        (form.elements.namedItem('email') as HTMLInputElement).value = el.dataset.email!;
+    }
 
     document.querySelectorAll<HTMLButtonElement>('.request-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -81,6 +93,7 @@ const visibleBooks = books.filter(b => b.status !== 'given');
             status.textContent = '';
             status.className = '';
             form.reset();
+            prefillUser();
             modal.showModal();
         });
     });
