@@ -8,7 +8,7 @@ const success = Astro.url.searchParams.get('success') === '1';
 ---
 <MainLayout>
     <div class="events-container">
-        <h1 class="events-heading">Book Reading — Take the Lead</h1>
+        <h1 class="events-heading">Monthly Storytelling</h1>
 
         {success && (
             <p class="success-banner">Thank you! Your registration has been received.</p>
@@ -37,7 +37,7 @@ const success = Astro.url.searchParams.get('success') === '1';
                     <p class="event-description">{ev.description}</p>
 
                     <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(ev.id)}`} class="help-button">
-                        Take the Lead
+                        Become the Storyteller
                     </a>
                 </div>
             ))}

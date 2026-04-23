@@ -35,8 +35,8 @@ const existingLead = leads[0] ?? null;
 
             {existingLead ? (
                 <div class="event-card lead-taken">
-                    <h3>Spot Taken</h3>
-                    <p>This event already has a lead for this session.</p>
+                    <h3>Storyteller Reserved</h3>
+                    <p>This event already has a storyteller for this session.</p>
                     <p>Track the <a href="/event">events page</a> — new story telling events will occur soon.</p>
                     <a href="/event" class="btn-secondary">Back to Events</a>
                 </div>
@@ -44,7 +44,12 @@ const existingLead = leads[0] ?? null;
                 <form class="lead-form event-card" method="POST" action={`/api/events/${eventId}/lead`}>
                     <input type="hidden" name="date" value={event.date} />
                     <input type="hidden" name="time" value={event.time} />
-                    <h3>Register to Lead</h3>
+                    <h3>Register as Storyteller</h3>
+
+                    <div class="lead-intro">
+                        <p>We'd love to have you as our storyteller! You'll show up at the event and guide an hour-long storytelling, play, or workshop with the kids.</p>
+                        <p>You're welcome to bring your own book, or reserve one from Ulzii — just pick it from the <strong>Select a Book</strong> section below.</p>
+                    </div>
 
                     {books.length > 0 && (
                         <div class="form-group">
@@ -95,7 +100,7 @@ const existingLead = leads[0] ?? null;
                     </div>
 
                     <div class="form-group">
-                        <label for="message">Why do you want to lead? (Optional)</label>
+                        <label for="message">Why do you want to be the storyteller? (Optional)</label>
                         <textarea id="message" name="message" rows="4"></textarea>
                     </div>
 
@@ -108,7 +113,7 @@ const existingLead = leads[0] ?? null;
 
                     <div class="form-actions">
                         <a href="/event" class="btn-secondary">Cancel</a>
-                        <button type="submit" class="help-button">Submit Registration</button>
+                        <button type="submit" class="help-button">Register as Storyteller</button>
                     </div>
                 </form>
             )}
@@ -142,7 +147,30 @@ const existingLead = leads[0] ?? null;
     }
 
     .lead-form h3 {
+        margin-bottom: 1rem;
+    }
+
+    .lead-intro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
         margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #f0f5ff;
+        border-left: 3px solid var(--primary-blue);
+        border-radius: 6px;
+        color: #444;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .lead-intro p {
+        margin: 0;
+    }
+
+    .lead-intro strong {
+        font-weight: 700;
+        color: #222;
     }
 
     .form-group {
