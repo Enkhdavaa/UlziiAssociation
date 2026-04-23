@@ -30,8 +30,6 @@ import "./_contact.css"
                     statusMsg.className = 'contact-status-success';
                 }
             } else {
-                const errData = await res.json().catch(() => ({}));
-                console.error('Contact API error:', res.status, errData);
                 if (statusMsg) {
                     statusMsg.textContent = 'Something went wrong. Please try again.';
                     statusMsg.className = 'contact-status-error';
@@ -50,37 +48,63 @@ import "./_contact.css"
 
 <MainLayout>
     <div class="contact-container">
-        <div class="contact-header">
-            <h1>Contact Us</h1>
-            <p>If you have any questions, feel free to reach out to us.</p>
-        </div>
-        <div class="primary-contact">
-            <form id="contact-form" class="contact-form" method="post" action="/">
+        <div class="contact-inner">
+
+            <div class="contact-info">
+                <h1>Get in Touch</h1>
+                <p class="contact-intro">
+                    Have a question, idea, or just want to say hello? We'd love to hear from you. Fill in the form or reach us directly.
+                </p>
+
+                <ul class="contact-details">
+                    <li>
+                        <span class="contact-detail-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <polyline points="2,4 12,13 22,4"/>
+                            </svg>
+                        </span>
+                        <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>
+                    </li>
+                    <li>
+                        <span class="contact-detail-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <use href="/svgs.svg#facebook-login"></use>
+                            </svg>
+                        </span>
+                        <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">
+                            Ulzii Association
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <form class="contact-form" method="post" action="/">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input 
+                    <label for="email">Your Email</label>
+                    <input
                         type="email"
-                        id="email" 
-                        placeholder="Enter your email" 
-                        required 
+                        id="email"
+                        placeholder="you@example.com"
+                        required
                     />
                 </div>
                 <div class="form-group">
-                    <label for="question">Question</label>
-                    <textarea 
+                    <label for="question">Message</label>
+                    <textarea
                         id="question"
                         name="question"
-                        rows="8"
-                        placeholder="Ask a question"
+                        rows="6"
+                        placeholder="Write your message here…"
                         minlength="10"
                         wrap="soft"
-                        required 
+                        required
                     ></textarea>
                 </div>
-                <button type="submit" class="submit-button">Submit</button>
+                <button type="submit" class="submit-button">Send Message</button>
                 <p id="contact-status"></p>
             </form>
+
         </div>
     </div>
 </MainLayout>
-
