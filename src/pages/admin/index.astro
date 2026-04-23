@@ -86,7 +86,10 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
     </section>
 
     <section class="adm-section" data-section="leads" hidden>
-      <div class="adm-section-header"><h2>Leads</h2></div>
+      <div class="adm-section-header">
+        <h2>Leads</h2>
+        <button class="adm-btn adm-btn--primary" id="add-lead-btn">+ Add Lead</button>
+      </div>
       <div class="adm-table-wrap">
         <table class="adm-table">
           <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Event</th><th>Book</th><th>Date</th><th>Time</th><th>Message</th><th>Registered</th><th>Actions</th></tr></thead>
@@ -143,6 +146,8 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
       </div>
 
       <div class="adm-fields" id="fields-leads">
+        <label data-show="create">Event ID<input name="eventId" type="text" /></label>
+        <input name="eventId" type="hidden" data-show="edit" />
         <label>Name<input name="name" type="text" /></label>
         <label>Email<input name="email" type="email" /></label>
         <label>Phone
@@ -152,11 +157,10 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
           </div>
         </label>
         <label>Book<input name="book" type="text" /></label>
-        <label>Preferred Date<input name="date" type="text" /></label>
-        <label>Preferred Time<input name="time" type="text" /></label>
+        <label>Date<input name="date" type="text" /></label>
+        <label>Time<input name="time" type="text" /></label>
         <label>Message<textarea name="message" rows="3"></textarea></label>
         <input name="id" type="hidden" />
-        <input name="eventId" type="hidden" />
         <input name="createdAt" type="hidden" />
       </div>
 
@@ -231,6 +235,7 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
   document.getElementById('modal-cancel-btn').addEventListener('click', () => modal.close());
   document.getElementById('add-event-btn').addEventListener('click', () => openModal('events'));
   document.getElementById('add-book-btn').addEventListener('click',  () => openModal('books'));
+  document.getElementById('add-lead-btn').addEventListener('click',  () => openModal('leads'));
 
   // ── Edit / Delete (event delegation) ─────────────────────────────────────
   document.addEventListener('click', e => {

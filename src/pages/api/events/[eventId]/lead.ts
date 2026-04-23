@@ -23,5 +23,5 @@ export const POST: APIRoute = async ({ request, params, redirect }) => {
 
   await saveLead({ eventId, name, email, phone, countryCode, message, book, date, time });
 
-  return redirect("/event/monthly-book-reading?success=1");
+  return redirect("/event?success=1");
 };
