@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import './_admin.css';
-import { getEvents, getBooks, getAllLeads } from '../../lib/kv';
+import { getEvents, getBooks, getAllLeads, getAllBookRequests } from '../../lib/kv';
 
 const userCookie = Astro.cookies.get('user');
 const user = userCookie ? (userCookie.json() as { name: string; email: string }) : null;
@@ -13,7 +13,9 @@ if (!adminEmails.includes(user.email)) {
   return new Response('403 Forbidden — you are not an admin.', { status: 403 });
 }
 
-const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAllLeads()]);
+const [events, books, leads, bookRequests] = await Promise.all([
+  getEvents(), getBooks(), getAllLeads(), getAllBookRequests()
+]);
 ---
 
 <MainLayout>
@@ -27,6 +29,7 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
     <nav class="adm-tabs" role="tablist">
       <button class="adm-tab adm-tab--active" role="tab" data-tab="events">Events <span class="adm-badge">{events.length}</span></button>
       <button class="adm-tab" role="tab" data-tab="books">Books <span class="adm-badge">{books.length}</span></button>
+      <button class="adm-tab" role="tab" data-tab="book-requests">Book Requests <span class="adm-badge">{bookRequests.length}</span></button>
       <button class="adm-tab" role="tab" data-tab="leads">Leads <span class="adm-badge">{leads.length}</span></button>
     </nav>
 
@@ -68,15 +71,41 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
       </div>
       <div class="adm-table-wrap">
         <table class="adm-table">
-          <thead><tr><th>ID</th><th>Title</th><th>Actions</th></tr></thead>
+          <thead><tr><th>ID</th><th>Title</th><th>Language</th><th>Status</th><th>Description</th><th>Actions</th></tr></thead>
           <tbody>
             {books.map(bk => (
               <tr data-record={JSON.stringify(bk)}>
                 <td class="adm-id">{bk.id}</td>
                 <td>{bk.title}</td>
+                <td>{bk.language || '—'}</td>
+                <td><span class={`adm-status-badge adm-status-${bk.status ?? 'available'}`}>{bk.status ?? 'available'}</span></td>
+                <td class="adm-desc">{bk.description || '—'}</td>
                 <td class="adm-actions">
                   <button class="adm-btn adm-btn--sm adm-btn--edit" data-collection="books">Edit</button>
                   <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="books" data-id={bk.id}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="adm-section" data-section="book-requests" hidden>
+      <div class="adm-section-header"><h2>Book Requests</h2></div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead><tr><th>Book</th><th>Name</th><th>Email</th><th>Message</th><th>Requested</th><th>Actions</th></tr></thead>
+          <tbody>
+            {bookRequests.map(req => (
+              <tr data-record={JSON.stringify(req)}>
+                <td>{req.bookTitle}</td>
+                <td>{req.name}</td>
+                <td>{req.email}</td>
+                <td class="adm-desc">{req.message || '—'}</td>
+                <td>{new Date(req.createdAt).toLocaleDateString()}</td>
+                <td class="adm-actions">
+                  <button class="adm-btn adm-btn--sm adm-btn--delete" data-collection="book-requests" data-id={req.id}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -143,6 +172,22 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
         <label data-show="create">ID <small>slug — cannot change after creation</small><input name="id" type="text" /></label>
         <input name="id" type="hidden" data-show="edit" />
         <label>Title<input name="title" type="text" /></label>
+        <label>Language
+          <select name="language">
+            <option value="Mongolian">Mongolian</option>
+            <option value="Dutch">Dutch</option>
+            <option value="English">English</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Status
+          <select name="status">
+            <option value="available">Available</option>
+            <option value="reserved">Reserved</option>
+            <option value="given">Given</option>
+          </select>
+        </label>
+        <label>Description<textarea name="description" rows="2" placeholder="Short description (optional)"></textarea></label>
       </div>
 
       <div class="adm-fields" id="fields-leads">
@@ -174,9 +219,8 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
 
 <script define:vars={{ eventsJson: JSON.stringify(events), booksJson: JSON.stringify(books), leadsJson: JSON.stringify(leads) }}>
   const COLS     = ['events', 'books', 'leads'];
-  const SINGULAR = { events: 'event', books: 'book', leads: 'lead' };
+  const SINGULAR = { events: 'event', books: 'book', leads: 'lead', 'book-requests': 'book request' };
 
-  // Hide all fieldsets on load (CSS display:flex would override the HTML [hidden] attribute)
   COLS.forEach(c => { document.getElementById('fields-' + c).style.display = 'none'; });
 
   // ── Tabs ──────────────────────────────────────────────────────────────────
@@ -217,14 +261,16 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
       el.style.display = (record ? el.dataset.show === 'create' : el.dataset.show === 'edit') ? 'none' : '';
     });
 
-    fieldset.querySelectorAll('input, textarea').forEach(el => {
-      el.type === 'checkbox' ? (el.checked = false) : (el.value = '');
+    fieldset.querySelectorAll('input, textarea, select').forEach(el => {
+      if (el.type === 'checkbox') el.checked = false;
+      else el.value = '';
     });
 
     if (record) {
       Object.entries(record).forEach(([k, v]) => {
         fieldset.querySelectorAll(`[name="${k}"]`).forEach(el => {
-          el.type === 'checkbox' ? (el.checked = !!v) : (el.value = v ?? '');
+          if (el.type === 'checkbox') el.checked = !!v;
+          else el.value = v ?? '';
         });
       });
     }
@@ -263,7 +309,7 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
     const fieldset   = document.getElementById('fields-' + collection);
 
     const data = {};
-    fieldset.querySelectorAll('input, textarea').forEach(el => {
+    fieldset.querySelectorAll('input, textarea, select').forEach(el => {
       if (el.name) data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim();
     });
 
@@ -287,3 +333,17 @@ const [events, books, leads] = await Promise.all([getEvents(), getBooks(), getAl
     return json;
   }
 </script>
+
+<style>
+  .adm-status-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .adm-status-available { background: #dcfce7; color: #16a34a; }
+  .adm-status-reserved  { background: #fef9c3; color: #a16207; }
+  .adm-status-given     { background: #f3f4f6; color: #6b7280; }
+</style>

@@ -3,6 +3,19 @@
 export interface Book {
   id: string;
   title: string;
+  language: string;
+  description: string;
+  status: "available" | "reserved" | "given";
+}
+
+export interface BookRequest {
+  id: string;
+  bookId: string;
+  bookTitle: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
 }
 
 export interface LeadRegistration {
@@ -36,6 +49,8 @@ async function getKv(): Promise<Deno.Kv> {
   return _kv;
 }
 
+// ── Events ────────────────────────────────────────────────────────────────────
+
 export async function getEvents(): Promise<Event[]> {
   const kv = await getKv();
   const events: Event[] = [];
@@ -56,6 +71,13 @@ export async function saveEvent(event: Event): Promise<void> {
   await kv.set(["events", event.id], event);
 }
 
+export async function deleteEvent(id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["events", id]);
+}
+
+// ── Books ─────────────────────────────────────────────────────────────────────
+
 export async function getBooks(): Promise<Book[]> {
   const kv = await getKv();
   const books: Book[] = [];
@@ -65,16 +87,56 @@ export async function getBooks(): Promise<Book[]> {
   return books;
 }
 
+export async function getBook(id: string): Promise<Book | null> {
+  const kv = await getKv();
+  const entry = await kv.get<Book>(["books", id]);
+  return entry.value;
+}
+
+export async function saveBook(book: Book): Promise<void> {
+  const kv = await getKv();
+  await kv.set(["books", book.id], book);
+}
+
+export async function deleteBook(id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["books", id]);
+}
+
+// ── Book Requests ─────────────────────────────────────────────────────────────
+
+export async function saveBookRequest(
+  data: Omit<BookRequest, "id" | "createdAt">,
+): Promise<BookRequest> {
+  const kv = await getKv();
+  const id = crypto.randomUUID();
+  const request: BookRequest = { ...data, id, createdAt: new Date().toISOString() };
+  await kv.set(["book-requests", id], request);
+  return request;
+}
+
+export async function getAllBookRequests(): Promise<BookRequest[]> {
+  const kv = await getKv();
+  const results: BookRequest[] = [];
+  for await (const entry of kv.list<BookRequest>({ prefix: ["book-requests"] })) {
+    results.push(entry.value);
+  }
+  return results;
+}
+
+export async function deleteBookRequest(id: string): Promise<void> {
+  const kv = await getKv();
+  await kv.delete(["book-requests", id]);
+}
+
+// ── Leads ─────────────────────────────────────────────────────────────────────
+
 export async function saveLead(
   data: Omit<LeadRegistration, "id" | "createdAt">,
 ): Promise<LeadRegistration> {
   const kv = await getKv();
   const id = crypto.randomUUID();
-  const lead: LeadRegistration = {
-    ...data,
-    id,
-    createdAt: new Date().toISOString(),
-  };
+  const lead: LeadRegistration = { ...data, id, createdAt: new Date().toISOString() };
   await kv.set(["leads", data.eventId, id], lead);
   return lead;
 }
@@ -82,9 +144,7 @@ export async function saveLead(
 export async function getLeads(eventId: string): Promise<LeadRegistration[]> {
   const kv = await getKv();
   const results: LeadRegistration[] = [];
-  for await (const entry of kv.list<LeadRegistration>({
-    prefix: ["leads", eventId],
-  })) {
+  for await (const entry of kv.list<LeadRegistration>({ prefix: ["leads", eventId] })) {
     results.push(entry.value);
   }
   return results;
@@ -107,19 +167,4 @@ export async function updateLead(lead: LeadRegistration): Promise<void> {
 export async function deleteLead(eventId: string, id: string): Promise<void> {
   const kv = await getKv();
   await kv.delete(["leads", eventId, id]);
-}
-
-export async function deleteEvent(id: string): Promise<void> {
-  const kv = await getKv();
-  await kv.delete(["events", id]);
-}
-
-export async function saveBook(book: Book): Promise<void> {
-  const kv = await getKv();
-  await kv.set(["books", book.id], book);
-}
-
-export async function deleteBook(id: string): Promise<void> {
-  const kv = await getKv();
-  await kv.delete(["books", id]);
 }

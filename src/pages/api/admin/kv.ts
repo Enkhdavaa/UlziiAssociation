@@ -7,6 +7,7 @@ import {
   saveLead,
   deleteLead,
   updateLead,
+  deleteBookRequest,
 } from "../../../lib/kv.ts";
 import type { Event, Book, LeadRegistration } from "../../../lib/kv.ts";
 
@@ -59,15 +60,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         const lead = data as LeadRegistration;
         if (lead.id) await updateLead(lead);
         else await saveLead(lead);
-      }
-      else return json({ error: "Unknown collection" }, 400);
+      } else return json({ error: "Unknown collection" }, 400);
     } else if (action === "delete") {
       if (!id) return json({ error: "Missing id" }, 400);
       if (collection === "events") await deleteEvent(id);
       else if (collection === "books") await deleteBook(id);
+      else if (collection === "book-requests") await deleteBookRequest(id);
       else if (collection === "leads") {
-        if (!eventId)
-          return json({ error: "Missing eventId for lead delete" }, 400);
+        if (!eventId) return json({ error: "Missing eventId for lead delete" }, 400);
         await deleteLead(eventId, id);
       } else return json({ error: "Unknown collection" }, 400);
     } else {

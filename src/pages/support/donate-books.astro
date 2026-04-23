@@ -2,41 +2,136 @@
 import MainLayout from '../../layouts/MainLayout.astro'
 ---
 <MainLayout>
-    <div class="donate-books-container">
-        <h1 class="page-title">Donate Books</h1>
-        <p class="appreciation-text">We appreciate your willingness to support us!</p>
-        <p class="contact-text">
-            To donate books, please <a href="/contact" class="contact-link">contact us</a>.
-        </p>
+    <div class="donate-container">
+        <div class="donate-header">
+            <h1>Donate a Book</h1>
+            <p>Thank you for wanting to share your books with our community. Every donation helps a child discover the joy of reading.</p>
+        </div>
+
+        <div class="donate-card">
+            <div class="donate-steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div>
+                        <strong>Contact us</strong>
+                        <p>Send us a message with the book title, language, and condition.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div>
+                        <strong>Arrange handover</strong>
+                        <p>We will agree on a convenient time and place to collect the book.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div>
+                        <strong>We add it to the library</strong>
+                        <p>Your book is listed in our collection and made available to those who need it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/contact" class="contact-btn">Get in Touch</a>
+        </div>
     </div>
 </MainLayout>
 
 <style>
-    .donate-books-container {
-        max-width: 800px;
+    .donate-container {
+        max-width: 600px;
         margin: 0 auto;
-        padding: 4rem 2rem;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .donate-header {
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
     }
-    .page-title {
-        font-size: var(--fs-700, 2.5rem);
-        font-weight: var(--fw-bold, 700);
-        margin-bottom: 1rem;
-    }
-    .appreciation-text {
-        font-size: 1.25rem;
-        color: #374151;
-        margin-bottom: 2rem;
-    }
-    .contact-text {
-        font-size: 1.125rem;
-    }
-    .contact-link {
+
+    .donate-header h1 {
+        font-size: var(--fs-700);
+        font-weight: var(--fw-bold);
         color: var(--primary-blue);
+    }
+
+    .donate-header p {
+        font-size: var(--fs-400);
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    .donate-card {
+        width: 100%;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .donate-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .step-number {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--primary-blue);
+        color: #fff;
+        font-weight: var(--fw-bold);
+        font-size: var(--fs-400);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .step strong {
+        display: block;
+        font-weight: var(--fw-bold);
+        color: #111827;
+        font-size: var(--fs-400);
+        margin-bottom: 0.2rem;
+    }
+
+    .step p {
+        font-size: var(--fs-400);
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    .contact-btn {
+        display: block;
+        text-align: center;
+        padding: 0.75rem 1.5rem;
+        background: var(--primary-orange);
+        color: #fff;
+        border-radius: 8px;
         text-decoration: none;
-        font-weight: var(--fw-bold, 700);
+        font-weight: var(--fw-bold);
+        font-size: var(--fs-400);
+        transition: opacity 0.2s ease;
     }
-    .contact-link:hover {
-        text-decoration: underline;
-    }
+
+    .contact-btn:hover { opacity: 0.88; }
 </style>

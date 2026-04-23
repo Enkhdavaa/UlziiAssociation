@@ -1,0 +1,241 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getBooks } from '../../lib/kv';
+
+const books = await getBooks();
+const visibleBooks = books.filter(b => b.status !== 'given');
+---
+
+<MainLayout>
+    <div class="library-container">
+        <div class="library-header">
+            <h1>Book Library</h1>
+            <p>All books below were donated by our community. Request a book and we will arrange for you to pick it up — completely free.</p>
+        </div>
+
+        {visibleBooks.length === 0 ? (
+            <div class="library-empty">
+                <p>No books available at the moment. Check back soon, or <a href="/support/donate-books">donate a book</a> to get us started!</p>
+            </div>
+        ) : (
+            <div class="books-grid">
+                {visibleBooks.map(book => (
+                    <div class="book-card">
+                        <div class="book-card-top">
+                            <div class="book-meta">
+                                <span class={`book-status ${book.status}`}>
+                                    {book.status === 'available' ? 'Available' : 'Reserved'}
+                                </span>
+                                {book.language && <span class="book-lang">{book.language}</span>}
+                            </div>
+                            <h2 class="book-title">{book.title}</h2>
+                            {book.description && <p class="book-desc">{book.description}</p>}
+                        </div>
+                        {book.status === 'available'
+                            ? <button class="request-btn" data-book-id={book.id} data-book-title={book.title}>Request this book</button>
+                            : <span class="reserved-note">Someone has already requested this book.</span>
+                        }
+                    </div>
+                ))}
+            </div>
+        )}
+    </div>
+
+    <dialog id="request-modal" class="request-modal">
+        <form id="request-form" class="request-form">
+            <h3 id="modal-title">Request a Book</h3>
+            <input type="hidden" id="req-book-id" name="bookId" />
+            <input type="hidden" id="req-book-title" name="bookTitle" />
+            <div class="form-group">
+                <label for="req-name">Full Name *</label>
+                <input type="text" id="req-name" name="name" required />
+            </div>
+            <div class="form-group">
+                <label for="req-email">Email Address *</label>
+                <input type="email" id="req-email" name="email" required />
+            </div>
+            <div class="form-group">
+                <label for="req-message">Message (Optional)</label>
+                <textarea id="req-message" name="message" rows="3" placeholder="Anything you'd like us to know…"></textarea>
+            </div>
+            <p id="req-status"></p>
+            <div class="modal-actions">
+                <button type="button" id="modal-cancel" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-submit">Send Request</button>
+            </div>
+        </form>
+    </dialog>
+</MainLayout>
+
+<script>
+    const modal = document.getElementById('request-modal') as HTMLDialogElement;
+    const form  = document.getElementById('request-form') as HTMLFormElement;
+    const title = document.getElementById('modal-title')!;
+    const status = document.getElementById('req-status')!;
+
+    document.querySelectorAll<HTMLButtonElement>('.request-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            (document.getElementById('req-book-id') as HTMLInputElement).value = btn.dataset.bookId!;
+            (document.getElementById('req-book-title') as HTMLInputElement).value = btn.dataset.bookTitle!;
+            title.textContent = `Request: ${btn.dataset.bookTitle}`;
+            status.textContent = '';
+            status.className = '';
+            form.reset();
+            modal.showModal();
+        });
+    });
+
+    document.getElementById('modal-cancel')!.addEventListener('click', () => modal.close());
+    modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+        submitBtn.disabled = true;
+
+        try {
+            const res = await fetch('/api/books/request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            });
+            if (res.ok) {
+                status.textContent = 'Request sent! We will contact you soon.';
+                status.className = 'status-success';
+                form.reset();
+                setTimeout(() => modal.close(), 2000);
+            } else {
+                status.textContent = 'Something went wrong. Please try again.';
+                status.className = 'status-error';
+            }
+        } catch {
+            status.textContent = 'Network error. Please try again.';
+            status.className = 'status-error';
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+<style>
+    .library-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .library-header {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .library-header h1 { font-size: var(--fs-700); font-weight: var(--fw-bold); color: var(--primary-blue); }
+    .library-header p  { font-size: var(--fs-400); color: #6b7280; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+
+    .library-empty { text-align: center; color: #6b7280; font-size: var(--fs-400); padding: 3rem 0; }
+    .library-empty a { color: var(--primary-blue); text-decoration: none; font-weight: var(--fw-semi-bold); }
+
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .book-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .book-card-top { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .book-meta     { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    .book-status, .book-lang {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 99px;
+        font-weight: var(--fw-semi-bold);
+    }
+    .book-status { text-transform: uppercase; letter-spacing: 0.04em; font-weight: var(--fw-bold); }
+    .book-status.available { background: #dcfce7; color: #16a34a; }
+    .book-status.reserved  { background: #fef9c3; color: #a16207; }
+    .book-lang             { background: #f0f5ff; color: var(--primary-blue); }
+
+    .book-title { font-size: var(--fs-500); font-weight: var(--fw-bold); color: #111827; line-height: 1.4; }
+    .book-desc  { font-size: var(--fs-400); color: #6b7280; line-height: 1.5; }
+
+    .request-btn {
+        padding: 0.6rem 1rem;
+        background: var(--primary-blue);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: var(--fs-400);
+        font-weight: var(--fw-semi-bold);
+        cursor: pointer;
+        font-family: inherit;
+        transition: opacity 0.2s ease;
+    }
+    .request-btn:hover { opacity: 0.85; }
+    .reserved-note { font-size: var(--fs-300); color: #9ca3af; font-style: italic; }
+
+    /* Modal */
+    .request-modal {
+        border: none;
+        border-radius: 12px;
+        padding: 0;
+        width: min(480px, 90vw);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    .request-modal::backdrop { background: rgba(0,0,0,0.4); }
+
+    .request-form { padding: 2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .request-form h3 { font-size: var(--fs-500); font-weight: var(--fw-bold); color: var(--primary-blue); }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: #374151; }
+    .form-group input,
+    .form-group textarea {
+        padding: 0.65rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: var(--fs-400);
+        color: #374151;
+        background: #fff;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(66,165,224,0.15);
+    }
+    .form-group textarea { resize: vertical; }
+
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+    .btn-cancel, .btn-submit {
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        font-size: var(--fs-400);
+        cursor: pointer;
+        font-family: inherit;
+        transition: opacity 0.2s ease;
+    }
+    .btn-cancel { border: 1px solid #d1d5db; background: #fff; color: #555; transition: border-color 0.2s ease; }
+    .btn-cancel:hover { border-color: #999; }
+    .btn-submit { background: var(--primary-orange); color: #fff; border: none; font-weight: var(--fw-semi-bold); }
+    .btn-submit:hover    { opacity: 0.88; }
+    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .status-success { color: #16a34a; font-size: var(--fs-400); }
+    .status-error   { color: #dc2626; font-size: var(--fs-400); }
+</style>

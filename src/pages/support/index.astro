@@ -2,71 +2,145 @@
 import MainLayout from '../../layouts/MainLayout.astro'
 ---
 <MainLayout>
-    <div class="donate-container">
-        <h1 class="page-title">Support Us</h1>
+    <div class="support-container">
+        <div class="support-header">
+            <h1 class="support-title">Support Our Mission</h1>
+            <p class="support-subtitle">
+                Every book matters. Help us bring more stories and learning opportunities to children in our community.
+            </p>
+        </div>
+
         <div class="card-container">
             <a href="/support/donate-books" class="action-card">
-                <h2>Donate Books</h2>
-                <p>Help us expand our library by donating your books.</p>
+                <div class="card-icon donate-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                </div>
+                <div class="card-body">
+                    <h2>Donate Books</h2>
+                    <p>Have books you no longer need? Pass them on and give them a new life in the hands of a child.</p>
+                </div>
+                <span class="card-arrow">→</span>
             </a>
-            <a href="/support/buy-books" class="action-card">
-                <h2>Buy Books</h2>
-                <p>Purchase new or secondhand books from our collection to support our cause.</p>
+
+            <a href="/books" class="action-card">
+                <div class="card-icon library-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                </div>
+                <div class="card-body">
+                    <h2>Book Library</h2>
+                    <p>Browse our collection of donated books and request one for free — no cost, just good reading.</p>
+                </div>
+                <span class="card-arrow">→</span>
             </a>
         </div>
     </div>
 </MainLayout>
 
 <style>
-    .donate-container {
-        max-width: 1200px;
+    .support-container {
+        max-width: 860px;
         margin: 0 auto;
         padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .support-header {
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
     }
-    .page-title {
-        font-size: var(--fs-700, 2.5rem);
-        font-weight: var(--fw-bold, 700);
-        margin-bottom: 2.5rem;
+
+    .support-title {
+        font-size: var(--fs-700);
+        font-weight: var(--fw-bold);
+        color: var(--primary-blue);
     }
+
+    .support-subtitle {
+        font-size: var(--fs-500);
+        color: #6b7280;
+        max-width: 520px;
+        line-height: 1.6;
+    }
+
     .card-container {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-        justify-content: center;
-        align-items: center;
-    }
-    @media (min-width: 640px) {
-        .card-container {
-            flex-direction: row;
-        }
-    }
-    .action-card {
-        display: block;
+        gap: 1.25rem;
         width: 100%;
-        max-width: 350px;
-        padding: 2rem;
-        background-color: #ffffff;
+    }
+
+    @media (min-width: 640px) {
+        .card-container { flex-direction: row; }
+    }
+
+    .action-card {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.75rem;
+        background: #fff;
         border: 1px solid #e5e7eb;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         text-decoration: none;
         color: inherit;
-        transition: background-color 0.2s ease, transform 0.2s ease;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
+
     .action-card:hover {
-        background-color: #f9fafb;
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
-    .action-card h2 {
-        font-size: var(--fs-600, 1.8rem);
-        font-weight: var(--fw-bold, 700);
+
+    .card-icon {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .donate-icon  { background: #fff7ed; color: var(--primary-orange); }
+    .library-icon { background: #eff6ff; color: var(--primary-blue); }
+
+    .card-body { flex: 1; }
+
+    .card-body h2 {
+        font-size: var(--fs-500);
+        font-weight: var(--fw-bold);
         color: #111827;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.3rem;
     }
-    .action-card p {
-        color: #4b5563;
-        font-size: var(--fs-500, 1rem);
+
+    .card-body p {
+        font-size: var(--fs-400);
+        color: #6b7280;
         line-height: 1.5;
+    }
+
+    .card-arrow {
+        font-size: 1.2rem;
+        color: #9ca3af;
+        flex-shrink: 0;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .action-card:hover .card-arrow {
+        transform: translateX(4px);
+        color: var(--primary-blue);
     }
 </style>
