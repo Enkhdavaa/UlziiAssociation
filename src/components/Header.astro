@@ -3,7 +3,7 @@ import './header.css';
 
 const links = [
   { href: '/', text: 'Home' },
-  { href: '/event', text: 'Event' },
+  { href: '/event', text: 'Events' },
   { href: '/books', text: 'Library' },
   { href: '/support', text: 'Support' },
   { href: '/contact', text: 'Contact' },
@@ -63,19 +63,42 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
       </ul>
     </nav>
   </div>
+  <div class="nav-overlay" aria-hidden="true"></div>
 </header>
 
 <script>
   const primaryNav = document.querySelector('.primary-navigation');
   const navToggle = document.querySelector('.mobile-nav-toggle');
+  const navOverlay = document.querySelector('.nav-overlay');
+
+  function openMenu() {
+    primaryNav?.setAttribute('data-visible', 'true');
+    navToggle?.setAttribute('aria-expanded', 'true');
+    navOverlay?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    primaryNav?.setAttribute('data-visible', 'false');
+    navToggle?.setAttribute('aria-expanded', 'false');
+    navOverlay?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
   if (navToggle && primaryNav) {
     navToggle.addEventListener('click', () => {
       const isVisible = primaryNav.getAttribute('data-visible') === 'true';
-      primaryNav.setAttribute('data-visible', String(!isVisible));
-      navToggle.setAttribute('aria-expanded', String(!isVisible));
+      isVisible ? closeMenu() : openMenu();
     });
   }
+
+  navOverlay?.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && primaryNav?.getAttribute('data-visible') === 'true') {
+      closeMenu();
+    }
+  });
 
   const navUser = document.querySelector('.nav-user');
   const avatarBtn = document.querySelector('.nav-avatar-btn');
