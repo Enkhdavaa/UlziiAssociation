@@ -1,59 +1,30 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import "./_news.css";
-import FacebookPost from '../../components/FacebookPost.astro';
-
-const postUrls = [
-    "https://www.facebook.com/UlziiAssociation/posts/pfbid07JW834oFcxPQmFSt5aRL6dMhMhoB3dX52UCr7yCpCaNEHQLBEfMLC9m5z9ukGz1Vl",
-    "https://www.facebook.com/UlziiAssociation/posts/pfbid02fx6X1uFMBsvrp71zG3qkML11cTxN88VPrCZGdLAXJk8hEyTMXavjFeXdzZg9YEpFl",
-    "https://www.facebook.com/UlziiAssociation/posts/pfbid02XvRYjj4Ld2c9inGCpRficGbFsfYkBFaMwoCFf36eFWYbPDNF3bSmVZNzVemVjcFZl",
-];
 ---
 <MainLayout>
     <div class="news-container">
         <div class="news-header">
             <h1 class="news-heading">Latest News</h1>
             <p class="news-subheading">Stay up to date with our latest updates and announcements.</p>
+        </div>
+
+        <div class="fb-card">
+            <svg class="fb-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1877f2">
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+            </svg>
+            <div class="fb-card-text">
+                <h2>Ulzii Association</h2>
+                <p>Follow our Facebook page to see the latest news, event updates, and community stories.</p>
+            </div>
             <a
                 href="https://www.facebook.com/UlziiAssociation"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="news-fb-link"
+                class="fb-card-btn"
             >
-                Follow us on Facebook →
+                Visit our Facebook page →
             </a>
-        </div>
-
-        <div id="fb-loader" class="loader"></div>
-
-        <div id="fb-posts-grid" class="posts-grid" style="opacity: 0; transition: opacity 0.5s ease;">
-            {postUrls.map(postUrl => <FacebookPost postUrl={postUrl} />)}
         </div>
     </div>
 </MainLayout>
-
-<script is:inline>
-    // Initialize FB SDK manually to catch the render event
-    window.fbAsyncInit = function() {
-        FB.init({
-            xfbml: true,
-            version: 'v19.0'
-        });
-
-        // Listen for when Facebook finishes rendering the posts
-        FB.Event.subscribe('xfbml.render', showPosts);
-    };
-
-    function showPosts() {
-        const loader = document.getElementById('fb-loader');
-        const grid = document.getElementById('fb-posts-grid');
-        
-        if (loader) loader.style.display = 'none';
-        if (grid) grid.style.opacity = '1';
-    }
-
-    // Fallback: If FB is blocked by an adblocker, show whatever we have after 5 seconds
-    setTimeout(showPosts, 5000);
-</script>
-
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
