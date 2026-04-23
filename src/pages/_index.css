@@ -45,7 +45,7 @@
 .btn {
   display: inline-block;
   padding: 0.65rem 1.6rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: var(--fs-500);
   font-weight: var(--fw-semi-bold);
   text-decoration: none;
@@ -86,9 +86,9 @@
 .info-card {
   background-color: var(--primary-gray);
   padding: 2rem 1.75rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border-left: 4px solid var(--primary-orange);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-md);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 

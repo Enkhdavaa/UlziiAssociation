@@ -100,8 +100,8 @@
 /* ── Table ── */
 .adm-table-wrap {
   overflow-x: auto;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .adm-table {
@@ -159,7 +159,7 @@
   align-items: center;
   gap: 0.3rem;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: var(--fw-semi-bold);
   font-size: var(--fs-500);
@@ -224,8 +224,8 @@
 
 .adm-fields input,
 .adm-fields textarea {
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-sm);
   padding: 0.5rem 0.7rem;
   font-size: var(--fs-400);
   font-family: inherit;

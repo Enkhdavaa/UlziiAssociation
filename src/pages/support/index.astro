@@ -62,7 +62,7 @@ import MainLayout from '../../layouts/MainLayout.astro'
 
     .support-subtitle {
         font-size: var(--fs-500);
-        color: #6b7280;
+        color: var(--color-muted);
         max-width: 520px;
         line-height: 1.6;
     }
@@ -85,9 +85,9 @@ import MainLayout from '../../layouts/MainLayout.astro'
         gap: 1.25rem;
         padding: 1.75rem;
         background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
         text-decoration: none;
         color: inherit;
         transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -102,7 +102,7 @@ import MainLayout from '../../layouts/MainLayout.astro'
         flex-shrink: 0;
         width: 56px;
         height: 56px;
-        border-radius: 12px;
+        border-radius: var(--radius-lg);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -122,7 +122,7 @@ import MainLayout from '../../layouts/MainLayout.astro'
 
     .card-body p {
         font-size: var(--fs-400);
-        color: #6b7280;
+        color: var(--color-muted);
         line-height: 1.5;
     }
 

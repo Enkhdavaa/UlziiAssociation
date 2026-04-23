@@ -19,6 +19,20 @@
   --primary-orange: #cd5b1c;
   --primary-blue: #42a5e0;
   --primary-gray: #e9eff1;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  --color-muted: #6b7280;
+  --color-body: #374151;
+  --color-dark: #111827;
+  --color-border: #e5e7eb;
+  --color-border-input: #d1d5db;
 }
 
 /* Box sizing rules */

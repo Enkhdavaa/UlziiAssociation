@@ -38,7 +38,7 @@
 
 .contact-intro {
   font-size: var(--fs-400);
-  color: #6b7280;
+  color: var(--color-muted);
   line-height: 1.7;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .contact-details a {
-  color: #374151;
+  color: var(--color-body);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -79,55 +79,22 @@
   flex: 1;
   background: #fff;
   padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.form-group label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #374151;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: var(--fs-400);
-  color: #374151;
-  background: #fff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(66, 165, 224, 0.15);
-}
-
-.form-group textarea {
-  resize: vertical;
-}
+/* .form-group styles are in src/styles/forms.css */
 
 .submit-button {
   padding: 0.75rem;
   background-color: var(--primary-orange);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: var(--fs-400);
   font-weight: var(--fw-bold);
   font-family: inherit;
