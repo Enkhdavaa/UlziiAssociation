@@ -11,8 +11,19 @@ const postUrls = [
 ---
 <MainLayout>
     <div class="news-container">
-        <h1 class="news-heading">News from Our Facebook Page</h1>
-        
+        <div class="news-header">
+            <h1 class="news-heading">Latest News</h1>
+            <p class="news-subheading">Stay up to date with our latest updates and announcements.</p>
+            <a
+                href="https://www.facebook.com/UlziiAssociation"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="news-fb-link"
+            >
+                Follow us on Facebook →
+            </a>
+        </div>
+
         <div id="fb-loader" class="loader"></div>
 
         <div id="fb-posts-grid" class="posts-grid" style="opacity: 0; transition: opacity 0.5s ease;">
