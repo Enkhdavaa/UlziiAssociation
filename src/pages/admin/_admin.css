@@ -1,6 +1,10 @@
+/* Grid item expands to min-content by default — prevent that so scroll containers work */
+.main-content { min-width: 0; }
+
 /* ── Layout ── */
 .adm-wrap {
   min-height: 100vh;
+  overflow-x: hidden;
   background: #f4f6f8;
   padding-bottom: 4rem;
 }
@@ -30,15 +34,23 @@
 /* ── Tabs ── */
 .adm-tabs {
   display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   background: white;
   border-bottom: 2px solid #dde2e6;
   padding: 0 1.5rem;
+}
+
+.adm-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .adm-tab {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  flex-shrink: 0;
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
@@ -78,11 +90,19 @@
   font-weight: var(--fw-semi-bold);
 }
 
-.adm-status--ok    { background: #d1fae5; color: #065f46; }
-.adm-status--error { background: #fee2e2; color: #991b1b; }
+.adm-status--ok {
+  background: #d1fae5;
+  color: #065f46;
+}
+.adm-status--error {
+  background: #fee2e2;
+  color: #991b1b;
+}
 
 /* ── Sections ── */
-.adm-section { padding: 1.5rem; }
+.adm-section {
+  padding: 1.5rem;
+}
 
 .adm-section-header {
   display: flex;
@@ -100,18 +120,22 @@
 /* ── Table ── */
 .adm-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
 
 .adm-table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   background: white;
   font-size: var(--fs-400);
 }
 
-.adm-table thead { background: #eef1f5; }
+.adm-table thead {
+  background: #eef1f5;
+}
 
 .adm-table th {
   text-align: left;
@@ -129,8 +153,12 @@
   vertical-align: top;
 }
 
-.adm-table tbody tr:last-child td { border-bottom: none; }
-.adm-table tbody tr:hover { background: #f9fbfc; }
+.adm-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.adm-table tbody tr:hover {
+  background: #f9fbfc;
+}
 
 .adm-id {
   font-family: monospace;
@@ -147,10 +175,26 @@
   text-overflow: ellipsis;
 }
 
+/* Sticky actions column so Edit/Delete stay visible while scrolling */
+.adm-table th:last-child {
+  position: sticky;
+  right: 0;
+  background: #eef1f5;
+  z-index: 1;
+}
+
 .adm-actions {
   display: flex;
   gap: 0.4rem;
   white-space: nowrap;
+  position: sticky;
+  right: 0;
+  background: white;
+  z-index: 1;
+}
+
+.adm-table tbody tr:hover .adm-actions {
+  background: #f9fbfc;
 }
 
 /* ── Buttons ── */
@@ -165,16 +209,36 @@
   font-size: var(--fs-500);
   padding: 0.55rem 1.1rem;
   text-decoration: none;
-  transition: opacity 0.15s, transform 0.1s;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
 }
 
-.adm-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.adm-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
 
-.adm-btn--primary { background: var(--primary-blue); color: white; }
-.adm-btn--ghost   { background: #e5e7eb; color: #374151; }
-.adm-btn--sm      { font-size: var(--fs-300); padding: 0.3rem 0.7rem; }
-.adm-btn--edit    { background: #eff6ff; color: var(--primary-blue); }
-.adm-btn--delete  { background: #fef2f2; color: #dc2626; }
+.adm-btn--primary {
+  background: var(--primary-blue);
+  color: white;
+}
+.adm-btn--ghost {
+  background: #e5e7eb;
+  color: #374151;
+}
+.adm-btn--sm {
+  font-size: var(--fs-300);
+  padding: 0.3rem 0.7rem;
+}
+.adm-btn--edit {
+  background: #eff6ff;
+  color: var(--primary-blue);
+}
+.adm-btn--delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
 
 /* ── Modal ── */
 .adm-dialog {
@@ -187,7 +251,9 @@
   overflow-y: auto;
 }
 
-.adm-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+.adm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
 
 .adm-form {
   display: flex;
@@ -240,7 +306,6 @@
   box-shadow: 0 0 0 3px rgba(66, 165, 224, 0.15);
 }
 
-/* Checkbox row — more specific than .adm-fields label so no !important needed */
 .adm-fields label.adm-checkbox-label {
   flex-direction: row;
   align-items: center;
@@ -256,8 +321,14 @@
   accent-color: var(--primary-blue);
 }
 
-.adm-phone-row { display: flex; gap: 0.5rem; }
-.adm-input-narrow { width: 5rem; flex-shrink: 0; }
+.adm-phone-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.adm-input-narrow {
+  width: 5rem;
+  flex-shrink: 0;
+}
 
 .adm-form-actions {
   display: flex;
@@ -266,11 +337,6 @@
   padding-top: 0.25rem;
   margin-top: 0.25rem;
   border-top: 1px solid #e5e7eb;
-}
-
-/* ── Table scroll (iOS) ── */
-.adm-table-wrap {
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Mobile ── */
@@ -289,21 +355,6 @@
   .adm-user {
     font-size: var(--fs-300);
     word-break: break-all;
-  }
-
-  .adm-tabs {
-    overflow-x: auto;
-    padding: 0 0.5rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .adm-tabs::-webkit-scrollbar { display: none; }
-
-  .adm-tab {
-    flex-shrink: 0;
-    padding: 0.75rem 0.75rem;
-    font-size: var(--fs-400);
   }
 
   .adm-section {
@@ -327,10 +378,5 @@
   .adm-form-actions .adm-btn {
     width: 100%;
     justify-content: center;
-  }
-
-  .adm-dialog {
-    width: 95vw;
-    max-height: 85vh;
   }
 }
