@@ -1,5 +1,9 @@
 import type { APIRoute } from "astro";
 
+const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const escHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.json().catch(() => null);
 
@@ -15,6 +19,19 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!email || !question) {
     return new Response(JSON.stringify({ error: "Missing fields" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!isEmail(email) || email.length > 254) {
+    return new Response(JSON.stringify({ error: "Invalid email address" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  if (question.length > 2000) {
+    return new Response(JSON.stringify({ error: "Message is too long (max 2000 characters)" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
@@ -42,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
       to: [toEmail],
       reply_to: email,
       subject: `New contact message from ${email}`,
-      html: `<p><strong>From:</strong> ${email}</p><p><strong>Message:</strong></p><p>${question.replace(/\n/g, "<br>")}</p>`,
+      html: `<p><strong>From:</strong> ${escHtml(email)}</p><p><strong>Message:</strong></p><p>${escHtml(question).replace(/\n/g, "<br>")}</p>`,
     }),
   });
 

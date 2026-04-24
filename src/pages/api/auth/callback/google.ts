@@ -2,6 +2,13 @@ import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
   const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  const storedState = cookies.get("oauth_state")?.value;
+  cookies.delete("oauth_state", { path: "/" });
+
+  if (!state || state !== storedState) {
+    return redirect("/login?error=invalid_state");
+  }
 
   if (!code) {
     return redirect("/login?error=no_code");
@@ -49,6 +56,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 7,
         sameSite: "lax",
+        secure: import.meta.env.PROD,
       }
     );
 
