@@ -60,7 +60,7 @@ export async function getEvents(): Promise<Event[]> {
   for await (const entry of kv.list<Event>({ prefix: ["events"] })) {
     events.push(entry.value);
   }
-  return events;
+  return events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
 export async function getEvent(id: string): Promise<Event | null> {

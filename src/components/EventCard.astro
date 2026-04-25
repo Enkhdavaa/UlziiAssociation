@@ -12,6 +12,18 @@ interface Props {
 }
 
 const { event } = Astro.props;
+
+const formatDate = (d: string) => {
+  const date = new Date(d + 'T00:00:00');
+  return isNaN(date.getTime()) ? d : date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
+const formatTime = (t: string) => {
+  if (/AM|PM/i.test(t)) return t;
+  const match = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return t;
+  const h = parseInt(match[1]), m = match[2];
+  return `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
+};
 ---
 <div class="event-card">
     <h3>{event.title}</h3>
@@ -19,14 +31,14 @@ const { event } = Astro.props;
     {event.date && (
         <p class="event-detail event-date">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
-            <span><strong>Date:</strong> {event.date}</span>
+            <span><strong>Date:</strong> {formatDate(event.date)}</span>
         </p>
     )}
 
     {event.time && (
         <p class="event-detail event-time">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
-            <span><strong>Time:</strong> {event.time}</span>
+            <span><strong>Time:</strong> {formatTime(event.time)}</span>
         </p>
     )}
 

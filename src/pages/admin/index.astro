@@ -16,6 +16,20 @@ if (!adminEmails.includes(user.email)) {
 const [events, books, leads, bookRequests] = await Promise.all([
   getEvents(), getBooks(), getAllLeads(), getAllBookRequests()
 ]);
+
+const formatDate = (d: string) => {
+  if (!d) return '—';
+  const date = new Date(d + 'T00:00:00');
+  return isNaN(date.getTime()) ? d : date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
+const formatTime = (t: string) => {
+  if (!t) return '—';
+  if (/AM|PM/i.test(t)) return t;
+  const match = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return t;
+  const h = parseInt(match[1]), m = match[2];
+  return `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
+};
 ---
 
 <MainLayout>
@@ -48,8 +62,8 @@ const [events, books, leads, bookRequests] = await Promise.all([
               <tr data-record={JSON.stringify(ev)}>
                 <td class="adm-id">{ev.id}</td>
                 <td>{ev.title}</td>
-                <td>{ev.date}</td>
-                <td>{ev.time}</td>
+                <td>{formatDate(ev.date)}</td>
+                <td>{formatTime(ev.time)}</td>
                 <td>{ev.location}</td>
                 <td class="adm-desc">{ev.description}</td>
                 <td>{ev.acceptsVolunteers ? 'Yes' : '—'}</td>
@@ -157,8 +171,8 @@ const [events, books, leads, bookRequests] = await Promise.all([
       <div class="adm-fields" id="fields-events">
         <input name="id" type="hidden" />
         <label>Title<input name="title" type="text" /></label>
-        <label>Date<input name="date" type="text" placeholder="May 15, 2026" /></label>
-        <label>Time<input name="time" type="text" placeholder="11:00 AM - 12:00 PM" /></label>
+        <label>Date<input name="date" type="date" /></label>
+        <label>Time<input name="time" type="time" /></label>
         <label>Location<input name="location" type="text" /></label>
         <label>Description<textarea name="description" rows="3"></textarea></label>
         <label class="adm-checkbox-label">
@@ -268,8 +282,8 @@ const [events, books, leads, bookRequests] = await Promise.all([
     if (record) {
       Object.entries(record).forEach(([k, v]) => {
         fieldset.querySelectorAll(`[name="${k}"]`).forEach(el => {
-          if (el.type === 'checkbox') el.checked = !!v;
-          else el.value = v ?? '';
+          if (el.type === 'checkbox') { el.checked = !!v; return; }
+          el.value = v ?? '';
         });
       });
     }
