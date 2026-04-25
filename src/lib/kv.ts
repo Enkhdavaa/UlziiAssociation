@@ -1,11 +1,14 @@
 /// <reference lib="deno.unstable" />
 
+export const BOOK_STATUSES = ["available", "reserved", "given", "using"] as const;
+export type BookStatus = typeof BOOK_STATUSES[number];
+
 export interface Book {
   id: string;
   title: string;
   language: string;
   description: string;
-  status: "available" | "reserved" | "given" | "using";
+  status: BookStatus;
 }
 
 export interface BookRequest {

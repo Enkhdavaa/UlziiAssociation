@@ -10,8 +10,7 @@ import {
   deleteBookRequest,
 } from "../../../lib/kv.ts";
 import type { Event, Book, LeadRegistration } from "../../../lib/kv.ts";
-
-const BOOK_STATUSES = ["available", "reserved", "given", "using"] as const;
+import { BOOK_STATUSES } from "../../../lib/kv.ts";
 
 function isAdmin(cookies: {
   get: (name: string) => { json: () => unknown } | undefined;
