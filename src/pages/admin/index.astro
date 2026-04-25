@@ -155,8 +155,7 @@ const [events, books, leads, bookRequests] = await Promise.all([
       <input type="hidden" name="_isEdit" />
 
       <div class="adm-fields" id="fields-events">
-        <label data-show="create">ID <small>slug — cannot change after creation</small><input name="id" type="text" /></label>
-        <input name="id" type="hidden" data-show="edit" />
+        <input name="id" type="hidden" />
         <label>Title<input name="title" type="text" /></label>
         <label>Date<input name="date" type="text" placeholder="May 15, 2026" /></label>
         <label>Time<input name="time" type="text" placeholder="11:00 AM - 12:00 PM" /></label>
@@ -310,10 +309,15 @@ const [events, books, leads, bookRequests] = await Promise.all([
 
     const data = {};
     fieldset.querySelectorAll('input, textarea, select').forEach(el => {
-      if (el.name) data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim();
+      if (!el.name || el.closest('[style*="display: none"]')) return;
+      data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim();
     });
 
-    if (!isEdit && collection !== 'leads' && collection !== 'books' && !data.id) { alert('ID is required.'); return; }
+    if (!isEdit && collection === 'events') {
+      const time = (data.time ?? '').split(' - ')[0];
+      data.id = [data.title, data.date, time].join(' ')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
 
     try {
       await apiCall({ action: 'upsert', collection, data });
