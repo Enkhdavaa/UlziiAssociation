@@ -27,7 +27,7 @@ const user = userCookie ? (userCookie.json() as { name: string; email: string })
                         <div class="book-card-top">
                             <div class="book-meta">
                                 <span class={`book-status ${book.status}`}>
-                                    {book.status === 'available' ? 'Available' : 'Reserved'}
+                                    {book.status === 'available' ? 'Available' : book.status === 'using' ? 'In use' : 'Reserved'}
                                 </span>
                                 {book.language && <span class="book-lang">{book.language}</span>}
                             </div>
@@ -36,6 +36,8 @@ const user = userCookie ? (userCookie.json() as { name: string; email: string })
                         </div>
                         {book.status === 'available'
                             ? <button class="request-btn" data-book-id={book.id} data-book-title={book.title}>Request this book</button>
+                            : book.status === 'using'
+                            ? <span class="reserved-note">This book is currently in use. Check back when the status changes to Available.</span>
                             : <span class="reserved-note">Someone has already requested this book.</span>
                         }
                     </div>
@@ -180,6 +182,7 @@ const user = userCookie ? (userCookie.json() as { name: string; email: string })
     .book-status { text-transform: uppercase; letter-spacing: 0.04em; font-weight: var(--fw-bold); }
     .book-status.available { background: #dcfce7; color: #16a34a; }
     .book-status.reserved  { background: #fef9c3; color: #a16207; }
+    .book-status.using     { background: #dbeafe; color: #1d4ed8; }
     .book-lang             { background: #f0f5ff; color: var(--primary-blue); }
 
     .book-title { font-size: var(--fs-500); font-weight: var(--fw-bold); color: #111827; line-height: 1.4; }
