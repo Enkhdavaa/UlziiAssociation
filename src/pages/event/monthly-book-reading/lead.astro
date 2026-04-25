@@ -59,6 +59,7 @@ const existingLead = leads[0] ?? null;
                         <div class="form-group">
                             <label for="book">Select a Book *</label>
                             <select id="book" name="book" required>
+                                <option value="номоо авч ирнэ (bring my own)">номоо авч ирнэ (bring my own)</option>
                                 {books.map(b => <option value={b.title}>{b.title}</option>)}
                             </select>
                         </div>
