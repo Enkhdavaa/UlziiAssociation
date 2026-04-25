@@ -7,6 +7,7 @@ interface Props {
         location: string;
         description: string;
         time?: string;
+        endTime?: string;
         acceptsVolunteers?: boolean;
     };
 }
@@ -38,7 +39,7 @@ const formatTime = (t: string) => {
     {event.time && (
         <p class="event-detail event-time">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
-            <span><strong>Time:</strong> {formatTime(event.time)}</span>
+            <span><strong>Time:</strong> {formatTime(event.time)}{event.endTime ? ` – ${formatTime(event.endTime)}` : ''}</span>
         </p>
     )}
 

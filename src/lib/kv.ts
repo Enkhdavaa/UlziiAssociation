@@ -42,6 +42,7 @@ export interface Event {
   location: string;
   description: string;
   time: string;
+  endTime?: string;
   acceptsVolunteers?: boolean;
 }
 
