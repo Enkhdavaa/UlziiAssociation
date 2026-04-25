@@ -169,8 +169,7 @@ const [events, books, leads, bookRequests] = await Promise.all([
       </div>
 
       <div class="adm-fields" id="fields-books">
-        <label data-show="create">ID <small>slug — cannot change after creation</small><input name="id" type="text" /></label>
-        <input name="id" type="hidden" data-show="edit" />
+        <input name="id" type="hidden" />
         <label>Title<input name="title" type="text" /></label>
         <label>Language
           <select name="language">
@@ -185,6 +184,7 @@ const [events, books, leads, bookRequests] = await Promise.all([
             <option value="available">Available</option>
             <option value="reserved">Reserved</option>
             <option value="given">Given</option>
+            <option value="using">Using (internal)</option>
           </select>
         </label>
         <label>Description<textarea name="description" rows="2" placeholder="Short description (optional)"></textarea></label>
@@ -313,7 +313,7 @@ const [events, books, leads, bookRequests] = await Promise.all([
       if (el.name) data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim();
     });
 
-    if (!isEdit && collection !== 'leads' && !data.id) { alert('ID is required.'); return; }
+    if (!isEdit && collection !== 'leads' && collection !== 'books' && !data.id) { alert('ID is required.'); return; }
 
     try {
       await apiCall({ action: 'upsert', collection, data });
@@ -346,4 +346,5 @@ const [events, books, leads, bookRequests] = await Promise.all([
   .adm-status-available { background: #dcfce7; color: #16a34a; }
   .adm-status-reserved  { background: #fef9c3; color: #a16207; }
   .adm-status-given     { background: #f3f4f6; color: #6b7280; }
+  .adm-status-using     { background: #dbeafe; color: #1d4ed8; }
 </style>

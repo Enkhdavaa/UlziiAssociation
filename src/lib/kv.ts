@@ -5,7 +5,7 @@ export interface Book {
   title: string;
   language: string;
   description: string;
-  status: "available" | "reserved" | "given";
+  status: "available" | "reserved" | "given" | "using";
 }
 
 export interface BookRequest {
@@ -95,7 +95,8 @@ export async function getBook(id: string): Promise<Book | null> {
 
 export async function saveBook(book: Book): Promise<void> {
   const kv = await getKv();
-  await kv.set(["books", book.id], book);
+  const id = book.id || crypto.randomUUID();
+  await kv.set(["books", id], { ...book, id });
 }
 
 export async function deleteBook(id: string): Promise<void> {
@@ -110,7 +111,11 @@ export async function saveBookRequest(
 ): Promise<BookRequest> {
   const kv = await getKv();
   const id = crypto.randomUUID();
-  const request: BookRequest = { ...data, id, createdAt: new Date().toISOString() };
+  const request: BookRequest = {
+    ...data,
+    id,
+    createdAt: new Date().toISOString(),
+  };
   await kv.set(["book-requests", id], request);
   return request;
 }
@@ -118,7 +123,9 @@ export async function saveBookRequest(
 export async function getAllBookRequests(): Promise<BookRequest[]> {
   const kv = await getKv();
   const results: BookRequest[] = [];
-  for await (const entry of kv.list<BookRequest>({ prefix: ["book-requests"] })) {
+  for await (const entry of kv.list<BookRequest>({
+    prefix: ["book-requests"],
+  })) {
     results.push(entry.value);
   }
   return results;
@@ -136,7 +143,11 @@ export async function saveLead(
 ): Promise<LeadRegistration> {
   const kv = await getKv();
   const id = crypto.randomUUID();
-  const lead: LeadRegistration = { ...data, id, createdAt: new Date().toISOString() };
+  const lead: LeadRegistration = {
+    ...data,
+    id,
+    createdAt: new Date().toISOString(),
+  };
   await kv.set(["leads", data.eventId, id], lead);
   return lead;
 }
@@ -144,7 +155,9 @@ export async function saveLead(
 export async function getLeads(eventId: string): Promise<LeadRegistration[]> {
   const kv = await getKv();
   const results: LeadRegistration[] = [];
-  for await (const entry of kv.list<LeadRegistration>({ prefix: ["leads", eventId] })) {
+  for await (const entry of kv.list<LeadRegistration>({
+    prefix: ["leads", eventId],
+  })) {
     results.push(entry.value);
   }
   return results;
