@@ -11,6 +11,8 @@ import {
 } from "../../../lib/kv.ts";
 import type { Event, Book, LeadRegistration } from "../../../lib/kv.ts";
 
+const BOOK_STATUSES = ["available", "reserved", "given", "using"] as const;
+
 function isAdmin(cookies: {
   get: (name: string) => { json: () => unknown } | undefined;
 }): boolean {
@@ -55,8 +57,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     if (action === "upsert") {
       if (collection === "events") await saveEvent(data as Event);
-      else if (collection === "books") await saveBook(data as Book);
-      else if (collection === "leads") {
+      else if (collection === "books") {
+        const book = data as Book;
+        if (!BOOK_STATUSES.includes(book.status))
+          return json({ error: `Invalid status: ${book.status}` }, 400);
+        await saveBook(book);
+      } else if (collection === "leads") {
         const lead = data as LeadRegistration;
         if (lead.id) await updateLead(lead);
         else await saveLead(lead);
@@ -67,7 +73,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       else if (collection === "books") await deleteBook(id);
       else if (collection === "book-requests") await deleteBookRequest(id);
       else if (collection === "leads") {
-        if (!eventId) return json({ error: "Missing eventId for lead delete" }, 400);
+        if (!eventId)
+          return json({ error: "Missing eventId for lead delete" }, 400);
         await deleteLead(eventId, id);
       } else return json({ error: "Unknown collection" }, 400);
     } else {
