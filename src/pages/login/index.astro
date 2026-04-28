@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import './_login.css';
 
 const error = Astro.url.searchParams.get('error');
+const redirect = Astro.url.searchParams.get('redirect') ?? '/';
 const errorMessages: Record<string, string> = {
   no_code: 'Authorization was cancelled or failed. Please try again.',
   token_failed: 'Could not exchange token. Please try again.',
@@ -30,7 +31,7 @@ if (user) {
       )}
 
       <div class="oauth-buttons">
-        <a href="/api/auth/google" class="oauth-btn oauth-btn--google">
+        <a href={`/api/auth/google?redirect=${encodeURIComponent(redirect)}`} class="oauth-btn oauth-btn--google">
           <svg aria-hidden="true" width="22" height="22"><use href="/svgs.svg#google-logo"></use></svg>
           Continue with Google
         </a>

@@ -11,7 +11,10 @@ const events = await getEvents();
         <h1 class="events-heading">Upcoming Events</h1>
 
         {events.length === 0 ? (
-            <p class="events-empty">No upcoming events at the moment. Check back soon!</p>
+            <div class="events-empty">
+                <p>No upcoming events at the moment.</p>
+                <p>Follow us on <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">Facebook</a> to stay updated, or <a href="/contact">get in touch</a> if you'd like to organize one.</p>
+            </div>
         ) : (
             <div class="events-grid">
                 {events.map(event => (

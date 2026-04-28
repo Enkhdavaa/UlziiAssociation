@@ -57,7 +57,7 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
               </div>
             </div>
           ) : (
-            <a href="/login" class="nav-login">Sign in</a>
+            <a href={`/login?redirect=${encodeURIComponent(currentPath)}`} class="nav-login">Sign in</a>
           )}
         </li>
       </ul>

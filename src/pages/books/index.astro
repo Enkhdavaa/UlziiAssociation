@@ -19,7 +19,7 @@ const user = userCookie ? (userCookie.json() as { name: string; email: string })
         </div>
 
         <div class="filter-bar">
-            <span class="book-count"><strong>{availableCount}</strong> available · {totalCount} total</span>
+            <span class="book-count" id="book-count" data-available={availableCount} data-total={totalCount}><strong>{availableCount}</strong> available · {totalCount} total</span>
             <label class="toggle-label" for="toggle-available">
                 <input type="checkbox" id="toggle-available" class="toggle-input" />
                 <span class="toggle-switch"></span>
@@ -112,10 +112,17 @@ const user = userCookie ? (userCookie.json() as { name: string; email: string })
     });
 
     const toggle = document.getElementById('toggle-available') as HTMLInputElement;
+    const countEl = document.getElementById('book-count')!;
+    const available = Number(countEl.dataset.available);
+    const total = Number(countEl.dataset.total);
+
     toggle?.addEventListener('change', () => {
         document.querySelectorAll<HTMLElement>('.book-card').forEach(card => {
             card.style.display = toggle.checked && card.dataset.status !== 'available' ? 'none' : '';
         });
+        countEl.innerHTML = toggle.checked
+            ? `Showing <strong>${available}</strong> of ${total} books`
+            : `<strong>${available}</strong> available · ${total} total`;
     });
 
     document.getElementById('modal-cancel')!.addEventListener('click', () => modal.close());

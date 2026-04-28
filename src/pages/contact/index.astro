@@ -1,6 +1,9 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro'
 import "./_contact.css"
+
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { email: string }) : null;
 ---
 
 <script>
@@ -86,6 +89,7 @@ import "./_contact.css"
                         type="email"
                         id="email"
                         placeholder="you@example.com"
+                        value={user?.email ?? ''}
                         required
                     />
                 </div>
