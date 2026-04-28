@@ -21,7 +21,7 @@ const success = Astro.url.searchParams.get('success') === '1';
                 <p>Follow us on <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">Facebook</a> to stay updated, or <a href="/contact">get in touch</a> if you'd like to organize one.</p>
             </div>
         ) : (
-            <div class="events-grid">
+            <div class="events-list">
                 {events.map(event => (
                     <EventCard event={event} />
                 ))}
