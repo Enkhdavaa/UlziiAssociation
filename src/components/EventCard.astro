@@ -30,20 +30,20 @@ const formatTime = (t: string) => {
     <h3>{event.title}</h3>
 
     {event.date && (
-        <p class="event-detail event-date">
+        <p class="event-detail">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
             <span><strong>Date:</strong> {formatDate(event.date)}</span>
         </p>
     )}
 
     {event.time && (
-        <p class="event-detail event-time">
+        <p class="event-detail">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
             <span><strong>Time:</strong> {formatTime(event.time)}{event.endTime ? ` – ${formatTime(event.endTime)}` : ''}</span>
         </p>
     )}
 
-    <p class="event-detail event-location">
+    <p class="event-detail">
         <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-location"></use></svg>
         <span><strong>Location:</strong> {event.location}</span>
     </p>
