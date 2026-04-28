@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro'
 import { getEvents } from '../../lib/kv'
 import "./_event.css"
+import EventCard from '../../components/EventCard.astro'
 
 const events = await getEvents();
 const success = Astro.url.searchParams.get('success') === '1';
@@ -16,30 +17,7 @@ const success = Astro.url.searchParams.get('success') === '1';
 
         <div class="events-list">
             {events.map(ev => (
-                <div class="event-card">
-                    <h3>{ev.title}</h3>
-
-                    <p class="event-detail event-date">
-                        <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
-                        <span><strong>Date:</strong> {ev.date}</span>
-                    </p>
-
-                    <p class="event-detail event-time">
-                        <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
-                        <span><strong>Time:</strong> {ev.time}</span>
-                    </p>
-
-                    <p class="event-detail event-location">
-                        <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-location"></use></svg>
-                        <span><strong>Location:</strong> {ev.location}</span>
-                    </p>
-
-                    <p class="event-description">{ev.description}</p>
-
-                    <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(ev.id)}`} class="help-button">
-                        Become the Storyteller
-                    </a>
-                </div>
+                <EventCard event={ev} />
             ))}
         </div>
     </div>
