@@ -25,6 +25,17 @@
 }
 .events-empty a:hover { text-decoration: underline; }
 
+.success-banner {
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  color: #16a34a;
+  font-weight: 500;
+}
+
 .events-heading {
   font-size: var(--fs-700);
   color: var(--primary-blue);

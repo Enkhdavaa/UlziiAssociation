@@ -5,10 +5,15 @@ import EventCard from '../../components/EventCard.astro'
 import { getEvents } from '../../lib/kv'
 
 const events = await getEvents();
+const success = Astro.url.searchParams.get('success') === '1';
 ---
 <MainLayout>
     <div class="events-container">
         <h1 class="events-heading">Upcoming Events</h1>
+
+        {success && (
+            <p class="success-banner">Thank you! Your registration has been received.</p>
+        )}
 
         {events.length === 0 ? (
             <div class="events-empty">
