@@ -2,10 +2,20 @@
 import MainLayout from '../../layouts/MainLayout.astro'
 import "./_event.css"
 import EventCard from '../../components/EventCard.astro'
-import { getEvents } from '../../lib/kv'
+import { getEvents, getLeads } from '../../lib/kv'
 
 const events = await getEvents();
 const success = Astro.url.searchParams.get('success') === '1';
+
+const leadStatusMap: Record<string, boolean> = {};
+await Promise.all(
+    events
+        .filter(e => e.acceptsVolunteers)
+        .map(async e => {
+            const leads = await getLeads(e.id);
+            leadStatusMap[e.id] = leads.length > 0;
+        })
+);
 ---
 <MainLayout>
     <div class="events-container">
@@ -23,7 +33,7 @@ const success = Astro.url.searchParams.get('success') === '1';
         ) : (
             <div class="events-list">
                 {events.map(event => (
-                    <EventCard event={event} />
+                    <EventCard event={event} hasLead={leadStatusMap[event.id] ?? false} />
                 ))}
             </div>
         )}

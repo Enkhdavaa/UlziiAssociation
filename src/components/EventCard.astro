@@ -10,9 +10,10 @@ interface Props {
         endTime?: string;
         acceptsVolunteers?: boolean;
     };
+    hasLead?: boolean;
 }
 
-const { event } = Astro.props;
+const { event, hasLead = false } = Astro.props;
 
 const formatDate = (d: string) => {
   const date = new Date(d + 'T00:00:00');
@@ -51,8 +52,20 @@ const formatTime = (t: string) => {
     <p class="event-description">{event.description}</p>
 
     {event.acceptsVolunteers && (
-        <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(event.id)}`} class="help-button">
-            Become the Storyteller
-        </a>
+        hasLead ? (
+            <p class="lead-taken-note">Storyteller slot is filled for this event.</p>
+        ) : (
+            <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(event.id)}`} class="help-button">
+                Volunteer as a storyteller
+            </a>
+        )
     )}
 </div>
+
+<style>
+    .lead-taken-note {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+    }
+</style>
