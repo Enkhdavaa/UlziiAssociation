@@ -4,7 +4,10 @@ import "./_event.css"
 import EventCard from '../../components/EventCard.astro'
 import { getEvents, getLeads } from '../../lib/kv'
 
-const events = await getEvents();
+const allEvents = await getEvents();
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const events = allEvents.filter(e => new Date(e.date + 'T00:00:00') >= today);
 const success = Astro.url.searchParams.get('success') === '1';
 
 const leadStatusMap: Record<string, boolean> = {};
