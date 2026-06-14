@@ -1,9 +1,9 @@
 {
   "imports": {
     "@astrojs/node": "npm:@astrojs/node@^9.5.5",
-    "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.3.2",
+    "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.5.2",
     "@oak/oak": "jsr:@oak/oak@^17.2.0",
-    "astro": "npm:astro@^5.18.1",
+    "astro": "npm:astro@^6.4.6",
     "vite": "npm:vite@^5.4.21"
   },
   "tasks": {
