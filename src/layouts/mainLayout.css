@@ -72,7 +72,6 @@ body {
 html,
 body {
   font-family: var(--ff-primary);
-  /* Change this to min-height as well */
   min-height: 100%;
   overflow-x: hidden;
 }

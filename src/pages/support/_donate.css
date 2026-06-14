@@ -1,0 +1,95 @@
+.donate-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.donate-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.donate-header h1 {
+    font-size: var(--fs-700);
+    font-weight: var(--fw-bold);
+    color: var(--primary-blue);
+}
+
+.donate-header p {
+    font-size: var(--fs-400);
+    color: var(--color-muted);
+    line-height: 1.6;
+}
+
+.donate-card {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.donate-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-blue);
+    color: #fff;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step strong {
+    display: block;
+    font-weight: var(--fw-bold);
+    color: var(--color-dark);
+    font-size: var(--fs-400);
+    margin-bottom: 0.2rem;
+}
+
+.step p {
+    font-size: var(--fs-400);
+    color: var(--color-muted);
+    line-height: 1.5;
+}
+
+.contact-btn {
+    display: block;
+    text-align: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-orange);
+    color: #fff;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-400);
+    transition: opacity 0.2s ease;
+}
+
+.contact-btn:hover { opacity: 0.88; }

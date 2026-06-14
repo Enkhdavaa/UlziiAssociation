@@ -10,7 +10,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang ?? 'en');
 
-const l = (path: string) => lang ? `/${lang}${path}` : path;
+const l = (path: string) => lang ? (path === '/' ? `/${lang}` : `/${lang}${path}`) : path;
 ---
 
 <footer class="site-footer">

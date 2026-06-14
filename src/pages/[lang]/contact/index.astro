@@ -1,11 +1,11 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
 import '../../contact/_contact.css';
-import { useTranslations, isValidLocale } from '../../../i18n/utils';
+import { useTranslations, isValidLocale, DEFAULT_LOCALE } from '../../../i18n/utils';
 import type { Locale } from '../../../i18n/utils';
 
 const { lang } = Astro.params;
-if (!isValidLocale(lang)) return Astro.redirect('/mn/contact');
+if (!isValidLocale(lang)) return Astro.redirect(`/${DEFAULT_LOCALE}/contact`);
 const t = useTranslations(lang as Locale);
 
 const userCookie = Astro.cookies.get('user');

@@ -5,6 +5,7 @@ import nl from "./nl.ts";
 
 export const LOCALES = ["mn", "en", "nl"] as const;
 export type Locale = (typeof LOCALES)[number];
+export const DEFAULT_LOCALE: Locale = "mn";
 
 export const LOCALE_LABELS: Record<Locale, string> = {
   mn: "MN",
