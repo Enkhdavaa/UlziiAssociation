@@ -1,22 +1,44 @@
 ---
 import './header.css';
+import { useTranslations, LOCALES, LOCALE_LABELS } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
 
-const links = [
-  { href: '/', text: 'Home' },
-  { href: '/event', text: 'Events' },
-  { href: '/books', text: 'Library' },
-  { href: '/support', text: 'Support' },
-  { href: '/contact', text: 'Contact' },
+interface Props {
+  lang?: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang ?? 'en');
+
+const navLinks = [
+  { path: '/', key: 'nav.home' as const },
+  { path: '/event', key: 'nav.events' as const },
+  { path: '/books', key: 'nav.library' as const },
+  { path: '/support', key: 'nav.support' as const },
+  { path: '/contact', key: 'nav.contact' as const },
 ];
 
+const href = (path: string) =>
+  lang ? (path === '/' ? `/${lang}` : `/${lang}${path}`) : path;
+
 const currentPath = Astro.url.pathname;
+const isActive = (path: string) => {
+  if (!lang) return path === '/' ? currentPath === '/' : currentPath.startsWith(path);
+  if (path === '/') return currentPath === `/${lang}` || currentPath === `/${lang}/`;
+  return currentPath.startsWith(`/${lang}${path}`);
+};
+
+// Path without the lang segment, used for language switching
+const pathSegments = currentPath.split('/');
+const pathWithoutLang = lang ? ('/' + pathSegments.slice(2).join('/')).replace(/\/$/, '') || '/' : currentPath;
+
 const userCookie = Astro.cookies.get('user');
 const user = userCookie ? (userCookie.json() as { name: string; picture?: string }) : null;
 ---
 
 <header class="primary-header">
   <div class="header-container">
-    <a href="/" class="logo-link">
+    <a href={href('/')} class="logo-link">
       <img class="logo" src="/ulzii.png" alt="Ulzii Association Logo" />
     </a>
     <button
@@ -24,19 +46,16 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
       aria-controls="primary-navigation"
       aria-expanded="false"
     >
-      <span class="sr-only">Menu</span>
+      <span class="sr-only">{t('nav.menu')}</span>
       <svg aria-hidden="true" class="icon-burger-menu" width="32" height="32"><use href="/svgs.svg#burger-menu"></use></svg>
       <svg aria-hidden="true" class="icon-close-menu" width="32" height="32"><use href="/svgs.svg#close-menu"></use></svg>
     </button>
     <nav class="primary-nav-wrapper">
       <ul id="primary-navigation" class="primary-navigation" data-visible="false">
-        {links.map(link => (
+        {navLinks.map(link => (
           <li>
-            <a
-              href={link.href}
-              class:list={{ active: link.href === currentPath || (link.href !== '/' && currentPath.startsWith(link.href)) }}
-            >
-              {link.text}
+            <a href={href(link.path)} class:list={{ active: isActive(link.path) }}>
+              {t(link.key)}
             </a>
           </li>
         ))}
@@ -52,14 +71,23 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
               <div class="nav-dropdown">
                 <div class="nav-dropdown-inner">
                   <span class="nav-dropdown-name">{user.name}</span>
-                  <a href="/api/auth/logout" class="nav-logout">Sign out</a>
+                  <a href="/api/auth/logout" class="nav-logout">{t('nav.signOut')}</a>
                 </div>
               </div>
             </div>
           ) : (
-            <a href={`/login?redirect=${encodeURIComponent(currentPath)}`} class="nav-login">Sign in</a>
+            <a href={`/login?redirect=${encodeURIComponent(currentPath)}`} class="nav-login">{t('nav.signIn')}</a>
           )}
         </li>
+        {lang && (
+          <li class="nav-lang">
+            {LOCALES.map(l => (
+              l === lang
+                ? <span class="lang-active">{LOCALE_LABELS[l]}</span>
+                : <a href={`/${l}${pathWithoutLang === '/' ? '' : pathWithoutLang}`} class="lang-option">{LOCALE_LABELS[l]}</a>
+            ))}
+          </li>
+        )}
       </ul>
     </nav>
   </div>
@@ -114,3 +142,39 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
     });
   }
 </script>
+
+<style>
+  .nav-lang {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--color-border, #e5e7eb);
+    margin-left: 0.25rem;
+  }
+
+  .lang-active,
+  .lang-option {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.35rem;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+
+  .lang-active {
+    color: var(--primary-blue);
+    background: #eff6ff;
+    cursor: default;
+  }
+
+  .lang-option {
+    color: #6b7280;
+    transition: color 0.15s ease;
+  }
+
+  .lang-option:hover {
+    color: var(--primary-blue);
+  }
+</style>

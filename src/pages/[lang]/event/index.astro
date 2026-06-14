@@ -1,0 +1,43 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import '../../event/_event.css';
+import EventCard from '../../../components/EventCard.astro';
+import { getEvents, getAllLeads } from '../../../lib/kv';
+import { useTranslations, isValidLocale } from '../../../i18n/utils';
+import type { Locale } from '../../../i18n/utils';
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect('/mn/event');
+const t = useTranslations(lang as Locale);
+
+const [allEvents, allLeads] = await Promise.all([getEvents(), getAllLeads()]);
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const events = allEvents.filter(e => new Date(e.date + 'T00:00:00') >= today);
+const success = Astro.url.searchParams.get('success') === '1';
+const leadEventIds = new Set(allLeads.map(l => l.eventId));
+---
+<MainLayout lang={lang as Locale}>
+    <div class="events-container">
+        <h1 class="events-heading">{t('events.heading')}</h1>
+
+        {success && (
+            <p class="success-banner">{t('events.successBanner')}</p>
+        )}
+
+        {events.length === 0 ? (
+            <div class="events-empty">
+                <p>{t('events.empty')}</p>
+                <p>
+                    {t('events.emptyFollowUs')} <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">Facebook</a> {t('events.emptyOr')}, <a href={`/${lang}/contact`}>{t('events.emptyGetInTouch')}</a> {t('events.emptyEnd')}
+                </p>
+            </div>
+        ) : (
+            <div class="events-list">
+                {events.map(event => (
+                    <EventCard event={event} hasLead={leadEventIds.has(event.id)} lang={lang as Locale} />
+                ))}
+            </div>
+        )}
+    </div>
+</MainLayout>

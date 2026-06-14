@@ -104,7 +104,10 @@
     font-size: var(--fs-500);
     border-bottom: none;
     border-left: 3px solid transparent;
-    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease;
   }
 
   .primary-navigation a:hover,
@@ -149,7 +152,9 @@
     border-radius: var(--radius-sm, 6px);
     color: var(--color-dark, #111827);
     z-index: 9999;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
   }
 
   .mobile-nav-toggle:hover {

@@ -1,37 +1,40 @@
 ---
 import "./footer.css";
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang ?? 'en');
+
+const l = (path: string) => lang ? `/${lang}${path}` : path;
 ---
 
 <footer class="site-footer">
   <div class="footer-container">
     <div class="footer-about">
-      <img
-        src="/ulzii-without.png"
-        alt="Ulzii Association Logo"
-        class="footer-logo"
-      />
-      <p>A non-profit organization dedicated to supporting the Mongolian community.</p>
+      <img src="/ulzii-without.png" alt="Ulzii Association Logo" class="footer-logo" />
+      <p>{t('footer.about')}</p>
     </div>
     <div class="footer-links">
-      <h3>Quick Links</h3>
+      <h3>{t('footer.quickLinks')}</h3>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/event">Events</a></li>
-        <li><a href="/books">Library</a></li>
-        <li><a href="/support">Support</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href={l('/')}>{t('nav.home')}</a></li>
+        <li><a href={l('/event')}>{t('nav.events')}</a></li>
+        <li><a href={l('/books')}>{t('nav.library')}</a></li>
+        <li><a href={l('/support')}>{t('nav.support')}</a></li>
+        <li><a href={l('/contact')}>{t('nav.contact')}</a></li>
+        <li><a href="/privacy">{t('footer.privacy')}</a></li>
       </ul>
     </div>
     <div class="footer-social">
-      <h3>Follow Us</h3>
+      <h3>{t('footer.followUs')}</h3>
       <ul>
         <li>
-          <a
-            href="https://facebook.com/UlziiAssociation"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">
             <svg aria-hidden="true" width="24" height="24"><use href="/svgs.svg#facebook"></use></svg>
             <span>Facebook</span>
           </a>
@@ -40,6 +43,6 @@ import "./footer.css";
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; {new Date().getFullYear()} Ulzii Association. All Rights Reserved.</p>
+    <p>&copy; {new Date().getFullYear()} Ulzii Association. {t('footer.rights')}</p>
   </div>
 </footer>

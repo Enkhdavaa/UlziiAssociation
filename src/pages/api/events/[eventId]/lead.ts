@@ -28,7 +28,8 @@ export const POST: APIRoute = async ({ request, params, redirect }) => {
   if (phone.length > 30 || countryCode.length > 10) return err("Invalid phone number");
   if (message.length > 1000) return err("Message is too long (max 1000 characters)");
 
+  const lang = formData.get("lang")?.toString() ?? 'mn';
   await saveLead({ eventId, name, email, phone, countryCode, message, book, date, time });
 
-  return redirect("/event?success=1");
+  return redirect(`/${lang}/event?success=1`);
 };

@@ -1,0 +1,42 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import '../_index.css';
+import { useTranslations, isValidLocale } from '../../i18n/utils';
+import type { Locale } from '../../i18n/utils';
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect('/mn');
+const t = useTranslations(lang as Locale);
+---
+
+<MainLayout lang={lang as Locale}>
+    <section class="hero">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">{t('home.eyebrow')}</p>
+            <h1>{t('home.headline')}</h1>
+            <p class="hero-sub">{t('home.sub')}</p>
+            <div class="hero-actions">
+                <a href={`/${lang}/event`} class="btn btn-primary">{t('home.ctaEvents')}</a>
+                <a href={`/${lang}/contact`} class="btn btn-outline">{t('home.ctaContact')}</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <svg aria-label="Mission Icon" class="card-icon"><use href="/svgs.svg#mission"></use></svg>
+            <h2>{t('home.mission')}</h2>
+            <p>{t('home.missionText')}</p>
+        </div>
+        <div class="info-card">
+            <svg aria-label="Values Icon" class="card-icon"><use href="/svgs.svg#values"></use></svg>
+            <h2>{t('home.values')}</h2>
+            <p>{t('home.valuesText')}</p>
+        </div>
+        <div class="info-card">
+            <svg aria-label="Board Members Icon" class="card-icon"><use href="/svgs.svg#board-members"></use></svg>
+            <h2>{t('home.board')}</h2>
+            <p>{t('home.boardText')}</p>
+        </div>
+    </div>
+</MainLayout>

@@ -1,19 +1,24 @@
 ---
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
 interface Props {
-    event: {
-        id: string;
-        title: string;
-        date?: string;
-        location: string;
-        description: string;
-        time?: string;
-        endTime?: string;
-        acceptsVolunteers?: boolean;
-    };
-    hasLead?: boolean;
+  event: {
+    id: string;
+    title: string;
+    date?: string;
+    location: string;
+    description: string;
+    time?: string;
+    endTime?: string;
+    acceptsVolunteers?: boolean;
+  };
+  hasLead?: boolean;
+  lang?: Locale;
 }
 
-const { event, hasLead = false } = Astro.props;
+const { event, hasLead = false, lang = 'mn' } = Astro.props;
+const t = useTranslations(lang);
 
 const formatDate = (d: string) => {
   const date = new Date(d + 'T00:00:00');
@@ -53,10 +58,10 @@ const formatTime = (t: string) => {
 
     {event.acceptsVolunteers && (
         hasLead ? (
-            <p class="lead-taken-note">Storyteller slot is filled for this event.</p>
+            <p class="lead-taken-note">{t('eventCard.leadTaken')}</p>
         ) : (
-            <a href={`/event/monthly-book-reading/lead?id=${encodeURIComponent(event.id)}`} class="help-button">
-                Volunteer as a storyteller
+            <a href={`/${lang}/event/monthly-book-reading/lead?id=${encodeURIComponent(event.id)}`} class="help-button">
+                {t('eventCard.volunteer')}
             </a>
         )
     )}

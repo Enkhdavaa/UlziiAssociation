@@ -1,0 +1,124 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import '../../contact/_contact.css';
+import { useTranslations, isValidLocale } from '../../../i18n/utils';
+import type { Locale } from '../../../i18n/utils';
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect('/mn/contact');
+const t = useTranslations(lang as Locale);
+
+const userCookie = Astro.cookies.get('user');
+const user = userCookie ? (userCookie.json() as { email: string }) : null;
+
+const strings = {
+  success: t('contact.success'),
+  error: t('contact.error'),
+  networkError: t('contact.networkError'),
+};
+---
+
+<script define:vars={{ strings }}>
+    const form = document.querySelector('.contact-form');
+    const submitBtn = form?.querySelector('button[type="submit"]');
+    const statusMsg = document.getElementById('contact-status');
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]')?.value ?? '';
+        const question = form.querySelector('textarea')?.value ?? '';
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (statusMsg) { statusMsg.textContent = ''; statusMsg.className = ''; }
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, question }),
+            });
+
+            if (res.ok) {
+                form.reset();
+                if (statusMsg) {
+                    statusMsg.textContent = strings.success;
+                    statusMsg.className = 'contact-status-success';
+                }
+            } else {
+                if (statusMsg) {
+                    statusMsg.textContent = strings.error;
+                    statusMsg.className = 'contact-status-error';
+                }
+            }
+        } catch {
+            if (statusMsg) {
+                statusMsg.textContent = strings.networkError;
+                statusMsg.className = 'contact-status-error';
+            }
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
+    });
+</script>
+
+<MainLayout lang={lang as Locale}>
+    <div class="contact-container">
+        <div class="contact-inner">
+
+            <div class="contact-info">
+                <h1>{t('contact.heading')}</h1>
+                <p class="contact-intro">{t('contact.intro')}</p>
+
+                <ul class="contact-details">
+                    <li>
+                        <span class="contact-detail-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <polyline points="2,4 12,13 22,4"/>
+                            </svg>
+                        </span>
+                        <a href="mailto:ulziiassociation@gmail.com">ulziiassociation@gmail.com</a>
+                    </li>
+                    <li>
+                        <span class="contact-detail-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <use href="/svgs.svg#facebook-login"></use>
+                            </svg>
+                        </span>
+                        <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">
+                            Ulzii Association
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <form class="contact-form" method="post" action="/">
+                <div class="form-group">
+                    <label for="email">{t('contact.emailLabel')}</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder={t('contact.emailPlaceholder')}
+                        value={user?.email ?? ''}
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="question">{t('contact.messageLabel')}</label>
+                    <textarea
+                        id="question"
+                        name="question"
+                        rows="6"
+                        placeholder={t('contact.messagePlaceholder')}
+                        minlength="10"
+                        wrap="soft"
+                        required
+                    ></textarea>
+                </div>
+                <button type="submit" class="submit-button">{t('contact.submit')}</button>
+                <p id="contact-status"></p>
+            </form>
+
+        </div>
+    </div>
+</MainLayout>
