@@ -39,7 +39,7 @@ const en = {
   "home.offerHeading": "What we do",
   "home.offerLibraryTitle": "Free book library",
   "home.offerLibraryText":
-    "Request a book donated by our community and pick it up — completely free.",
+    "Request a book donated by our community and pick it up for free.",
   "home.offerStoryTitle": "Storytelling for kids",
   "home.offerStoryText":
     "Volunteer storytellers read, play and run workshops with children.",

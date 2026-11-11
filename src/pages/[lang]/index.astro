@@ -20,51 +20,36 @@ const nextEvent = allEvents.find(e => new Date(e.date + 'T00:00:00') >= today);
 const nextEventHasLead = nextEvent ? allLeads.some(l => l.eventId === nextEvent.id) : false;
 
 const offers = [
-  { href: `/${lang}/books`, icon: 'book-library', tone: 'blue', title: t('home.offerLibraryTitle'), text: t('home.offerLibraryText') },
-  { href: `/${lang}/event`, icon: 'storytelling', tone: 'orange', title: t('home.offerStoryTitle'), text: t('home.offerStoryText') },
-  { href: `/${lang}/support/donate-books`, icon: 'book-donate', tone: 'blue', title: t('home.offerDonateTitle'), text: t('home.offerDonateText') },
+  { href: `/${lang}/books`, title: t('home.offerLibraryTitle'), text: t('home.offerLibraryText') },
+  { href: `/${lang}/event`, title: t('home.offerStoryTitle'), text: t('home.offerStoryText') },
+  { href: `/${lang}/support/donate-books`, title: t('home.offerDonateTitle'), text: t('home.offerDonateText') },
 ];
 ---
 
 <MainLayout lang={locale}>
     <section class="hero">
         <div class="hero-inner">
-            <div class="hero-text">
-                <p class="hero-eyebrow">{t('home.eyebrow')}</p>
-                <h1>{t('home.headline')}</h1>
-                <p class="hero-sub">{t('home.sub')}</p>
-                <div class="hero-actions">
-                    <a href={`/${lang}/event`} class="btn btn-primary">{t('home.ctaEvents')}</a>
-                    <a href={`/${lang}/contact`} class="btn btn-outline">{t('home.ctaContact')}</a>
-                </div>
-            </div>
-
-            {/* PHOTO: replace this placeholder with a real photo, e.g.
-                <img class="hero-photo" src="/photos/storytelling.jpg" alt="Children listening to a story at Ulzii" /> */}
-            <div class="photo-spot hero-photo" aria-hidden="true">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                <span class="photo-spot-label">Your photo here</span>
-                <span class="photo-spot-hint">e.g. children at a storytelling session</span>
+            <h1>{t('home.headline')}</h1>
+            <p class="hero-sub">{t('home.sub')}</p>
+            <div class="hero-actions">
+                <a href={`/${lang}/event`} class="btn btn-primary">{t('home.ctaEvents')}</a>
+                <a href={`/${lang}/contact`} class="text-link">{t('home.ctaContact')}</a>
             </div>
         </div>
+        {/* PHOTO: when you have one, add it here, e.g.
+            <img class="hero-photo" src="/photos/storytelling.jpg" alt="Children listening to a story at Ulzii" /> */}
     </section>
 
     <section class="home-section">
         <h2 class="section-heading">{t('home.offerHeading')}</h2>
-        <div class="offer-grid">
+        <ul class="offer-list" role="list">
             {offers.map(offer => (
-                <a href={offer.href} class="offer-card">
-                    <span class={`offer-icon offer-icon-${offer.tone}`} aria-hidden="true">
-                        {offer.icon === 'storytelling'
-                            ? <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
-                            : <svg width="28" height="28"><use href={`/svgs.svg#${offer.icon}`}></use></svg>}
-                    </span>
-                    <h3>{offer.title}</h3>
+                <li>
+                    <a href={offer.href}>{offer.title}</a>
                     <p>{offer.text}</p>
-                    <span class="offer-arrow" aria-hidden="true">→</span>
-                </a>
+                </li>
             ))}
-        </div>
+        </ul>
     </section>
 
     <section class="home-section next-event">
@@ -74,25 +59,22 @@ const offers = [
         ) : (
             <p class="next-event-empty">{t('events.empty')}</p>
         )}
-        <a href={`/${lang}/event`} class="text-link">{t('home.allEvents')} →</a>
+        <a href={`/${lang}/event`} class="text-link">{t('home.allEvents')}</a>
     </section>
 
     <section class="home-section">
         <h2 class="section-heading">{t('home.aboutHeading')}</h2>
-        <div class="info-grid">
-            <div class="info-card">
-                <svg aria-hidden="true" class="card-icon"><use href="/svgs.svg#mission"></use></svg>
-                <h3>{t('home.mission')}</h3>
+        <div class="about-grid">
+            <div>
+                <h3><svg aria-hidden="true" class="about-icon"><use href="/svgs.svg#mission"></use></svg>{t('home.mission')}</h3>
                 <p>{t('home.missionText')}</p>
             </div>
-            <div class="info-card">
-                <svg aria-hidden="true" class="card-icon"><use href="/svgs.svg#values"></use></svg>
-                <h3>{t('home.values')}</h3>
+            <div>
+                <h3><svg aria-hidden="true" class="about-icon"><use href="/svgs.svg#values"></use></svg>{t('home.values')}</h3>
                 <p>{t('home.valuesText')}</p>
             </div>
-            <div class="info-card">
-                <svg aria-hidden="true" class="card-icon"><use href="/svgs.svg#board-members"></use></svg>
-                <h3>{t('home.board')}</h3>
+            <div>
+                <h3><svg aria-hidden="true" class="about-icon"><use href="/svgs.svg#board-members"></use></svg>{t('home.board')}</h3>
                 <p>{t('home.boardText')}</p>
             </div>
         </div>

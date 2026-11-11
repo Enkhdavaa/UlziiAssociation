@@ -11,7 +11,9 @@
   --fs-400: 0.875rem;
   --fs-500: 1rem;
   --fs-600: 1.8rem;
-  --fs-700: 2.5rem;
+  /* Page titles shrink a little on phones so long words like the Dutch
+     "Boekenbibliotheek" still fit on one line */
+  --fs-700: clamp(1.9rem, 7.5vw, 2.5rem);
 
   --fs-primary-heading: var(--fs-600);
   --fs-button: var(--fs-300);
@@ -123,12 +125,11 @@ body {
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* Let long words (common in Dutch and Mongolian) break instead of overflowing */
+/* Safety net: a word longer than the screen breaks instead of overflowing */
 h1,
 h2,
 h3 {
   overflow-wrap: break-word;
-  hyphens: auto;
 }
 
 .main-content {

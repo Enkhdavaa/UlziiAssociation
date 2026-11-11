@@ -1,79 +1,53 @@
+/* Home page: kept deliberately plain. Text first, thin dividers instead of
+   cards, no decorative icons-in-boxes. Real photos should carry the warmth. */
+
 /* ── Hero ── */
 .hero {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--primary-blue-tint);
-  padding: 4rem 1.5rem;
-}
-
-/* Large, faint ülzii knot as a watermark behind the hero */
-.hero::before {
-  content: "";
-  position: absolute;
-  right: -60px;
-  bottom: -80px;
-  width: 320px;
-  height: 410px;
-  background: url("/hee-ulzii.png") no-repeat center / contain;
-  opacity: 0.5;
-  pointer-events: none;
+  background-color: #fff;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .hero-inner {
-  position: relative;
   max-width: 1100px;
   margin: 0 auto;
-  display: grid;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-@media (min-width: 860px) {
-  .hero-inner {
-    grid-template-columns: 1.1fr 1fr;
-    gap: 3.5rem;
-  }
-}
-
-.hero-text {
+  padding: 4rem 1.5rem 3.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
 }
 
-.hero-eyebrow {
-  font-size: var(--fs-400);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--primary-orange-dark); /* regular orange is 4.2:1 on the tinted hero */
-}
-
 .hero h1 {
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  font-weight: var(--fw-bold);
-  color: var(--color-dark);
-  line-height: 1.15;
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.5vw, 2.6rem);
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.2;
 }
 
 .hero-sub {
+  max-width: 56ch;
   font-size: 1.05rem;
   color: var(--color-body);
   line-height: 1.7;
-  max-width: 52ch;
 }
 
 .hero-actions {
   display: flex;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 1.5rem;
   flex-wrap: wrap;
   margin-top: 0.5rem;
 }
 
-/* On phones, stack the two buttons at the same full width */
-@media (max-width: 520px) {
-  .hero-actions { flex-direction: column; }
-  .hero-actions .btn { text-align: center; }
+/* For when a real photo is added below the hero text */
+.hero-photo {
+  display: block;
+  width: calc(100% - 3rem);
+  max-width: 1052px;
+  margin: 0 auto 3rem;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: var(--radius-md);
 }
 
 .btn {
@@ -95,139 +69,76 @@
   background-color: var(--primary-orange-dark);
 }
 
-.btn-outline {
-  border: 1.5px solid var(--primary-blue);
+.text-link {
   color: var(--primary-blue);
-  background-color: white;
-}
-
-.btn-outline:hover {
-  background-color: #fff;
-  box-shadow: inset 0 0 0 1px var(--primary-blue);
-}
-
-/* ── Photo placeholder (swap for a real <img class="hero-photo">) ── */
-.hero-photo {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: var(--shadow-lg);
-}
-
-.photo-spot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  background: #f8fbfd;
-  border: 2px dashed #9cc7e4;
-  color: #5b8db3;
-  text-align: center;
-  padding: 1rem;
-}
-
-.photo-spot-label {
   font-weight: var(--fw-semi-bold);
-  font-size: var(--fs-500);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-.photo-spot-hint {
-  font-size: var(--fs-400);
-  color: var(--color-muted);
+.text-link:hover {
+  text-decoration-thickness: 2px;
 }
 
 /* ── Sections ── */
 .home-section {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 0;
+  padding: 2.75rem 1.5rem;
 }
 
-.home-section:last-of-type {
-  padding-bottom: 3.5rem;
+.home-section + .home-section {
+  border-top: 1px solid var(--color-border);
 }
 
 .section-heading {
-  font-size: 1.6rem;
-  font-weight: var(--fw-bold);
-  color: var(--primary-blue);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #1f2937;
   margin-bottom: 1.25rem;
 }
 
-/* ── What we do ── */
-.offer-grid {
-  display: grid;
-  gap: 1.25rem;
+/* ── What we do: a plain list ── */
+.offer-list {
+  max-width: 720px;
+  list-style: none;
 }
 
-@media (min-width: 760px) {
-  .offer-grid { grid-template-columns: repeat(3, 1fr); }
+.offer-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.offer-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 1.5rem 1.5rem 2.75rem;
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.offer-list li:first-child {
+  padding-top: 0;
 }
 
-.offer-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.offer-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.25rem;
-}
-
-.offer-icon-blue   { background: var(--primary-blue-tint); color: var(--primary-blue); }
-.offer-icon-orange { background: #fff4ec; color: var(--primary-orange); }
-
-.offer-card h3 {
+.offer-list a {
   font-size: 1.1rem;
-  font-weight: var(--fw-bold);
-  color: var(--color-dark);
+  font-weight: 500;
+  color: var(--primary-blue);
+  text-decoration: none;
 }
 
-.offer-card p {
-  font-size: var(--fs-500);
+.offer-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.offer-list p {
+  margin-top: 0.25rem;
   color: var(--color-body);
   line-height: 1.6;
 }
 
-.offer-arrow {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1.1rem;
-  color: var(--primary-blue);
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
-}
-
-.offer-card:hover .offer-arrow {
-  transform: translateX(4px);
-}
-
-/* ── Next event ── */
+/* ── Next event: a flat box, no shadow ── */
 .next-event .event-card {
   max-width: 680px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .next-event-empty {
@@ -235,52 +146,33 @@
   margin-bottom: 1rem;
 }
 
-.text-link {
-  color: var(--primary-blue);
-  font-weight: var(--fw-semi-bold);
-  text-decoration: none;
-}
-
-.text-link:hover {
-  text-decoration: underline;
-}
-
-/* ── About us cards ── */
-.info-grid {
+/* ── About us: three short columns, no boxes ── */
+.about-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 
 @media (min-width: 760px) {
-  .info-grid { grid-template-columns: repeat(3, 1fr); }
+  .about-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
 }
 
-.info-card {
-  background-color: #fff;
-  padding: 1.75rem 1.5rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  border-top: 4px solid var(--primary-orange);
-  box-shadow: var(--shadow-md);
-}
-
-.card-icon {
-  width: 36px;
-  height: 36px;
-  color: var(--primary-orange);
-  margin-bottom: 0.9rem;
-}
-
-.info-card h3 {
-  font-size: 1.15rem;
-  font-weight: var(--fw-bold);
-  color: var(--color-dark);
+.about-grid h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #1f2937;
   margin-bottom: 0.5rem;
 }
 
-.info-card p {
-  font-size: var(--fs-500);
-  line-height: 1.7;
+.about-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.about-grid p {
   color: var(--color-body);
+  line-height: 1.7;
 }
