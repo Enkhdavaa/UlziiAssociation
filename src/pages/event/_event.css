@@ -68,11 +68,13 @@
     box-shadow 0.3s ease;
 }
 
-.event-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+/* Lift only cards in a list, not the volunteer form (which is also an .event-card) */
+.events-list .event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+.event-card h2,
 .event-card h3 {
   font-size: var(--fs-500);
   color: var(--primary-blue);
@@ -101,24 +103,24 @@
 }
 
 .help-button {
+  display: inline-block;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: var(--fs-500);
   font-family: inherit;
-  padding: 0.75rem 1.5rem;
+  padding: 0.7rem 1.4rem;
   background-color: var(--primary-orange);
   color: white;
   border-radius: var(--radius-md);
   align-self: center;
-  font-weight: var(--fw-bold);
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+  font-weight: var(--fw-semi-bold);
+  transition: background-color 0.2s ease;
 }
 
 .help-button:hover {
-  background-color: #e67e22;
-  transform: scale(1.05);
+  background-color: var(--primary-orange-dark);
 }
 
 .lead-taken-note {
@@ -246,18 +248,20 @@
 }
 
 .btn-secondary {
-  padding: 0.8rem 1.5rem;
-  border: 1.5px solid #ccc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border: 1.5px solid var(--primary-blue);
   border-radius: var(--radius-md);
   background: white;
-  color: #555;
-  font-size: 1rem;
-  font-weight: 500;
+  color: var(--primary-blue);
+  font-size: var(--fs-500);
+  font-weight: var(--fw-semi-bold);
   text-decoration: none;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .btn-secondary:hover {
-  border-color: #999;
-  color: #333;
+  background-color: var(--primary-blue-tint);
 }

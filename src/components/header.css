@@ -10,24 +10,58 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 2rem;
   margin: 0 auto;
   padding: 1rem 2rem;
   max-width: 1280px;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+/* ulzii-without.png has empty space below the ger; show only its top part */
 .logo {
-  max-height: 50px;
+  height: 40px;
   width: auto;
+  aspect-ratio: 964 / 522;
+  object-fit: cover;
+  object-position: top;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.logo-name {
+  font-size: 1.05rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-dark);
+}
+
+.logo-tagline {
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semi-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary-orange);
 }
 
 .primary-navigation {
   display: flex;
   list-style: none;
-  gap: 2.5rem;
+  gap: 1.75rem;
 }
 
 .primary-navigation a {
   text-decoration: none;
+  white-space: nowrap;
   color: #333;
   font-weight: var(--fw-semi-bold);
   font-size: var(--fs-500);
@@ -59,7 +93,17 @@
 }
 
 /* Mobile */
-@media (max-width: 50em) {
+/* Switch to the slide-in menu below ~1090px: the Dutch and Mongolian menu labels need the room */
+@media (max-width: 68em) {
+  /* The desktop menu is off-screen here, so push the menu button to the right edge */
+  .header-container {
+    gap: 0;
+  }
+
+  .mobile-nav-toggle {
+    margin-left: auto;
+  }
+
   .nav-overlay {
     display: block;
     position: fixed;
@@ -175,21 +219,21 @@
   }
 }
 
+/* Sign-in is only a convenience for visitors (it pre-fills forms), so keep it quiet */
 .primary-navigation .nav-login {
   display: inline-block;
-  padding: 0.4rem 1.25rem;
   white-space: nowrap;
-  border-radius: 6px;
-  background: var(--primary-orange);
-  color: #fff !important;
-  font-weight: var(--fw-semi-bold);
+  color: var(--color-muted);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-regular);
   text-decoration: none;
   border-bottom: none !important;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.primary-navigation .nav-login:hover {
-  opacity: 0.85;
+.primary-navigation .nav-login:hover,
+.primary-navigation .nav-login:focus {
+  color: var(--primary-blue);
 }
 
 .nav-user {

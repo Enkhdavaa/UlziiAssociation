@@ -34,6 +34,19 @@ const nl: Translations = {
   "home.board": "Bestuursleden",
   "home.boardText":
     "Ons bestuur brengt ervaring en expertise om onze initiatieven te begeleiden en trouw te blijven aan onze missie en waarden.",
+  "home.offerHeading": "Wat we doen",
+  "home.offerLibraryTitle": "Gratis boekenbibliotheek",
+  "home.offerLibraryText":
+    "Vraag een boek aan dat door onze gemeenschap is gedoneerd en haal het gratis op.",
+  "home.offerStoryTitle": "Voorlezen voor kinderen",
+  "home.offerStoryText":
+    "Vrijwillige vertellers lezen voor, spelen en geven workshops voor kinderen.",
+  "home.offerDonateTitle": "Doneer een boek",
+  "home.offerDonateText":
+    "Heeft u boeken die u niet meer nodig heeft? Geef ze een nieuw leven in onze bibliotheek.",
+  "home.nextEventHeading": "Volgend evenement",
+  "home.allEvents": "Alle evenementen bekijken",
+  "home.aboutHeading": "Over ons",
 
   "events.heading": "Aankomende Evenementen",
   "events.empty": "Momenteel geen aankomende evenementen.",

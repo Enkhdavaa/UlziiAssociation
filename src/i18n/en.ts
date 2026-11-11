@@ -36,6 +36,19 @@ const en = {
   "home.board": "Board Members",
   "home.boardText":
     "Our board brings experience and expertise to guide our initiatives and keep us true to our mission and values.",
+  "home.offerHeading": "What we do",
+  "home.offerLibraryTitle": "Free book library",
+  "home.offerLibraryText":
+    "Request a book donated by our community and pick it up — completely free.",
+  "home.offerStoryTitle": "Storytelling for kids",
+  "home.offerStoryText":
+    "Volunteer storytellers read, play and run workshops with children.",
+  "home.offerDonateTitle": "Donate a book",
+  "home.offerDonateText":
+    "Have books you no longer need? Give them a new life in our library.",
+  "home.nextEventHeading": "Next event",
+  "home.allEvents": "See all events",
+  "home.aboutHeading": "About us",
 
   // events page
   "events.heading": "Upcoming Events",

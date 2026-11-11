@@ -39,7 +39,11 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
 <header class="primary-header">
   <div class="header-container">
     <a href={href('/')} class="logo-link">
-      <img class="logo" src="/ulzii.png" alt="Ulzii Association Logo" />
+      <img class="logo" src="/ulzii-without.png" alt="" width="964" height="522" />
+      <span class="logo-text">
+        <span class="logo-name">{t('meta.siteName')}</span>
+        <span class="logo-tagline">{t('home.eyebrow')}</span>
+      </span>
     </a>
     <button
       class="mobile-nav-toggle"
