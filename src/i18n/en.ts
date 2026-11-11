@@ -1,4 +1,7 @@
 const en = {
+  // page metadata
+  "meta.siteName": "Ulzii Association",
+
   // nav
   "nav.home": "Home",
   "nav.events": "Events",
@@ -46,6 +49,9 @@ const en = {
   // event card
   "eventCard.volunteer": "Volunteer as a storyteller",
   "eventCard.leadTaken": "Storyteller slot is filled for this event.",
+  "eventCard.date": "Date",
+  "eventCard.time": "Time",
+  "eventCard.location": "Location",
 
   // lead / volunteer form
   "lead.back": "Storytelling Events",
@@ -84,6 +90,10 @@ const en = {
   "books.statusAvailable": "Available",
   "books.statusInUse": "In use",
   "books.statusReserved": "Reserved",
+  "books.langMongolian": "Mongolian",
+  "books.langDutch": "Dutch",
+  "books.langEnglish": "English",
+  "books.langOther": "Other",
   "books.requestBtn": "Request this book",
   "books.reservedNote": "Someone has already requested this book.",
   "books.inUseNote":

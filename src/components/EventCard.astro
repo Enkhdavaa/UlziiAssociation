@@ -27,20 +27,20 @@ const t = useTranslations(lang);
     {event.date && (
         <p class="event-detail">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
-            <span><strong>Date:</strong> {formatDate(event.date)}</span>
+            <span><strong>{t('eventCard.date')}:</strong> {formatDate(event.date, lang)}</span>
         </p>
     )}
 
     {event.time && (
         <p class="event-detail">
             <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
-            <span><strong>Time:</strong> {formatTime(event.time)}{event.endTime ? ` – ${formatTime(event.endTime)}` : ''}</span>
+            <span><strong>{t('eventCard.time')}:</strong> {formatTime(event.time, lang)}{event.endTime ? ` – ${formatTime(event.endTime, lang)}` : ''}</span>
         </p>
     )}
 
     <p class="event-detail">
         <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-location"></use></svg>
-        <span><strong>Location:</strong> {event.location}</span>
+        <span><strong>{t('eventCard.location')}:</strong> {event.location}</span>
     </p>
 
     <p class="event-description">{event.description}</p>

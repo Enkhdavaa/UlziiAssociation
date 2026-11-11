@@ -1,6 +1,8 @@
 import type { Translations } from "./en.ts";
 
 const nl: Translations = {
+  "meta.siteName": "Ulzii Association",
+
   "nav.home": "Home",
   "nav.events": "Evenementen",
   "nav.library": "Bibliotheek",
@@ -43,6 +45,9 @@ const nl: Translations = {
 
   "eventCard.volunteer": "Vrijwillig als verteller",
   "eventCard.leadTaken": "De vertellerspot voor dit evenement is al bezet.",
+  "eventCard.date": "Datum",
+  "eventCard.time": "Tijd",
+  "eventCard.location": "Locatie",
 
   "lead.back": "Vertelactiviteiten",
   "lead.takenTitle": "Verteller Gereserveerd",
@@ -80,6 +85,10 @@ const nl: Translations = {
   "books.statusAvailable": "Beschikbaar",
   "books.statusInUse": "In gebruik",
   "books.statusReserved": "Gereserveerd",
+  "books.langMongolian": "Mongools",
+  "books.langDutch": "Nederlands",
+  "books.langEnglish": "Engels",
+  "books.langOther": "Overig",
   "books.requestBtn": "Vraag dit boek aan",
   "books.reservedNote": "Iemand heeft dit boek al aangevraagd.",
   "books.inUseNote":

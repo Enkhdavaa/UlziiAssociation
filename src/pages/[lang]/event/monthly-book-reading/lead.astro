@@ -1,13 +1,15 @@
 ---
 import MainLayout from '../../../../layouts/MainLayout.astro';
 import { getEvent, getBooks, getLeads } from '../../../../lib/kv';
+import { formatDate, formatTime } from '../../../../lib/utils';
 import '../../../event/_event.css';
 import { useTranslations, isValidLocale, DEFAULT_LOCALE } from '../../../../i18n/utils';
 import type { Locale } from '../../../../i18n/utils';
 
 const { lang } = Astro.params;
 if (!isValidLocale(lang)) return Astro.redirect(`/${DEFAULT_LOCALE}/event`);
-const t = useTranslations(lang as Locale);
+const locale = lang as Locale;
+const t = useTranslations(locale);
 
 const eventId = Astro.url.searchParams.get('id') ?? '';
 const [event, books, leads] = await Promise.all([getEvent(eventId), getBooks(), getLeads(eventId)]);
@@ -17,7 +19,7 @@ if (!event) return Astro.redirect(`/${lang}/event`);
 const existingLead = leads[0] ?? null;
 ---
 
-<MainLayout lang={lang as Locale}>
+<MainLayout lang={locale} title={t('lead.formTitle')}>
     <div class="events-container">
         <div class="lead-page">
             <a href={`/${lang}/event`} class="lead-back">
@@ -31,17 +33,17 @@ const existingLead = leads[0] ?? null;
 
                 <p class="event-detail event-date">
                     <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-date"></use></svg>
-                    <span><strong>Date:</strong> {event.date}</span>
+                    <span><strong>{t('eventCard.date')}:</strong> {formatDate(event.date, locale)}</span>
                 </p>
 
                 <p class="event-detail event-time">
                     <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-time"></use></svg>
-                    <span><strong>Time:</strong> {event.time}</span>
+                    <span><strong>{t('eventCard.time')}:</strong> {formatTime(event.time, locale)}{event.endTime ? ` – ${formatTime(event.endTime, locale)}` : ''}</span>
                 </p>
 
                 <p class="event-detail event-location">
                     <svg aria-hidden="true" width="16" height="16" class="event-detail-icon"><use href="/svgs.svg#event-location"></use></svg>
-                    <span><strong>Location:</strong> {event.location}</span>
+                    <span><strong>{t('eventCard.location')}:</strong> {event.location}</span>
                 </p>
             </div>
 
