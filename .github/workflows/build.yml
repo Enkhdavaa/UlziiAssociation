@@ -1,0 +1,32 @@
+# Checks that the site builds on every push and pull request.
+#
+# Deployment is not done here: the site is deployed by the Deno Deploy
+# GitHub integration (console.deno.com), which builds and deploys each push
+# on its own. The old `denoland/deployctl` upload targeted Deno Deploy Classic,
+# which no longer accepts uploads from this workflow.
+name: Build
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Build
+        run: deno task build
