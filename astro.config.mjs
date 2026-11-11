@@ -8,6 +8,9 @@ export default defineConfig({
     hostname: "localhost",
   }),
   site: "http://localhost:8080",
+  // Astro 7 changed the default to "jsx", which strips whitespace between
+  // inline elements. Keep the Astro 6 behavior so text doesn't run together.
+  compressHTML: true,
   server: {
     port: 8080,
     open: true,

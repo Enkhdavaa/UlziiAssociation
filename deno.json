@@ -1,10 +1,7 @@
 {
   "imports": {
-    "@astrojs/node": "npm:@astrojs/node@^9.5.5",
-    "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.5.2",
-    "@oak/oak": "jsr:@oak/oak@^17.2.0",
-    "astro": "npm:astro@^6.4.6",
-    "vite": "npm:vite@^5.4.21"
+    "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.6.0",
+    "astro": "npm:astro@^7.4.10"
   },
   "tasks": {
     "dev": "deno run -A npm:astro dev --host",
