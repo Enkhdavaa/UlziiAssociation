@@ -8,7 +8,7 @@ const { lang } = Astro.params;
 if (!isValidLocale(lang)) return Astro.redirect(`/${DEFAULT_LOCALE}/support`);
 const t = useTranslations(lang as Locale);
 ---
-<MainLayout lang={lang as Locale}>
+<MainLayout lang={lang as Locale} title={t('support.title')} description={t('support.subtitle')}>
     <div class="support-container">
         <div class="support-header">
             <h1 class="support-title">{t('support.title')}</h1>

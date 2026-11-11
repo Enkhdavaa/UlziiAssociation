@@ -17,7 +17,7 @@ const events = allEvents.filter(e => new Date(e.date + 'T00:00:00') >= today);
 const success = Astro.url.searchParams.get('success') === '1';
 const leadEventIds = new Set(allLeads.map(l => l.eventId));
 ---
-<MainLayout lang={lang as Locale}>
+<MainLayout lang={lang as Locale} title={t('events.heading')}>
     <div class="events-container">
         <h1 class="events-heading">{t('events.heading')}</h1>
 

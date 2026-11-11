@@ -1,6 +1,8 @@
 import type { Translations } from "./en.ts";
 
 const mn: Translations = {
+  "meta.siteName": "Өлзий холбоо",
+
   // nav
   "nav.home": "Нүүр",
   "nav.events": "Арга хэмжээ",
@@ -49,6 +51,9 @@ const mn: Translations = {
   // event card
   "eventCard.volunteer": "Сайн дурын үлгэрчээр бүртгүүлэх",
   "eventCard.leadTaken": "Энэ арга хэмжээний үлгэрчийн суудал дүүрсэн байна.",
+  "eventCard.date": "Огноо",
+  "eventCard.time": "Цаг",
+  "eventCard.location": "Байршил",
 
   // lead / volunteer form
   "lead.back": "Үлгэр ярих арга хэмжээнүүд",
@@ -89,6 +94,10 @@ const mn: Translations = {
   "books.statusAvailable": "Боломжтой",
   "books.statusInUse": "Уншигдаж байгаа",
   "books.statusReserved": "Захиалагдсан",
+  "books.langMongolian": "Монгол",
+  "books.langDutch": "Нидерланд",
+  "books.langEnglish": "Англи",
+  "books.langOther": "Бусад",
   "books.requestBtn": "Энэ номыг захиалах",
   "books.reservedNote": "Хэн нэгэн энэ номыг аль хэдийн захиалсан байна.",
   "books.inUseNote":

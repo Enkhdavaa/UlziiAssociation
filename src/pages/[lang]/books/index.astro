@@ -17,6 +17,16 @@ const totalCount = visibleBooks.length;
 const userCookie = Astro.cookies.get('user');
 const user = userCookie ? (userCookie.json() as { name: string; email: string }) : null;
 
+// Book languages are stored as the English option values from the admin form
+const languageKeys = {
+  Mongolian: 'books.langMongolian',
+  Dutch: 'books.langDutch',
+  English: 'books.langEnglish',
+  Other: 'books.langOther',
+} as const;
+const languageLabel = (language: string) =>
+  language in languageKeys ? t(languageKeys[language as keyof typeof languageKeys]) : language;
+
 const strings = {
   requestPrefix: t('books.modalRequestPrefix'),
   success: t('books.requestSuccess'),
@@ -30,7 +40,7 @@ const strings = {
 };
 ---
 
-<MainLayout lang={lang as Locale}>
+<MainLayout lang={lang as Locale} title={t('books.heading')} description={t('books.sub')}>
     <div class="library-container">
         <div class="library-header">
             <h1>{t('books.heading')}</h1>
@@ -61,7 +71,7 @@ const strings = {
                                 <span class={`book-status ${book.status}`}>
                                     {book.status === 'available' ? t('books.statusAvailable') : book.status === 'using' ? t('books.statusInUse') : t('books.statusReserved')}
                                 </span>
-                                {book.language && <span class="book-lang">{book.language}</span>}
+                                {book.language && <span class="book-lang">{languageLabel(book.language)}</span>}
                             </div>
                             <h2 class="book-title">{book.title}</h2>
                             {book.description && <p class="book-desc">{book.description}</p>}
