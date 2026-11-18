@@ -48,7 +48,9 @@ const nl: Translations = {
   "home.allEvents": "Alle evenementen bekijken",
   "home.aboutHeading": "Over ons",
 
-  "events.heading": "Aankomende Evenementen",
+  "events.heading": "Evenementen",
+  "events.upcomingHeading": "Aankomende evenementen",
+  "events.pastHeading": "Afgelopen evenementen",
   "events.empty": "Momenteel geen aankomende evenementen.",
   "events.emptyFollowUs": "Volg ons op",
   "events.emptyOr": "om op de hoogte te blijven, of",

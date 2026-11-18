@@ -16,12 +16,14 @@ interface Props {
   };
   hasLead?: boolean;
   lang?: Locale;
+  /** The event has already happened: shown muted, without the volunteer sign-up */
+  past?: boolean;
 }
 
-const { event, hasLead = false, lang = 'mn' } = Astro.props;
+const { event, hasLead = false, lang = 'mn', past = false } = Astro.props;
 const t = useTranslations(lang);
 ---
-<div class="event-card">
+<div class:list={['event-card', { 'event-card--past': past }]}>
     <h3>{event.title}</h3>
 
     {event.date && (
@@ -43,9 +45,9 @@ const t = useTranslations(lang);
         <span><strong>{t('eventCard.location')}:</strong> {event.location}</span>
     </p>
 
-    <p class="event-description">{event.description}</p>
+    {event.description && <p class="event-description">{event.description}</p>}
 
-    {event.acceptsVolunteers && (
+    {!past && event.acceptsVolunteers && (
         hasLead ? (
             <p class="lead-taken-note">{t('eventCard.leadTaken')}</p>
         ) : (

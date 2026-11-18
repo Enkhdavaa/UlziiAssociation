@@ -51,7 +51,9 @@ const en = {
   "home.aboutHeading": "About us",
 
   // events page
-  "events.heading": "Upcoming Events",
+  "events.heading": "Events",
+  "events.upcomingHeading": "Upcoming events",
+  "events.pastHeading": "Past events",
   "events.empty": "No upcoming events at the moment.",
   "events.emptyFollowUs": "Follow us on",
   "events.emptyOr": "to stay updated, or",

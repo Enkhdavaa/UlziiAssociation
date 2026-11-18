@@ -10,10 +10,14 @@ const { lang } = Astro.params;
 if (!isValidLocale(lang)) return Astro.redirect(`/${DEFAULT_LOCALE}/event`);
 const t = useTranslations(lang as Locale);
 
+// Events come back sorted oldest first. Upcoming stay soonest first;
+// past events are shown most recent first.
 const [allEvents, allLeads] = await Promise.all([getEvents(), getAllLeads()]);
 const today = new Date();
 today.setHours(0, 0, 0, 0);
-const events = allEvents.filter(e => new Date(e.date + 'T00:00:00') >= today);
+const isUpcoming = (date: string) => new Date(date + 'T00:00:00') >= today;
+const upcomingEvents = allEvents.filter(e => isUpcoming(e.date));
+const pastEvents = allEvents.filter(e => !isUpcoming(e.date)).reverse();
 const success = Astro.url.searchParams.get('success') === '1';
 const leadEventIds = new Set(allLeads.map(l => l.eventId));
 ---
@@ -25,19 +29,34 @@ const leadEventIds = new Set(allLeads.map(l => l.eventId));
             <p class="success-banner">{t('events.successBanner')}</p>
         )}
 
-        {events.length === 0 ? (
-            <div class="events-empty">
-                <p>{t('events.empty')}</p>
-                <p>
-                    {t('events.emptyFollowUs')} <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">Facebook</a> {t('events.emptyOr')}, <a href={`/${lang}/contact`}>{t('events.emptyGetInTouch')}</a> {t('events.emptyEnd')}
-                </p>
-            </div>
-        ) : (
-            <div class="events-list">
-                {events.map(event => (
-                    <EventCard event={event} hasLead={leadEventIds.has(event.id)} lang={lang as Locale} />
-                ))}
-            </div>
+        <section class="events-section" aria-labelledby="upcoming-events-heading">
+            <h2 id="upcoming-events-heading" class="events-section-heading">{t('events.upcomingHeading')}</h2>
+
+            {upcomingEvents.length === 0 ? (
+                <div class="events-empty">
+                    <p>{t('events.empty')}</p>
+                    <p>
+                        {t('events.emptyFollowUs')} <a href="https://www.facebook.com/UlziiAssociation" target="_blank" rel="noopener noreferrer">Facebook</a> {t('events.emptyOr')}, <a href={`/${lang}/contact`}>{t('events.emptyGetInTouch')}</a> {t('events.emptyEnd')}
+                    </p>
+                </div>
+            ) : (
+                <div class="events-list">
+                    {upcomingEvents.map(event => (
+                        <EventCard event={event} hasLead={leadEventIds.has(event.id)} lang={lang as Locale} />
+                    ))}
+                </div>
+            )}
+        </section>
+
+        {pastEvents.length > 0 && (
+            <section class="events-section events-section--past" aria-labelledby="past-events-heading">
+                <h2 id="past-events-heading" class="events-section-heading">{t('events.pastHeading')}</h2>
+                <div class="events-list">
+                    {pastEvents.map(event => (
+                        <EventCard event={event} past lang={lang as Locale} />
+                    ))}
+                </div>
+            </section>
         )}
     </div>
 </MainLayout>

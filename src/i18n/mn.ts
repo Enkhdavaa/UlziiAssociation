@@ -52,7 +52,9 @@ const mn: Translations = {
   "home.aboutHeading": "Бидний тухай",
 
   // events page
-  "events.heading": "Удахгүй болох арга хэмжээнүүд",
+  "events.heading": "Арга хэмжээнүүд",
+  "events.upcomingHeading": "Удахгүй болох арга хэмжээнүүд",
+  "events.pastHeading": "Өнгөрсөн арга хэмжээнүүд",
   "events.empty": "Одоогоор удахгүй болох арга хэмжээ байхгүй байна.",
   "events.emptyFollowUs": "Шинэ мэдээлэл цаг алдалгүй авахын тулд биднийг",
   "events.emptyOr":
