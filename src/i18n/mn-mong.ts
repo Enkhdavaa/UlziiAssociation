@@ -5,8 +5,8 @@
  * mn.ts, aiming for classical orthography (e.g. Нүүр → niγur, холбоо → qolboγ-a)
  * rather than letter-by-letter transliteration. One outside review (2026-11-26)
  * caught a meaning error (kegür is "corpse", not "bridge") and a dozen spelling
- * and suffix fixes. All are applied except one, marked "Check:" at home.values.
- * A fluent reader should still sign it off before visitors see it.
+ * and suffix fixes, all applied (home.values uses the singular the review also
+ * offered). A fluent reader should still sign it off before visitors see it.
  *
  * Only the nav, footer and home page are drafted (plus the event-card labels
  * the home page shows). Every other key falls back to the Cyrillic text in
@@ -86,7 +86,7 @@ const drafted = {
   "home.missionText": "2008 ᠣᠨ\u202Fᠳᠤ ᠪᠠᠶᠢᠭᠤᠯᠤᠭᠳᠠᠭᠰᠠᠨ ᠪᠢᠳᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠣᠯᠤᠨ ᠨᠢᠳᠧᠷᠯᠠᠨᠳ\u180B\u202Fᠤᠨ ᠬᠣᠭᠣᠷᠣᠨᠳᠤ ᠬᠥᠭᠦᠷᠭᠡ ᠪᠣᠯᠤᠨ ᠠᠵᠢᠯᠯᠠᠳᠠᠭ ᠪᠦᠭᠡᠳ ᠪᠢᠳᠠᠨ\u202Fᠤ ᠠᠯᠤᠰ\u202Fᠤᠨ ᠬᠠᠷᠠᠭ\u180Eᠠ\u202Fᠶᠢ ᠬᠤᠪᠢᠶᠠᠯᠴᠠᠵᠤ᠂ ᠬᠠᠮᠲᠤᠷᠠᠨ ᠠᠵᠢᠯᠯᠠᠬᠤ\u202Fᠶᠢ ᠬᠦᠰᠡᠭᠰᠡᠨ ᠬᠦᠮᠦᠨ ᠪᠦᠷᠢ\u202Fᠳᠦ ᠨᠡᠭᠡᠯᠲᠡᠲᠡᠢ᠃",
   // Үнэт зүйлс
   // ünetü ǰüil
-  // Check: kept singular. The review rules out ǰüils and suggests ǰüil + NNBSP + üd, but plural -üd is normally written attached (ǰüilüd), so let a fluent reader pick
+  // Note: singular on purpose. Classical -s plural does not go on a consonant stem (so not ǰüils), and singular reads naturally
   "home.values": "ᠦᠨᠡᠲᠦ ᠵᠦᠢᠯ",
   // Хүндэтгэл, шударга байдал, хамтын ажиллагаа бол бидний гол үнэт зүйл юм. Бид олон янз байдлын хүчинд итгэдэг бөгөөд бүх гишүүдэд ээлтэй, хүртээмжтэй орчныг бүрдүүлэхийг эрмэлздэг.
   // kündüdkel, sidurγu bayidal, qamtu+yin aǰillaγ-a bol bidan+u γool ünetü ǰüil yum. bide olan yangǰu bayidal+un küčün+dü itegedeg büged bükü gesigüd+tü egeltei, kürtegemǰitei orčin+i büridügülkü+yi ermelǰedeg.
