@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { createSession, SESSION_COOKIE, SESSION_MAX_AGE } from "../../../../lib/auth.ts";
 
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
   const code = url.searchParams.get("code");
@@ -42,25 +43,29 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
       }
     );
 
-    const user = await userRes.json();
+    const profile = await userRes.json();
 
-    cookies.set(
-      "user",
-      JSON.stringify({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        picture: user.picture,
-        provider: "google",
-      }),
-      {
-        path: "/",
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7,
-        sameSite: "lax",
-        secure: import.meta.env.PROD,
-      }
-    );
+    if (!profile.id || !profile.email) {
+      return redirect("/login?error=auth_failed");
+    }
+
+    const sessionId = await createSession({
+      id: profile.id,
+      name: profile.name,
+      email: profile.email,
+      picture: profile.picture,
+      provider: "google",
+    });
+
+    // Sessions used to be a readable "user" cookie; clear any left over.
+    cookies.delete("user", { path: "/" });
+    cookies.set(SESSION_COOKIE, sessionId, {
+      path: "/",
+      httpOnly: true,
+      maxAge: SESSION_MAX_AGE,
+      sameSite: "lax",
+      secure: import.meta.env.PROD,
+    });
 
     return redirect(redirectTo);
   } catch {

@@ -312,7 +312,7 @@
   max-width: 180px;
 }
 
-.nav-dropdown-inner .nav-logout {
+.nav-dropdown-inner .nav-dropdown-link {
   padding: 0.4rem 0.85rem;
   font-size: 0.8rem;
   color: #333;
@@ -324,9 +324,46 @@
     color 0.15s ease;
 }
 
-.nav-dropdown-inner .nav-logout:hover {
+.nav-dropdown-inner .nav-dropdown-link:hover {
   background: #fff5f0;
   color: var(--primary-orange);
+}
+
+/* In the slide-in menu the account box sits at the bottom of the panel, where a
+   pop-up would open off-screen, so list the account links inline instead */
+@media (max-width: 68em) {
+  .nav-avatar-btn {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: block;
+    position: static;
+    padding-top: 0;
+  }
+
+  .nav-dropdown-inner {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .nav-dropdown-name {
+    padding: 0 0 0.5rem;
+    border-bottom: none;
+    max-width: none;
+  }
+
+  .nav-dropdown-inner .nav-dropdown-link {
+    padding: 0.6rem 0;
+    font-size: var(--fs-400);
+  }
+
+  .nav-dropdown-inner .nav-dropdown-link:hover {
+    background: none;
+  }
 }
 
 .sr-only {

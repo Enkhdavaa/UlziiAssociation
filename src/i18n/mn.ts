@@ -11,6 +11,7 @@ const mn: Translations = {
   "nav.contact": "Холбоо барих",
   "nav.signIn": "Нэвтрэх",
   "nav.signOut": "Гарах",
+  "nav.admin": "Админ",
   "nav.menu": "Цэс",
 
   // footer

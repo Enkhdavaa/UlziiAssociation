@@ -8,8 +8,7 @@ const { lang } = Astro.params;
 if (!isValidLocale(lang)) return Astro.redirect(`/${DEFAULT_LOCALE}/contact`);
 const t = useTranslations(lang as Locale);
 
-const userCookie = Astro.cookies.get('user');
-const user = userCookie ? (userCookie.json() as { email: string }) : null;
+const user = Astro.locals.user;
 
 const strings = {
   success: t('contact.success'),

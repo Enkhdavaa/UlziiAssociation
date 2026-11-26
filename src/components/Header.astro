@@ -2,6 +2,7 @@
 import './header.css';
 import { useTranslations, LOCALES, LOCALE_LABELS } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
+import { isAdminEmail } from '../lib/auth';
 
 interface Props {
   lang?: Locale;
@@ -32,8 +33,8 @@ const isActive = (path: string) => {
 const pathSegments = currentPath.split('/');
 const pathWithoutLang = lang ? ('/' + pathSegments.slice(2).join('/')).replace(/\/$/, '') || '/' : currentPath;
 
-const userCookie = Astro.cookies.get('user');
-const user = userCookie ? (userCookie.json() as { name: string; picture?: string }) : null;
+const user = Astro.locals.user;
+const isAdmin = isAdminEmail(user?.email);
 ---
 
 <header class="primary-header">
@@ -75,7 +76,8 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
               <div class="nav-dropdown">
                 <div class="nav-dropdown-inner">
                   <span class="nav-dropdown-name">{user.name}</span>
-                  <a href="/api/auth/logout" class="nav-logout">{t('nav.signOut')}</a>
+                  {isAdmin && <a href="/admin" class="nav-dropdown-link">{t('nav.admin')}</a>}
+                  <a href="/api/auth/logout" class="nav-dropdown-link">{t('nav.signOut')}</a>
                 </div>
               </div>
             </div>

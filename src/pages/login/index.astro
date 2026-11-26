@@ -10,9 +10,7 @@ const errorMessages: Record<string, string> = {
   auth_failed: 'Authentication failed. Please try again.',
 };
 
-const userCookie = Astro.cookies.get('user');
-const user = userCookie ? (userCookie.json() as { name: string }) : null;
-if (user) {
+if (Astro.locals.user) {
   return Astro.redirect('/');
 }
 ---

@@ -48,7 +48,7 @@ export interface Event {
 
 let _kv: Deno.Kv | null = null;
 
-async function getKv(): Promise<Deno.Kv> {
+export async function getKv(): Promise<Deno.Kv> {
   if (!_kv) _kv = await Deno.openKv();
   return _kv;
 }

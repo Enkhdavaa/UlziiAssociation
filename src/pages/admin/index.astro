@@ -2,14 +2,13 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import './_admin.css';
 import { getEvents, getBooks, getAllLeads, getAllBookRequests } from '../../lib/kv';
+import { isAdminEmail } from '../../lib/auth';
 
-const userCookie = Astro.cookies.get('user');
-const user = userCookie ? (userCookie.json() as { name: string; email: string }) : null;
+const user = Astro.locals.user;
 
 if (!user) return Astro.redirect('/login');
 
-const adminEmails = (import.meta.env.ADMIN_EMAIL ?? '').split(',').map((e: string) => e.trim()).filter(Boolean);
-if (!adminEmails.includes(user.email)) {
+if (!isAdminEmail(user.email)) {
   return new Response('403 Forbidden — you are not an admin.', { status: 403 });
 }
 
