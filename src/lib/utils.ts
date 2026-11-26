@@ -13,10 +13,16 @@ export const formatDate = (d: string, lang: Locale = 'en') => {
   if (lang === 'mn') {
     return `${date.getFullYear()} оны ${date.getMonth() + 1}-р сарын ${date.getDate()}`;
   }
+  // Traditional script, same pattern as above: "2026 ᠣᠨ ᠤ 11 ᠰᠠᠷ᠎ᠠ ᠶᠢᠨ 12" (on-u … sar-a-yin …).
+  // \u202F (narrow no-break space) attaches a case suffix; \u180E (vowel separator) gives final -a its
+  // separated form. Digits stay Arabic and run sideways in vertical text. UNREVIEWED: see i18n/mn-mong.ts.
+  if (lang === 'mng') {
+    return `${date.getFullYear()} ᠣᠨ\u202Fᠤ ${date.getMonth() + 1} ᠰᠠᠷ\u180Eᠠ\u202Fᠶᠢᠨ ${date.getDate()}`;
+  }
   return date.toLocaleDateString(lang === 'nl' ? 'nl-NL' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 };
 
-// English uses 12-hour time (2:05 PM); Mongolian and Dutch use 24-hour time (14:05).
+// English uses 12-hour time (2:05 PM); Mongolian (both scripts) and Dutch use 24-hour time (14:05).
 export const formatTime = (t: string, lang: Locale = 'en') => {
   if (/AM|PM/i.test(t)) return t;
   const time = parseTime(t);

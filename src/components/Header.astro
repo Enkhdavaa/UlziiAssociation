@@ -1,6 +1,6 @@
 ---
 import './header.css';
-import { useTranslations, LOCALES, LOCALE_LABELS } from '../i18n/utils';
+import { useTranslations, LOCALES, LOCALE_LABELS, LOCALE_HTML_LANG } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
 
 interface Props {
@@ -85,11 +85,13 @@ const user = userCookie ? (userCookie.json() as { name: string; picture?: string
         </li>
         {lang && (
           <li class="nav-lang">
-            {LOCALES.map(l => (
-              l === lang
-                ? <span class="lang-active">{LOCALE_LABELS[l]}</span>
-                : <a href={`/${l}${pathWithoutLang === '/' ? '' : pathWithoutLang}`} class="lang-option">{LOCALE_LABELS[l]}</a>
-            ))}
+            {LOCALES.map(l => {
+              // The traditional-script label is tagged so it gets its font and is set vertically on every page
+              const labelLang = l === 'mng' ? LOCALE_HTML_LANG[l] : undefined;
+              return l === lang
+                ? <span class="lang-active" lang={labelLang}>{LOCALE_LABELS[l]}</span>
+                : <a href={`/${l}${pathWithoutLang === '/' ? '' : pathWithoutLang}`} class="lang-option" lang={labelLang}>{LOCALE_LABELS[l]}</a>;
+            })}
           </li>
         )}
       </ul>
