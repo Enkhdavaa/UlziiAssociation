@@ -1,9 +1,10 @@
 ---
 import '../styles/forms.css'
 import './mainLayout.css'
+import '../styles/mong.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import { useTranslations } from '../i18n/utils'
+import { useTranslations, LOCALE_HTML_LANG, LOCALE_LABELS } from '../i18n/utils'
 import type { Locale } from '../i18n/utils'
 
 interface Props {
@@ -21,12 +22,20 @@ const t = useTranslations(lang ?? 'en');
 const siteName = t('meta.siteName');
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
 const pageDescription = description ?? t('home.sub');
-const ogLocale = { mn: 'mn_MN', en: 'en_US', nl: 'nl_NL' }[lang ?? 'en'];
+const ogLocale = { mn: 'mn_MN', en: 'en_US', nl: 'nl_NL', mng: 'mn_MN' }[lang ?? 'en'];
+// Many Macs and iPhones have no Mongolian font. Traditional-script pages load the
+// whole Noto Sans Mongolian family; other pages load only the few glyphs the
+// language switcher's label needs (Google Fonts subsets the file with `text=`).
+const mongFontUrl = lang === 'mng'
+  ? 'https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&display=swap'
+  : lang
+    ? `https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&text=${encodeURIComponent(LOCALE_LABELS.mng)}&display=swap`
+    : null;
 // Absolute URLs built from the incoming request, so they match whatever domain serves the page
 const ogImage = new URL('/ulzii-without.png', Astro.url).href;
 ---
 <!DOCTYPE html>
-<html lang={lang ?? 'mn'}>
+<html lang={lang ? LOCALE_HTML_LANG[lang] : 'mn'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,6 +56,7 @@ const ogImage = new URL('/ulzii-without.png', Astro.url).href;
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
       rel="stylesheet"
     />
+    {mongFontUrl && <link href={mongFontUrl} rel="stylesheet" />}
   </head>
   <body>
       <Header lang={lang} />
