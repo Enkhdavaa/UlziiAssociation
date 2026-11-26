@@ -10,6 +10,7 @@ const en = {
   "nav.contact": "Contact",
   "nav.signIn": "Sign in",
   "nav.signOut": "Sign out",
+  "nav.admin": "Admin",
   "nav.menu": "Menu",
 
   // footer

@@ -11,23 +11,7 @@ import {
 } from "../../../lib/kv.ts";
 import type { Event, Book, LeadRegistration } from "../../../lib/kv.ts";
 import { BOOK_STATUSES } from "../../../lib/kv.ts";
-
-function isAdmin(cookies: {
-  get: (name: string) => { json: () => unknown } | undefined;
-}): boolean {
-  const userCookie = cookies.get("user");
-  if (!userCookie) return false;
-  try {
-    const user = userCookie.json() as { email?: string };
-    const adminEmails = (import.meta.env.ADMIN_EMAIL ?? "")
-      .split(",")
-      .map((e: string) => e.trim())
-      .filter(Boolean);
-    return !!user.email && adminEmails.includes(user.email);
-  } catch {
-    return false;
-  }
-}
+import { isAdminEmail } from "../../../lib/auth.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -35,8 +19,8 @@ const json = (body: unknown, status = 200) =>
     headers: { "Content-Type": "application/json" },
   });
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-  if (!isAdmin(cookies)) return json({ error: "Forbidden" }, 403);
+export const POST: APIRoute = async ({ request, locals }) => {
+  if (!isAdminEmail(locals.user?.email)) return json({ error: "Forbidden" }, 403);
 
   let body: {
     action: string;

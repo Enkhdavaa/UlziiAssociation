@@ -10,6 +10,7 @@ const nl: Translations = {
   "nav.contact": "Contact",
   "nav.signIn": "Inloggen",
   "nav.signOut": "Uitloggen",
+  "nav.admin": "Beheer",
   "nav.menu": "Menu",
 
   "footer.about":
